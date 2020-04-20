@@ -114,7 +114,6 @@ public class LoginGUI extends JFrame{
 				else 
 					passwordErrorMessage.setText("");
 				
-				FolderManager.addEmail(email, password);
 				FolderManager.printUsers();
 			}});
 	}
