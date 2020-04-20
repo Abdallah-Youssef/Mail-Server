@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -49,7 +50,7 @@ public class SignUpGUI extends JFrame {
 		
 		//Border
 		Border outsideBorder = BorderFactory.createEmptyBorder(40, 25, 50, 25);
-		Border insideBorder = BorderFactory.createTitledBorder("Login");
+		Border insideBorder = BorderFactory.createTitledBorder("Create a new Email");
 		getRootPane().setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 		
 		//Layout Manager
