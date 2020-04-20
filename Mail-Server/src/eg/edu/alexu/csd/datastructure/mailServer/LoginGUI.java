@@ -117,8 +117,6 @@ public class LoginGUI extends JFrame{
 				FolderManager.addEmail(email, password);
 				FolderManager.printUsers();
 			}});
-		
-		
 	}
 	
 	
