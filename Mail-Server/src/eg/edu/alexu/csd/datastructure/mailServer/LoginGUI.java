@@ -1,12 +1,17 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 
 public class LoginGUI extends JFrame{
+	
 	GridBagConstraints gc;
 	JLabel emailLabel, passwordLabel;
+	JLabel emailErrorMessage, passwordErrorMessage;
 	JTextField emailField, passwordField;
 	JButton btn;
 	
@@ -22,6 +27,10 @@ public class LoginGUI extends JFrame{
 		//Creating the Components
 		emailLabel = new JLabel("Email : ");
 		passwordLabel = new JLabel("Password : ");
+		
+		emailErrorMessage = new JLabel("");
+		passwordErrorMessage = new JLabel("");
+		
 		emailField = new JTextField(25);
 		passwordField = new JTextField(25);
 		btn = new JButton("Login");
@@ -53,6 +62,10 @@ public class LoginGUI extends JFrame{
 		gc.anchor = GridBagConstraints.LINE_START;
 		add(emailField, gc);
 		
+		setGridCell(2,0);
+		gc.anchor = GridBagConstraints.LINE_START;
+		add(emailErrorMessage, gc);
+		
 		
 		////////////////////  SECOND ROW  //////////////////////////////
 		setGridCell(0,1);
@@ -63,6 +76,10 @@ public class LoginGUI extends JFrame{
 		gc.anchor = GridBagConstraints.LINE_START;
 		add(passwordField, gc);
 		
+		setGridCell(2,1);
+		gc.anchor = GridBagConstraints.LINE_START;
+		add(passwordErrorMessage, gc);
+		
 		//////////////////// THIRD ROW  //////////////////////////////
 		setGridCell(0,2);
 		
@@ -70,6 +87,38 @@ public class LoginGUI extends JFrame{
 		gc.gridwidth = 2;
 		gc.anchor = GridBagConstraints.CENTER;
 		add(btn, gc);
+		
+
+		
+		
+		
+		//Listeners
+		btn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String email, password;
+				email = emailField.getText();
+				password = passwordField.getText();
+				
+				//TODO CHECK EMAIL FORMAT
+				if (email.contentEquals("")) {
+					emailErrorMessage.setText("Please enter an email address");
+					return;
+				}
+				else 
+					emailErrorMessage.setText("");
+				
+				if (password.contentEquals("")) {
+					passwordErrorMessage.setText("Please enter a password");
+					return;
+				}
+				else 
+					passwordErrorMessage.setText("");
+				
+				FolderManager.addEmail(email, password);
+				FolderManager.printUsers();
+			}});
 		
 		
 	}
