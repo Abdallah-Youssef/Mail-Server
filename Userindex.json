@@ -1,0 +1,16 @@
+[
+    {
+        "id": id,
+        "firstName": name,
+        "lastName": name,
+        "emails": ['email1', 'email2'],
+        "password": password
+    },
+    {
+        "id": id,
+        "firstName": name,
+        "lastName": name,
+        "emails": ['email1', 'email2'],
+        "password": password
+    }
+]
