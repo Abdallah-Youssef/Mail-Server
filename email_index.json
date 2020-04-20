@@ -1,0 +1,22 @@
+{
+    {
+        "id": id,
+        "sender": email,
+        "receiver": reveiver,
+        "time": date,
+        "subject": subject,
+        "body": body,
+        "priority": priority
+        "attachements": ['file1', 'file2']
+    },
+    {
+        "id": id,
+        "sender": email,
+        "receiver": reveiver,
+        "time": date,
+        "subject": subject,
+        "body": body,
+        "priority": priority
+        "attachements": ['file1', 'file2']
+    }
+}
