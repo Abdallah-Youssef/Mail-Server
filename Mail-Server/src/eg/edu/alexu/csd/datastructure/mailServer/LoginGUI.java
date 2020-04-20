@@ -100,8 +100,8 @@ public class LoginGUI extends JFrame{
 				password = passwordField.getText();
 				
 				//TODO CHECK EMAIL FORMAT
-				if (email.contentEquals("")) {
-					emailErrorMessage.setText("Please enter an email address");
+				if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+					emailErrorMessage.setText("Please enter a valid email address");
 					return;
 				}
 				else 

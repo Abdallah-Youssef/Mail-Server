@@ -16,38 +16,39 @@ import org.json.simple.parser.JSONParser;
 public class FolderManager {
 
 	public FolderManager() {
-	    new File("Users").mkdirs();
+	    new File("./Users").mkdirs();
+	}
+		
+	
+	public static void createUserSubDirectory(String id)
+	{
+		String path = "./Users/" + id + "/";
+		new File(path).mkdirs();
+		new File(path+"inbox/").mkdirs();
+		new File(path+"sent/").mkdirs();
+		new File(path+"trash/").mkdirs();
+		new File(path+"user defined folders/").mkdirs();
 	}
 	
 	
-	
-	//TODO make it receive a user to add the email to, or to a new user if passed a null user
-	
-	public static void addEmail(String email, String password) {
-		//right now it makes a new user and adds this email and password to it
-		JSONObject user = createUserJSONObject(email, password);
-		JSONArray arr = getUsers();
-		arr.add(user);
-		saveIndex("Users/usersIndex.json", arr.toJSONString());
-	}
-	
-	
-	public static JSONObject createUserJSONObject(String email, String password) {
+	public static JSONObject createUserJSONObject(User contact) 
+	{
 		JSONObject user = new JSONObject();
 		
 		//hashcode is always zero, doesn't work :(
 		//TODO id for the json objects
-		user.put("id","Place Holder Id" );
-
+		//TODO id generation
+		user.put("id", contact.id);
+		user.put("firstName", contact.firstName);
+		user.put("lastName", contact.lastName);
 		JSONArray emails = new JSONArray();
-		emails.add(email);
-		
-		JSONArray passwords = new JSONArray();
-		passwords.add(password);
-		
+		for (String email : contact.emails)
+			emails.add(email);
+			
 		user.put("emails", emails);
-		user.put("passwords", passwords);
+		user.put("password", contact.password);
 		
+		createUserSubDirectory(contact.id);
 		return user;
 	}
 	
