@@ -26,8 +26,7 @@ public class FolderManager {
 	
 	
 	public static void addEmail(String email, String password) {
-		//right now it makes a new user
-
+		//right now it makes a new user and adds this email and password to it
 		JSONObject user = createUserJSONObject(email, password);
 		JSONArray arr = getUsers();
 		arr.add(user);
@@ -37,7 +36,10 @@ public class FolderManager {
 	
 	public static JSONObject createUserJSONObject(String email, String password) {
 		JSONObject user = new JSONObject();
-		user.put("id",new Integer (user.hashCode()) );
+		
+		//hashcode is always zero, doesn't work :(
+		//TODO id for the json objects
+		user.put("id","Place Holder Id" );
 
 		JSONArray emails = new JSONArray();
 		emails.add(email);
@@ -51,7 +53,9 @@ public class FolderManager {
 		return user;
 	}
 	
-	
+	/**
+	 * @return a JSONArray of all the users' JSONobjects
+	 */
 	public static JSONArray getUsers() {
 		JSONParser parser = new JSONParser();
 		JSONArray arr;
@@ -67,6 +71,7 @@ public class FolderManager {
 			return null;
 		}
 	}
+	
 	
 	public static void printUsers() {
 		JSONArray arr = getUsers();
@@ -84,11 +89,23 @@ public class FolderManager {
 		System.out.println("........................................");
 	}
 	
-	
+	/**
+	 * 
+	 * @param path of the index file required to clear
+	 * sets the index file to an empty JSONArray
+	 */
 	public static void clearIndex (String path) {
 		saveIndex(path, "[]");
 	}
 	
+	/**
+	 * 
+	 * @param path of a file
+	 * @param data String to be saved in the file
+	 * 
+	 * sets the text in the file to data.
+	 * (Note this function clears the file first. i.e doesn't add to the existing text) 
+	 */
 	public static void saveIndex(String path, String data) {
 		try {
 			FileWriter file = new FileWriter(path);
