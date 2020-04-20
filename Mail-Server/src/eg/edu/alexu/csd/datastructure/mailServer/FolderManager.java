@@ -14,16 +14,14 @@ import org.json.simple.parser.JSONParser;
 
 
 public class FolderManager {
-	/**
-	 * 
-	 * @param path (in this Directory "Users" will be created)
-	 */
+
 	public FolderManager() {
 	    new File("Users").mkdirs();
 	}
 	
 	
 	
+	//TODO make it receive a user to add the email to, or to a new user if passed a null user
 	
 	public static void addEmail(String email, String password) {
 		//right now it makes a new user and adds this email and password to it

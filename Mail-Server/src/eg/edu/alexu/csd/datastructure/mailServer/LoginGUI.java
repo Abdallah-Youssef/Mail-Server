@@ -83,8 +83,8 @@ public class LoginGUI extends JFrame{
 		//////////////////// THIRD ROW  //////////////////////////////
 		setGridCell(0,2);
 		
-		//This means that the cell (0,2) , will have a width of two cells
 		gc.gridwidth = 2;
+		// ^ This means that the cell (0,2) , will have a width of two cells
 		gc.anchor = GridBagConstraints.CENTER;
 		add(btn, gc);
 		
@@ -94,8 +94,6 @@ public class LoginGUI extends JFrame{
 		
 		//Listeners
 		btn.addActionListener(new ActionListener() {
-
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				String email, password;
 				email = emailField.getText();
