@@ -88,9 +88,9 @@ public class LoginGUI extends JFrame{
 		gc.anchor = GridBagConstraints.CENTER;
 		add(btn, gc);
 		
-
+ 
 		
-		
+		 
 		
 		//Listeners
 		btn.addActionListener(new ActionListener() {
