@@ -31,7 +31,7 @@ public class FolderManager {
 	}
 	
 	
-	public static Boolean isUserExist(JSONArray users, String email)
+	public static Boolean userExists(JSONArray users, String email)
 	{
 		for(Object user: users)
 		{

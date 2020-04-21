@@ -111,11 +111,8 @@ public class SignUpGUI extends JFrame {
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				/*
+				errorString = ""
 				for each possible error => errorString += error + "\n"
-				
-				after all checks:
-				if success => errorString = "";
-				
 				errorLabel.setText(errorString);
 				*/
 			}

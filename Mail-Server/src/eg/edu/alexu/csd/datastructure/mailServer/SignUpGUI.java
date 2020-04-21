@@ -127,7 +127,7 @@ public class SignUpGUI extends JFrame {
 				String passwordData = passwordField.toString();
 				
 				if(!emailData.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$") || 
-						FolderManager.isUserExist(users, emailData))
+						FolderManager.userExists(users, emailData))
 				{
 					//generateError
 				}else if(passwordData.length() < 8)

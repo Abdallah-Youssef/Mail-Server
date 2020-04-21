@@ -31,10 +31,10 @@ public class Sort implements ISort{
 	
 	static int partition(Object[] arr, int l, int h, IComparator comp) 
 	{ 
-		Object x = arr[h]; 
-	    int i = (l - 1); 
+		Object x = arr[h];
+	    int i = (l - 1);
 	  
-	    for (int j = l; j <= h - 1; j++) { 
+	    for (int j = l; j <= h - 1; j++) {
 	    	if (comp.compare(arr[j], x) <= 0) {
 	    		i++;
 	    		Object temp = arr[i];
@@ -46,7 +46,7 @@ public class Sort implements ISort{
 	    Object temp = arr[i+1];
 	    arr[i+1] = arr[h];
 	    arr[h] = temp;
-	    return (i + 1); 
+	    return (i + 1);
 	} 
 	
 }

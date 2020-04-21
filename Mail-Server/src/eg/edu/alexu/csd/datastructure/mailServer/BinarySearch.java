@@ -19,20 +19,6 @@ public class BinarySearch {
 		}
 	}
 	
-	class Pair{
-		private Object First;
-		private Object Second;
-		public Pair(Object first,Object second) {
-			First=first;
-			Second =second;
-		}
-		public Object getFirst() {
-			return First;
-		}
-		public Object getSecond() {
-			return Second;
-		}
-	}
 	
 	int binarySearch(Object arr[], int l, int r, Object x,String typeOfData) 
     {
