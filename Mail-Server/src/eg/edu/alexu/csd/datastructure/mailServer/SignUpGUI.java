@@ -133,17 +133,21 @@ public class SignUpGUI extends JFrame {
 						FolderManager.isUserExist(users, emailData))
 				{
 					//generateError
-				}else
+				}else if(passwordData.length() < 8)
+				{
+					//generate error
+				}
+				else
 				{
 					User newUser = new User(firstNameData, lastNameData, emailData, passwordData);
-					FolderManager.createUserJSONObject(newUser);
+					FolderManager.addJSONUser(users, FolderManager.createUserJSONObject(newUser));
 					
 				}
 			}
 		});
 		
 		
-		
+		 
 	}
 
 	public void setGridCell(int x, int y) {

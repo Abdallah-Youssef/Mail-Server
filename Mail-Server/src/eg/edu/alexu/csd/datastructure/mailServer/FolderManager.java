@@ -67,7 +67,7 @@ public class FolderManager {
 		users.add(user);
 	}
 	
-	/**
+	/** 
 	 * @return a JSONArray of all the users' JSONobjects
 	 */
 	public static JSONArray getUsers() {
