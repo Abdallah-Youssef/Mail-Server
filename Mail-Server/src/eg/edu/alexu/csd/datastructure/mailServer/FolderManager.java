@@ -13,6 +13,7 @@ import org.json.simple.parser.JSONParser;
 
 
 
+@SuppressWarnings({ "unchecked", "unchecked" })
 public class FolderManager {
 
 	public FolderManager() {
@@ -20,7 +21,7 @@ public class FolderManager {
 	}
 		
 	
-	public static void createUserSubDirectory(String id)
+	public static void createUserSubDirectory(int id)
 	{
 		String path = "./Users/" + id + "/";
 		new File(path).mkdirs();
@@ -31,13 +32,21 @@ public class FolderManager {
 	}
 	
 	
+	public static Boolean isUserExist(JSONArray users, String email)
+	{
+		for(Object user: users)
+		{
+			JSONArray emails = (JSONArray)((JSONObject)user).get("emails");
+			if(emails.contains(email))
+				return true;
+		}
+		return false;
+	}
+	
 	public static JSONObject createUserJSONObject(User contact) 
 	{
 		JSONObject user = new JSONObject();
 		
-		//hashcode is always zero, doesn't work :(
-		//TODO id for the json objects
-		//TODO id generation
 		user.put("id", contact.id);
 		user.put("firstName", contact.firstName);
 		user.put("lastName", contact.lastName);
@@ -52,7 +61,13 @@ public class FolderManager {
 		return user;
 	}
 	
-	/**
+	
+	public static void addJSONUser(JSONArray users, JSONObject user)
+	{
+		users.add(user);
+	}
+	
+	/**  
 	 * @return a JSONArray of all the users' JSONobjects
 	 */
 	public static JSONArray getUsers() {
