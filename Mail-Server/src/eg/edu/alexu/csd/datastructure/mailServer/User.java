@@ -44,7 +44,6 @@ public class User implements IContact
 		this.emails = new String[10];
 		this.emails[0] = email;
 		this.password = password;
-		
 	}
 	
 }

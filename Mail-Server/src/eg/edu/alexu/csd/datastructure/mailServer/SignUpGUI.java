@@ -150,7 +150,7 @@ public class SignUpGUI extends JFrame {
 		
 		 
 	}
-
+ 
 	public void setGridCell(int x, int y) {
 		gc.gridx = x;
 		gc.gridy = y;
