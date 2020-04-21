@@ -4,8 +4,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collections;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,8 +13,6 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManager;
 public class SignUpGUI extends JFrame {
 	GridBagConstraints gc;

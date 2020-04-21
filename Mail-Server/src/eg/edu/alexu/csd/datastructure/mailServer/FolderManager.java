@@ -13,7 +13,6 @@ import org.json.simple.parser.JSONParser;
 
 
 
-@SuppressWarnings({ "unchecked", "unchecked" })
 public class FolderManager {
 
 	public FolderManager() {
