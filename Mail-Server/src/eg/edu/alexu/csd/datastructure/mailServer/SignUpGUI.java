@@ -13,6 +13,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import eg.edu.alexu.csd.datastructure.mailServer.FolderManager;
 public class SignUpGUI extends JFrame {
 	GridBagConstraints gc;
 	JLabel firstName, lastName;
@@ -109,6 +113,7 @@ public class SignUpGUI extends JFrame {
 		add(errorLabel, gc);
 		
 		
+		JSONArray users = FolderManager.getUsers();
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				/*
@@ -119,6 +124,20 @@ public class SignUpGUI extends JFrame {
 				
 				errorLabel.setText(errorString);
 				*/
+				String firstNameData = firstNameField.getText().trim();
+				String lastNameData = lastNameField.getText().trim();
+				String emailData = emailField.getText().trim();
+				String passwordData = passwordField.toString();
+				
+				if(!emailData.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$") || 
+						FolderManager.isUserExist(users, emailData))
+				{
+					//generateError
+				}else
+				{
+					User newUser = new User(firstNameData, lastNameData, emailData, passwordData);
+					
+				}
 			}
 		});
 		
