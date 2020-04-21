@@ -136,6 +136,7 @@ public class SignUpGUI extends JFrame {
 				}else
 				{
 					User newUser = new User(firstNameData, lastNameData, emailData, passwordData);
+					FolderManager.createUserJSONObject(newUser);
 					
 				}
 			}

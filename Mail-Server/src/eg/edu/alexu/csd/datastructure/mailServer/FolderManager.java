@@ -61,6 +61,12 @@ public class FolderManager {
 		return user;
 	}
 	
+	
+	public static void addJSONUser(JSONArray users, JSONObject user)
+	{
+		users.add(user);
+	}
+	
 	/**
 	 * @return a JSONArray of all the users' JSONobjects
 	 */
