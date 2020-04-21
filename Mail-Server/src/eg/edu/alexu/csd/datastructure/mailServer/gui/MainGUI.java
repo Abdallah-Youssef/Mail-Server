@@ -1,5 +1,6 @@
-package eg.edu.alexu.csd.datastructure.mailServer;
-import javax.swing.*;
+package eg.edu.alexu.csd.datastructure.mailServer.gui;
+import eg.edu.alexu.csd.datastructure.mailServer.IComparator;
+import eg.edu.alexu.csd.datastructure.mailServer.Sort;
 
 public class MainGUI {
 	public static void main(String[] args) {
@@ -7,14 +8,14 @@ public class MainGUI {
 		String[] arr = new String[] {"Jeff", "Capital", "man", "k"};
 		
 		
-		Sorting.quickSort(arr,0, arr.length-1,new Comparator() {
+		Sort.quickSort(arr,0, arr.length-1,new IComparator() {
 			public int compare(Object x, Object y) {
 				return ((String) x).length() - ((String) y).length();
 			}
 		});
 		
 		for (int i = 0;i < arr.length;i++)
-			System.out.println(arr[i] + " ");
+			System.out.print(arr[i] + " ");
 		
 		
 		/*FolderManager.clearIndex("Users/usersIndex.json");

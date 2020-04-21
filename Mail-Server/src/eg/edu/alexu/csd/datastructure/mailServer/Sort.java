@@ -1,13 +1,12 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
 
-import org.json.simple.JSONObject;
 
 import eg.edu.alexu.csd.datastructure.stack.Classes.Stack;
 
-public class Sorting {
+public class Sort implements ISort{
 	
-	public static void quickSort(Object[] arr, int l, int h, Comparator comp) {
+	public static void quickSort(Object[] arr, int l, int h, IComparator comp) {
 		Stack stack = new Stack();
 		stack.push(l);
 		stack.push(h);
@@ -30,7 +29,7 @@ public class Sorting {
 	}
 	
 	
-	static int partition(Object[] arr, int l, int h, Comparator comp) 
+	static int partition(Object[] arr, int l, int h, IComparator comp) 
 	{ 
 		Object x = arr[h]; 
 	    int i = (l - 1); 

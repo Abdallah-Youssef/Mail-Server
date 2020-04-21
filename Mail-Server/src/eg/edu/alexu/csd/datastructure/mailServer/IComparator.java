@@ -1,6 +1,6 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
-public interface Comparator {
+public interface IComparator {
 	/**
 	 * 
 	 * @param x
