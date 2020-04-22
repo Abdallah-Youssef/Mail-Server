@@ -1,5 +1,7 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
+import eg.edu.alexu.csd.datastructure.mailServer.Comparator;
+import eg.edu.alexu.csd.datastructure.mailServer.Pair;
 import eg.edu.alexu.csd.datastructure.stack.Classes.Stack;
 
 public class BinarySearch {
