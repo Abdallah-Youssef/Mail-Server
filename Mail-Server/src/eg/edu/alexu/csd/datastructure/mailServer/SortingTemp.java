@@ -19,7 +19,7 @@ public class SortingTemp {
 		StackDS stack = new StackDS();
 		stack.push(l);
 		stack.push(h);
-		
+		 
 		while(!stack.isEmpty()){
 			h = (int) stack.pop();
 			l = (int) stack.pop();
