@@ -1,5 +1,10 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
-public interface ISort {
+import java.util.Comparator;
+
+import org.json.simple.JSONObject;
+
+public interface ISort extends Comparator<JSONObject> 
+{
 
 }
