@@ -6,6 +6,8 @@ import java.util.Date;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import eg.edu.alexu.csd.datastructure.stack.Classes.Stack;
+
 
 public class SortingTemp {
 	
@@ -16,7 +18,9 @@ public class SortingTemp {
 	}
 	
 	public static void _quickSort(JSONObject[] arr, int l, int h, ISort comp) {
-		StackDS stack = new StackDS();
+		
+		//Changed from StackDS because the jar we have imported it is called Stack
+		Stack stack = new Stack();
 		stack.push(l);
 		stack.push(h);
 		 

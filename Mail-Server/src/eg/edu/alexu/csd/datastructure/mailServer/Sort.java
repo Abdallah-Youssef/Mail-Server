@@ -2,6 +2,8 @@ package eg.edu.alexu.csd.datastructure.mailServer;
 
 
 
+import org.json.simple.JSONObject;
+
 import eg.edu.alexu.csd.datastructure.stack.Classes.Stack;
 
 public class Sort implements ISort{
@@ -47,6 +49,13 @@ public class Sort implements ISort{
 	    arr[i+1] = arr[h];
 	    arr[h] = temp;
 	    return (i + 1);
+	}
+
+
+	@Override
+	public int compare(JSONObject o1, JSONObject o2) {
+		// TODO Auto-generated method stub
+		return 0;
 	} 
 	
 }
