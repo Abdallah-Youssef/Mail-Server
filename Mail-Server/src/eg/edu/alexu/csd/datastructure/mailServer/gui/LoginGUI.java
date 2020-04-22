@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.datastructure.mailServer;
+package eg.edu.alexu.csd.datastructure.mailServer.gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+
+import eg.edu.alexu.csd.datastructure.mailServer.FolderManager;
 
 public class LoginGUI extends JFrame{
 	

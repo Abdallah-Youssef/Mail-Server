@@ -13,7 +13,6 @@ import org.json.simple.parser.JSONParser;
 
 
 
-@SuppressWarnings({ "unchecked", "unchecked" })
 public class FolderManager {
 
 	public FolderManager() {
@@ -32,7 +31,7 @@ public class FolderManager {
 	}
 	
 	
-	public static Boolean isUserExist(JSONArray users, String email)
+	public static Boolean userExists(JSONArray users, String email)
 	{
 		for(Object user: users)
 		{

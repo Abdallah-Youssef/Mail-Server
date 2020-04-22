@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.datastructure.mailServer;
+package eg.edu.alexu.csd.datastructure.mailServer.gui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,8 +12,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import org.json.simple.JSONArray;
-import eg.edu.alexu.csd.datastructure.mailServer.FolderManager;
 public class SignUpGUI extends JFrame {
 	GridBagConstraints gc;
 	JLabel firstName, lastName;
@@ -110,43 +108,20 @@ public class SignUpGUI extends JFrame {
 		add(errorLabel, gc);
 		
 		
-		JSONArray users = FolderManager.getUsers();
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				/*
+				errorString = ""
 				for each possible error => errorString += error + "\n"
-				
-				after all checks:
-				if success => errorString = "";
-				
 				errorLabel.setText(errorString);
 				*/
-				String firstNameData = firstNameField.getText().trim();
-				String lastNameData = lastNameField.getText().trim();
-				String emailData = emailField.getText().trim();
-				String passwordData = passwordField.toString();
-				
-				if(!emailData.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$") || 
-						FolderManager.userExists(users, emailData))
-				{
-					//generateError
-				}else if(passwordData.length() < 8)
-				{
-					//generate error
-				}
-				else
-				{
-					User newUser = new User(firstNameData, lastNameData, emailData, passwordData);
-					FolderManager.addJSONUser(users, FolderManager.createUserJSONObject(newUser));
-					
-				}
 			}
 		});
 		
 		
-		 
+		
 	}
- 
+
 	public void setGridCell(int x, int y) {
 		gc.gridx = x;
 		gc.gridy = y;
