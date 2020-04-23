@@ -57,10 +57,10 @@ public class MainPageGUI extends JFrame{
 		//griding
 		//first row
 		setGridAxes(0,0);	
-		GC.anchor = GridBagConstraints.LINE_START;
+		GC.anchor = GridBagConstraints.LINE_END;
 		add(email,GC);
 		setGridAxes(1,0);
-		GC.anchor=GridBagConstraints.LINE_END;
+		GC.anchor=GridBagConstraints.LINE_START;
 		add(emailField,GC);
 		//2nd
 		setGridAxes(0,1);
@@ -68,14 +68,14 @@ public class MainPageGUI extends JFrame{
 		add(emailErrorMessage, GC);
 		//3rd row
 		setGridAxes(0,2);	
-		GC.anchor = GridBagConstraints.LINE_START;
+		GC.anchor = GridBagConstraints.LINE_END;
 		add(password,GC);
 		setGridAxes(1,2);
-		GC.anchor=GridBagConstraints.LINE_END;
+		GC.anchor=GridBagConstraints.LINE_START;
 		add(passwordField,GC);
 		//4th
 		setGridAxes(0,3);
-		GC.anchor = GridBagConstraints.LINE_START;
+		GC.anchor = GridBagConstraints.LINE_END;
 		add(passwordErrorMessage, GC);
 		//5th row
 		setGridAxes(0,4);
