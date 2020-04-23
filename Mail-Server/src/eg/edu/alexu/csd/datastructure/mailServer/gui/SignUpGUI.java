@@ -12,13 +12,14 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import org.json.simple.JSONArray;
+import eg.edu.alexu.csd.datastructure.mailServer.FolderManager;
+import eg.edu.alexu.csd.datastructure.mailServer.User;
 public class SignUpGUI extends JFrame {
 	GridBagConstraints gc;
 	JLabel firstName, lastName;
 	JLabel email, password;
 	JLabel errorLabel;
-	String errorString = "";
-	
 	JTextField firstNameField, lastNameField;
 	JTextField emailField;
 	JPasswordField passwordField;
@@ -37,7 +38,7 @@ public class SignUpGUI extends JFrame {
 		lastName = new JLabel("Last Name : ");
 		email = new JLabel("Email : ");
 		password = new JLabel("Password : ");
-		errorLabel = new JLabel("");
+		errorLabel=new JLabel("");
 		
 		firstNameField = new JTextField(25);
 		lastNameField = new JTextField(25);
@@ -108,20 +109,47 @@ public class SignUpGUI extends JFrame {
 		add(errorLabel, gc);
 		
 		
+		JSONArray users = FolderManager.getUsers();
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				/*
-				errorString = ""
 				for each possible error => errorString += error + "\n"
+				
+				after all checks:
+				if success => errorString = "";
+				
 				errorLabel.setText(errorString);
 				*/
+				String firstNameData = firstNameField.getText().trim();
+				String lastNameData = lastNameField.getText().trim();
+				String emailData = emailField.getText().trim();
+				String passwordData = passwordField.getText().toString();
+				
+				if(!emailData.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$") || 
+						FolderManager.userExists(users, emailData)!=null)
+				{
+					//generateError
+					errorLabel.setText("Invalid Email form");
+					return;
+				}else if(passwordData.length() < 8)
+				{
+					//generate error
+					errorLabel.setText("weak password");
+					return;
+				}
+				else
+				{
+					User newUser = new User(firstNameData, lastNameData, emailData, passwordData);
+					FolderManager.addJSONUser(users, FolderManager.createUserJSONObject(newUser));
+					FolderManager.printUsers();
+				}
 			}
 		});
 		
 		
-		
+		 
 	}
-
+ 
 	public void setGridCell(int x, int y) {
 		gc.gridx = x;
 		gc.gridy = y;

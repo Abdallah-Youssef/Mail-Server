@@ -1,5 +1,7 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
+import org.json.simple.JSONObject;
+
 import eg.edu.alexu.csd.datastructure.mailServer.Comparator;
 import eg.edu.alexu.csd.datastructure.mailServer.Pair;
 import eg.edu.alexu.csd.datastructure.stack.Classes.Stack;
@@ -22,7 +24,7 @@ public class BinarySearch {
 	}
 	
 	
-	int binarySearch(Object arr[], int l, int r, Object x,String typeOfData) 
+	int binarySearch(JSONObject arr[], int l, int r, Object x,String typeOfData) 
     {
 		Comparator_ C=new Comparator_();
 		Stack S = new Stack();

@@ -14,9 +14,15 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import eg.edu.alexu.csd.datastructure.mailServer.FolderManager;
+
 public class MainPageGUI extends JFrame{
 	//decleration
-	String ErrorMsg="";
+	JSONObject user_;
+	JLabel emailErrorMessage, passwordErrorMessage;
 	GridBagConstraints GC;
 	JButton log_in_btn;
 	JButton sign_up_btn;
@@ -25,10 +31,12 @@ public class MainPageGUI extends JFrame{
 	JPasswordField passwordField;
 	public MainPageGUI() {
 		super("Log IN");
-		setSize(600,300);
+		setSize(600,400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		//componenets
+		emailErrorMessage = new JLabel("");
+		passwordErrorMessage = new JLabel("");
 		email=new JLabel("E-Mail : ");
 		password=new JLabel("Password : ");
 		SignUpMsg=new JLabel("Don't have an E-Mail ?  ");
@@ -54,23 +62,31 @@ public class MainPageGUI extends JFrame{
 		setGridAxes(1,0);
 		GC.anchor=GridBagConstraints.LINE_END;
 		add(emailField,GC);
-		//second row
-		setGridAxes(0,1);	
+		//2nd
+		setGridAxes(0,1);
+		GC.anchor = GridBagConstraints.ABOVE_BASELINE;
+		add(emailErrorMessage, GC);
+		//3rd row
+		setGridAxes(0,2);	
 		GC.anchor = GridBagConstraints.LINE_START;
 		add(password,GC);
-		setGridAxes(1,1);
+		setGridAxes(1,2);
 		GC.anchor=GridBagConstraints.LINE_END;
 		add(passwordField,GC);
-		//3rd row
-		setGridAxes(0,2);
+		//4th
+		setGridAxes(0,3);
+		GC.anchor = GridBagConstraints.LINE_START;
+		add(passwordErrorMessage, GC);
+		//5th row
+		setGridAxes(0,4);
 		GC.gridwidth=2;
 		GC.anchor=GridBagConstraints.CENTER;
 		add(log_in_btn,GC);
-		//4th row
-		setGridAxes(0,3);	
+		//6th row
+		setGridAxes(0,5);	
 		GC.anchor = GridBagConstraints.LINE_START;
 		add(SignUpMsg,GC);
-		setGridAxes(1,3);
+		setGridAxes(1,5);
 		GC.gridwidth=3;
 		GC.anchor=GridBagConstraints.CENTER;
 		add(sign_up_btn,GC);
@@ -87,6 +103,7 @@ public class MainPageGUI extends JFrame{
 				
 			}
 		});
+		JSONArray users = FolderManager.getUsers();
 		log_in_btn.addActionListener(new ActionListener() {
 
 			@Override
@@ -97,6 +114,36 @@ public class MainPageGUI extends JFrame{
 				else check if the password is right
 				if not error msg password is wrong
 				*/
+				String email;
+				String password;
+				email = emailField.getText();
+				password = new String(passwordField.getPassword());
+				
+				//TODO CHECK EMAIL FORMAT
+				if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+					emailErrorMessage.setText("Please enter a valid email address");
+					return;
+				}
+				else if(FolderManager.userExists(users, email)==null) {
+					emailErrorMessage.setText("User doesn't exist");
+					return;
+				}
+				else {
+					user_=FolderManager.userExists(users, email);
+				}
+				if (password.contentEquals("")) {
+					passwordErrorMessage.setText("Please enter a password");
+					return;
+				}
+				else if(!user_.get("password").equals(password)) {
+					passwordErrorMessage.setText("Wrong password");
+				}
+				else 
+					passwordErrorMessage.setText("");
+					/*
+					 * call the GUI for USer emails and his shit
+					 */
+				FolderManager.printUsers();
 			}
 			
 		});

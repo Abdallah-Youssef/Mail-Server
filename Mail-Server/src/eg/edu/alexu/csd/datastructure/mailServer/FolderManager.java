@@ -31,15 +31,17 @@ public class FolderManager {
 	}
 	
 	
-	public static Boolean userExists(JSONArray users, String email)
+	public static JSONObject userExists(JSONArray users, String email)
 	{
 		for(Object user: users)
 		{
 			JSONArray emails = (JSONArray)((JSONObject)user).get("emails");
-			if(emails.contains(email))
-				return true;
+			if(emails.contains(email)) {
+				JSONObject Found=(JSONObject) user;
+				return Found;
 		}
-		return false;
+		}
+		return null;
 	}
 	
 	public static JSONObject createUserJSONObject(User contact) 
@@ -55,8 +57,17 @@ public class FolderManager {
 			
 		user.put("emails", emails);
 		user.put("password", contact.password);
-		
+		JSONArray Data=new JSONArray();
+		Data.add(user);
 		createUserSubDirectory(contact.id);
+		try (FileWriter file = new FileWriter("Users/usersIndex.json")) {
+			 
+            file.write(Data.toJSONString());
+            file.flush();
+ 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		return user;
 	}
 	
@@ -64,6 +75,7 @@ public class FolderManager {
 	public static void addJSONUser(JSONArray users, JSONObject user)
 	{
 		users.add(user);
+		
 	}
 	
 	/**  
@@ -94,10 +106,10 @@ public class FolderManager {
 			System.out.println("Id = " + user.get("id"));
 			
 			JSONArray emails = (JSONArray) user.get("emails");
-			JSONArray passwords = (JSONArray) user.get("passwords");
+			String passwords =  (String) user.get("password");
 
-			for (int j = 0;j < emails.size();j++)
-				System.out.println("Email : " + emails.get(j) + ", pass : " + passwords.get(j));
+			for (int j = 0;j < emails.size()&&emails.get(j)!=null;j++)
+				System.out.println("Email : " + emails.get(j) + ", pass : " + passwords);
 		}
 		System.out.println("........................................");
 	}
