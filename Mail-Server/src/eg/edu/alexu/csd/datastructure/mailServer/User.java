@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
+
 public class User implements IContact 
 {
 	int id;
@@ -12,7 +14,7 @@ public class User implements IContact
 	String lastName;
 	 
 	
-	String[] emails;
+	DoublyLinkedList emails;
 	String password;
 	
 	public User(String firstName, String lastName, String email, String password) 
@@ -41,8 +43,8 @@ public class User implements IContact
 		
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.emails = new String[10];
-		this.emails[0] = email;
+		this.emails = new DoublyLinkedList();
+		this.emails.add(email);
 		this.password = password;
 	}
 	

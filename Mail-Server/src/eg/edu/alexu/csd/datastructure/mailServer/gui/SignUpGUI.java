@@ -4,15 +4,19 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
-import org.json.simple.JSONArray;
+
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManager;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 public class SignUpGUI extends JFrame {
@@ -24,16 +28,17 @@ public class SignUpGUI extends JFrame {
 	JTextField emailField;
 	JPasswordField passwordField;
 	
-	JButton btn;
+	JButton signUpBtn;
+	
+	
 	
 	public SignUpGUI () {
 		super("Sign Up");
 		setSize(600, 300);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		//instead of terminating it will return to the log in
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setVisible(true);
-		
-		
-		////Creating components
 		firstName = new JLabel("First Name : ");
 		lastName = new JLabel("Last Name : ");
 		email = new JLabel("Email : ");
@@ -44,9 +49,71 @@ public class SignUpGUI extends JFrame {
 		lastNameField = new JTextField(25);
 		emailField = new JTextField(25);
 		passwordField = new JPasswordField(25);
-		btn = new JButton("Sign Up");
+		signUpBtn = new JButton("Sign Up");
 		
+		grid();
 		
+		signUpBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				/*
+				for each possible error => errorString += error + "\n"
+				
+				after all checks:
+				if success => errorString = "";
+				
+				errorLabel.setText(errorString);
+				*/
+				String firstNameData = firstNameField.getText().trim();
+				String lastNameData = lastNameField.getText().trim();
+				String emailData = emailField.getText().trim();
+				String passwordData = new String(passwordField.getPassword());
+				String errorMsg = "";
+				
+				if(!emailData.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"))
+					errorMsg += "Invalid Email form\n";
+				
+				if (FolderManager.getUser(emailData)!=null)
+					errorMsg += "Email already Exists\n";
+				
+				
+				if(passwordData.length() < 8){
+					errorMsg += "weak password (length must be more than 7 characters)";
+				}
+				
+				
+				if (errorMsg.equals("")) {
+					User newUser = new User(firstNameData, lastNameData, emailData, passwordData);
+					if (FolderManager.newUser(newUser)) {
+						errorMsg +="Success";
+						FolderManager.printUsers();
+					}else {
+						errorMsg += "Error in sign up";
+					}
+				}
+				
+				errorLabel.setText(errorMsg);
+			}
+		});
+
+		
+		addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+            	LoginGUI.run();
+                setVisible(false);
+                dispose();
+                
+            }
+        });
+		
+		 
+	}
+ 
+	
+
+	
+	
+	private void grid() {
 		//Border
 		Border outsideBorder = BorderFactory.createEmptyBorder(40, 25, 50, 25);
 		Border insideBorder = BorderFactory.createTitledBorder("Create a new Email");
@@ -100,58 +167,26 @@ public class SignUpGUI extends JFrame {
 		setGridCell(0,4);
 		gc.gridwidth = 2;
 		gc.anchor = GridBagConstraints.CENTER;
-		add(btn, gc);
+		add(signUpBtn, gc);
+
 		////////////////////////////////////////////
 		///////Sixth Row
 		setGridCell(0,5);
 		gc.gridwidth = 2;
 		gc.anchor = GridBagConstraints.CENTER;
 		add(errorLabel, gc);
-		
-		
-		JSONArray users = FolderManager.getUsers();
-		btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				/*
-				for each possible error => errorString += error + "\n"
-				
-				after all checks:
-				if success => errorString = "";
-				
-				errorLabel.setText(errorString);
-				*/
-				String firstNameData = firstNameField.getText().trim();
-				String lastNameData = lastNameField.getText().trim();
-				String emailData = emailField.getText().trim();
-				String passwordData = passwordField.getPassword().toString();
-				
-				if(!emailData.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$") || 
-						FolderManager.userExists(users, emailData)!=null)
-				{
-					//generateError
-					errorLabel.setText("Invalid Email form");
-					return;
-				}else if(passwordData.length() < 8)
-				{
-					//generate error
-					errorLabel.setText("weak password");
-					return;
-				}
-				else
-				{
-					User newUser = new User(firstNameData, lastNameData, emailData, passwordData);
-					FolderManager.addJSONUser(users, FolderManager.createUserJSONObject(newUser));
-					FolderManager.printUsers();
-				}
-			}
-		});
-		
-		
-		 
 	}
- 
-	public void setGridCell(int x, int y) {
+	
+	private void setGridCell(int x, int y) {
 		gc.gridx = x;
 		gc.gridy = y;
+	}
+	
+	public static void run() {
+		SwingUtilities.invokeLater(new Runnable () {
+			public void run() {
+				new SignUpGUI();
+			}
+		});
 	}
 }
