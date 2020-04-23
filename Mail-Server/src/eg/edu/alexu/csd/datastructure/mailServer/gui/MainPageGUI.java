@@ -1,5 +1,6 @@
 package eg.edu.alexu.csd.datastructure.mailServer.gui;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -29,6 +31,8 @@ public class MainPageGUI extends JFrame{
 	JLabel email,password,SignUpMsg;
 	JTextField emailField;
 	JPasswordField passwordField;
+	
+	SignUpPanel signupPanel;
 	public MainPageGUI() {
 		super("Log IN");
 		setSize(600,400);
@@ -44,6 +48,7 @@ public class MainPageGUI extends JFrame{
 		passwordField=new JPasswordField(25);
 		log_in_btn=new JButton("Log In");
 		sign_up_btn=new JButton("Sign Up");
+		signupPanel = new SignUpPanel();
 		
 		Border outsideBorder = BorderFactory.createEmptyBorder(40, 25, 50, 25);
 		Border insideBorder = BorderFactory.createTitledBorder("Log In : ");
@@ -82,14 +87,16 @@ public class MainPageGUI extends JFrame{
 		GC.gridwidth=2;
 		GC.anchor=GridBagConstraints.CENTER;
 		add(log_in_btn,GC);
-		//6th row
-		setGridAxes(0,5);	
-		GC.anchor = GridBagConstraints.LINE_START;
-		add(SignUpMsg,GC);
-		setGridAxes(1,5);
-		GC.gridwidth=3;
+		
+		GC.gridwidth=1;
+		//6thRow
+		setGridAxes(0,5);
+		GC.gridwidth=2;
 		GC.anchor=GridBagConstraints.CENTER;
-		add(sign_up_btn,GC);
+		add(signupPanel, GC);
+		
+		
+		
 		
 		sign_up_btn.addActionListener(new ActionListener() {
 			@Override
@@ -151,6 +158,15 @@ public class MainPageGUI extends JFrame{
 	private void setGridAxes(int x,int y) {
 		GC.gridx=x;
 		GC.gridy=y;
+	}
+	
+	
+	private class SignUpPanel extends JPanel {
+		SignUpPanel(){
+			setLayout(new BorderLayout());
+			add(SignUpMsg,BorderLayout.LINE_START);
+			add(sign_up_btn,BorderLayout.LINE_END);
+		}
 	}
 
 }

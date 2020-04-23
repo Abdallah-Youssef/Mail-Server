@@ -2,8 +2,6 @@ package eg.edu.alexu.csd.datastructure.mailServer.gui;
 import javax.swing.SwingUtilities;
 
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManager;
-import eg.edu.alexu.csd.datastructure.mailServer.IComparator;
-import eg.edu.alexu.csd.datastructure.mailServer.Sort;
 
 public class MainGUI {
 	public static void main(String[] args) {

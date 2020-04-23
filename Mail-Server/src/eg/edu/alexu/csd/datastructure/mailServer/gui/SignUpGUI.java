@@ -123,7 +123,7 @@ public class SignUpGUI extends JFrame {
 				String firstNameData = firstNameField.getText().trim();
 				String lastNameData = lastNameField.getText().trim();
 				String emailData = emailField.getText().trim();
-				String passwordData = passwordField.getText().toString();
+				String passwordData = passwordField.getPassword().toString();
 				
 				if(!emailData.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$") || 
 						FolderManager.userExists(users, emailData)!=null)
