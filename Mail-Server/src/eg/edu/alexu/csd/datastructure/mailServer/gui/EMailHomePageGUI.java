@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -29,33 +30,20 @@ public class EMailHomePageGUI extends JFrame {
 		Border outsideBorder = BorderFactory.createEmptyBorder(4, 2, 5, 2);
 		Border insideBorder = BorderFactory.createTitledBorder("L : ");
 		getRootPane().setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
+		Box FileBox=Box.createVerticalBox();
+		for(int i=0;i<4;i++) {
+			FileBox.add(fileButtons[i]);
+		}
 		
 		setLayout(gridBagLayout);
 		GC=new GridBagConstraints();
-		GC.weightx =1 ;
-		GC.weighty = 1;
-		GC.fill = GridBagConstraints.VERTICAL;		
+		GC.weightx =2 ;
+		GC.weighty = 2;
+		GC.fill = GridBagConstraints.NONE;		
 		
 		setGridCell(0,0);	
 		GC.anchor = GridBagConstraints.LINE_START;
-		add(fileButtons[0],GC);
-		
-		setGridCell(0,1);	
-		GC.anchor = GridBagConstraints.LINE_START;
-		add(fileButtons[1],GC);
-		
-		setGridCell(0,2);	
-		GC.anchor = GridBagConstraints.LINE_START;
-		add(fileButtons[2],GC);
-		
-		setGridCell(0,3);	
-		GC.anchor = GridBagConstraints.LINE_START;
-		add(fileButtons[3],GC);
-		setGridCell(0,4);	
-		GC.anchor = GridBagConstraints.LINE_START;
-		add(fileButtons[3],GC);
-		GC.fill=GridBagConstraints.NONE;
-		
+		add(FileBox,GC);
 		//actions for file buttons start:
 		fileButtons[0].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
