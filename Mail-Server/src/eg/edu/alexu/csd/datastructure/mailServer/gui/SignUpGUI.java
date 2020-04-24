@@ -126,7 +126,7 @@ public class SignUpGUI extends JFrame {
 				String passwordData = passwordField.getPassword().toString();
 				
 				if(!emailData.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$") || 
-						FolderManagerBIN.userExists(emailData)!=null)
+						FolderManagerBIN.getUser(emailData)!=null)
 				{
 					//generateError
 					errorLabel.setText("Invalid Email form");

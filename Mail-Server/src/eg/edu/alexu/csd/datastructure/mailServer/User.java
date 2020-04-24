@@ -49,7 +49,7 @@ public class User implements IContact, Serializable
 			}
 		}
 		
-		System.out.println(id);
+		//System.out.println(id);
 		createUserSubDirectory(id);
 		
 		try {

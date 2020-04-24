@@ -25,7 +25,7 @@ public class FolderManagerBIN {
 	}
 	
 	
-	public static User userExists(String email)
+	public static User getUser(String email)
 	{
 		DoublyLinkedList users = getUsers();
 		for(int i = 0; i < users.size();i++)
@@ -44,9 +44,10 @@ public class FolderManagerBIN {
 	}
 	
 	public static void WriteObjectToFile(Object serObj, String path) {
-		 
+		
+		//System.out.println(serObj.getClass().toString());
+		
         try {
- 
             FileOutputStream fileOut = new FileOutputStream(path);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(serObj);
