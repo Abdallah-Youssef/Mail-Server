@@ -29,7 +29,16 @@ public class FolderManager {
 		new File(path+"trash/").mkdirs();
 		new File(path+"user defined folders/").mkdirs();
 	}
-	
+		
+	public static User getUser(int id) {
+		DoublyLinkedList list = getUsers();
+		for (int i = 0;i < list.size();i++) {
+			User user = (User) list.get(i);
+			if (user.id == id)
+				return user;
+		}
+		return null;
+	}
 	
 	public static User getUser(String email)
 	{
@@ -82,7 +91,6 @@ public class FolderManager {
 			return false;
 		
 		DoublyLinkedList users = getUsers();
-		
 		for (int i = 0;i < users.size();i++) {
 			User iterator = (User) users.get(i);
 			if (iterator.id == user.id) {
@@ -164,7 +172,7 @@ public class FolderManager {
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println(path + "is empty");
+			System.out.println(path + " is empty");
 		}
 		return null;
 	}
