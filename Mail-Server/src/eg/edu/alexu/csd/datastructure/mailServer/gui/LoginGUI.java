@@ -25,7 +25,6 @@ public class LoginGUI extends JFrame{
 		setVisible(true);
 		
 		
-		
 		//Creating the Components
 		emailLabel = new JLabel("Email : ");
 		passwordLabel = new JLabel("Password : ");

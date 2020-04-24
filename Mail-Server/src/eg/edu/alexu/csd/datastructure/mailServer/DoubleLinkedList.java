@@ -18,13 +18,6 @@ public class DoubleLinkedList implements ILinkedList, Serializable
 		Object data;
 		Node next;
 		Node prev;
-		Node()
-		{
-			data = null;
-			next = null;
-			prev = null;
-		}
-		
 		Node(Object t)
 		{
 			data = t;

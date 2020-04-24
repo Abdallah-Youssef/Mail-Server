@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,9 +13,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import org.json.simple.JSONArray;
-
-import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManager;
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
@@ -112,7 +110,6 @@ public class SignUpGUI extends JFrame {
 		add(errorLabel, gc);
 		
 		
-		DoubleLinkedList users = FolderManagerBIN.getUsers();
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				/*
@@ -129,7 +126,7 @@ public class SignUpGUI extends JFrame {
 				String passwordData = passwordField.getPassword().toString();
 				
 				if(!emailData.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$") || 
-						FolderManagerBIN.userExists(users, emailData)!=null)
+						FolderManagerBIN.userExists(emailData)!=null)
 				{
 					//generateError
 					errorLabel.setText("Invalid Email form");
@@ -143,7 +140,7 @@ public class SignUpGUI extends JFrame {
 				else
 				{
 					User newUser = new User(firstNameData, lastNameData, emailData, passwordData);
-					FolderManagerBIN.addUser(users, newUser);
+					FolderManagerBIN.addUser(newUser);
 					FolderManager.printUsers();
 				}
 			}
