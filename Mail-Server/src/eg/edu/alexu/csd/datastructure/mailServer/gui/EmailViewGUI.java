@@ -32,7 +32,7 @@ public class EmailViewGUI extends JFrame {
 	User sender;
 	String senderEmail;
 	DoublyLinkedList receivers;
-	String test = "jk";
+	String testReceiver = "jk";
 	
 	public EmailViewGUI(String senderEmail, DoublyLinkedList receivers) {
 		super("Compose E-mail");
@@ -48,10 +48,9 @@ public class EmailViewGUI extends JFrame {
 		textArea = new JTextArea();
 		textArea.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
 		
-		//setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
-		setLayout(new BorderLayout());
-		add(optionsPanel, BorderLayout.NORTH);
-		add(textArea, BorderLayout.CENTER);
+		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+		add(optionsPanel);
+		add(textArea);
 		
 		
 	}
@@ -88,7 +87,10 @@ public class EmailViewGUI extends JFrame {
 			
 			setGC(gc,1,1,1,1);
 			gc.anchor = GridBagConstraints.LINE_START;
-			add(new ReceiversPanel(), gc);
+			/*receiversTextArea = new JTextArea();
+			receiversTextArea.setPreferredSize(new Dimension(200,200));
+			receiversTextArea.setFont(new Font("Comic Sans MS", Font.BOLD, 14));*/
+			add(receiversPanel, gc);
 			
 			setGC(gc,2,1,1,1);
 			gc.anchor = GridBagConstraints.CENTER;
@@ -96,7 +98,7 @@ public class EmailViewGUI extends JFrame {
 			
 			
 			//ThirdRow
-			setGC(gc,2,1,3,2);
+			setGC(gc,0,2,2,1);
 			gc.anchor = GridBagConstraints.CENTER;
 			add(sendBtn, gc);
 			
@@ -107,9 +109,10 @@ public class EmailViewGUI extends JFrame {
 					/*
 					 * Maybe open a pop up that returns an email?
 					 */
-					
-					receiversTextArea.append(test + "\n");
-					test += "hk";
+					receiversTextArea.append(testReceiver + "\n");
+					receivers.add(testReceiver);
+					testReceiver += "hk";
+					receiversPanel.setPreferredSize(new Dimension(150,21*receivers.size()));
 					revalidate();
 				}
 			});
@@ -123,7 +126,7 @@ public class EmailViewGUI extends JFrame {
 		}
 	}
 	
-	public class Receiver extends JPanel{
+	/*public class Receiver extends JPanel{
 		Receiver me = this;
 		
 		public Receiver(String email) {
@@ -141,21 +144,24 @@ public class EmailViewGUI extends JFrame {
 				}
 			});
 		}
-	}
+	}*/
 	
 	
 	private class ReceiversPanel extends JPanel{
 		public ReceiversPanel() {
 			setLayout(new BorderLayout());
-			setPreferredSize(new Dimension(150,25));
+			setPreferredSize(new Dimension(150,21));
 			
-			receiversTextArea = new JTextArea(3,3);
+			
+			receiversTextArea = new JTextArea();
+			receiversTextArea.setPreferredSize(new Dimension(200,200));
 			receiversTextArea.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 			
-			scroll = new JScrollPane(receiversTextArea);
-			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			add(scroll, BorderLayout.CENTER);
+			/*scroll = new JScrollPane(receiversTextArea);
+			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);*/
+			add(receiversTextArea, BorderLayout.CENTER);
 		}
+		
 		
 	}
 	
