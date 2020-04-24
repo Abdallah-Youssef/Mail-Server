@@ -13,7 +13,10 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import org.json.simple.JSONArray;
+
+import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManager;
+import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 public class SignUpGUI extends JFrame {
 	GridBagConstraints gc;
@@ -109,7 +112,7 @@ public class SignUpGUI extends JFrame {
 		add(errorLabel, gc);
 		
 		
-		JSONArray users = FolderManager.getUsers();
+		DoubleLinkedList users = FolderManagerBIN.getUsers();
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				/*
@@ -126,7 +129,7 @@ public class SignUpGUI extends JFrame {
 				String passwordData = passwordField.getPassword().toString();
 				
 				if(!emailData.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$") || 
-						FolderManager.userExists(users, emailData)!=null)
+						FolderManagerBIN.userExists(users, emailData)!=null)
 				{
 					//generateError
 					errorLabel.setText("Invalid Email form");
@@ -140,7 +143,7 @@ public class SignUpGUI extends JFrame {
 				else
 				{
 					User newUser = new User(firstNameData, lastNameData, emailData, passwordData);
-					FolderManager.addJSONUser(users, FolderManager.createUserJSONObject(newUser));
+					FolderManagerBIN.addUser(users, newUser);
 					FolderManager.printUsers();
 				}
 			}
