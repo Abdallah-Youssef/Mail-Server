@@ -16,13 +16,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
-import org.json.simple.JSONObject;
-
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManager;
+import eg.edu.alexu.csd.datastructure.mailServer.User;
 
 public class LoginGUI extends JFrame{
 	//decleration
-	JSONObject user;
+	User user;
 	JLabel emailErrorMessage, passwordErrorMessage;
 	GridBagConstraints GC;
 	JButton log_in_btn;
@@ -131,7 +130,6 @@ public class LoginGUI extends JFrame{
 				email = emailField.getText();
 				password = new String(passwordField.getPassword());
 				
-				//TODO CHECK EMAIL FORMAT
 				if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
 					emailErrorMessage.setText("Please enter a valid email address");
 					return;
@@ -147,7 +145,7 @@ public class LoginGUI extends JFrame{
 					passwordErrorMessage.setText("Please enter a password");
 					return;
 				}
-				else if(!user.get("password").equals(password)) {
+				else if(!(user.password).equals(password)) {
 					passwordErrorMessage.setText("Wrong password");
 				}
 				else {

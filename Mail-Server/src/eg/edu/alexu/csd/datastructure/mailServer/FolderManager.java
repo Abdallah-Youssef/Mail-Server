@@ -1,13 +1,11 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
 
@@ -33,16 +31,17 @@ public class FolderManager {
 	}
 	
 	
-	public static JSONObject getUser(String email)
+	public static User getUser(String email)
 	{
 		DoublyLinkedList list = getUsers();
 		
 		for (int i = 0;i < list.size();i++) {
-			JSONObject user = (JSONObject) list.get(i);
-			JSONArray emails = (JSONArray)(user).get("emails");
-			if(emails.contains(email)) {
-				JSONObject Found=(JSONObject) user;
-				return Found;
+			User user = (User) list.get(i);
+			DoublyLinkedList emails = user.emails;
+			
+			for (int j = 0;j < emails.size();j++) {
+				if (((String)emails.get(j)).equals(email))
+					return user;
 			}
 		}
 		return null;
@@ -61,30 +60,9 @@ public class FolderManager {
 		if (emailExists(lastEmail))
 			return false;
 		
-		JSONObject user = new JSONObject();
-		user.put("id", contact.id);
-		user.put("firstName", contact.firstName);
-		user.put("lastName", contact.lastName);
-		JSONArray emails = new JSONArray();
-		
-		for(int j = 0;j < contact.emails.size();j++) 
-			emails.add(contact.emails.get(j));
-		
-		user.put("emails", emails);
-		user.put("password", contact.password);
-		
-		DoublyLinkedList Data = getUsers();
-		Data.add(user);
-		createUserSubDirectory(contact.id);
-		try (FileWriter file = new FileWriter("Users/usersIndex.json")) {
-			//write doesn't add, it sets whatever is in the file to "Data.toJSONString"
-			JSONArray arr = listToJSONArray(Data);
-            file.write(arr.toJSONString());
-            file.flush();
- 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		DoublyLinkedList users = getUsers();
+		users.add(contact);
+		saveObject("userIndex.txt", users);
 		return true;
 	}
 	
@@ -100,28 +78,19 @@ public class FolderManager {
 		//Because any conflict would happen due to a new email, which is placed at the end of the list
 		String lastEmail = (String) user.emails.get(user.emails.size()-1);
 		
-
 		if (emailExists(lastEmail))
 			return false;
 		
 		DoublyLinkedList users = getUsers();
+		
 		for (int i = 0;i < users.size();i++) {
-			JSONObject object = (JSONObject) users.get(i);
-			if ((int)object.get("id") == user.id) {
+			User iterator = (User) users.get(i);
+			if (iterator.id == user.id) {
 				users.set(i, user);
 				break;
 			}
 		}
-		
-		try (FileWriter file = new FileWriter("Users/usersIndex.json")) {
-			//write doesn't add, it sets whatever is in the file to "Data.toJSONString"
-			JSONArray arr = listToJSONArray(users);
-            file.write(arr.toJSONString());
-            file.flush();
- 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		saveObject("./usersIndex", users);
 		return true;
 	}
 	
@@ -133,115 +102,89 @@ public class FolderManager {
 	 * NOTE: returns an instance not a reference. i.e if you change the returned users nothing is saved in the file
 	 */
 	public static DoublyLinkedList getUsers() {
-		JSONParser parser = new JSONParser();
-		JSONArray arr;
-		try {
-			FileReader reader = new FileReader("Users/usersIndex.json");
-			arr = (JSONArray) parser.parse(reader);
-			if (arr == null)
-				clearJSONFile("Users/usersIndex.json");
-			
-			DoublyLinkedList users = new DoublyLinkedList();
-			for (int i = 0;i < arr.size();i++) {
-				users.add(arr.get(i));
-			}
-			return users;
-             
-		}catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		DoublyLinkedList usersIndex = (DoublyLinkedList) loadObject("userIndex.txt");
+		if (usersIndex == null)
+			return new DoublyLinkedList();
+		return usersIndex;
 	}
 	
 	public static boolean emailExists(String email) {
 		DoublyLinkedList users = getUsers();
 		for (int i = 0;i < users.size();i++) {
-			JSONObject user = (JSONObject) users.get(i);
+			User user =  (User) users.get(i);
 			
-			JSONArray emails = (JSONArray)(user.get("emails"));
-			for (Object e : emails) {
-				if (((String)e).equals(email))
+			for (int j = 0;j < user.emails.size();j++) {
+				if (((String)user.emails.get(j)).equals(email))
 					return true;
 			}
 		}
 		return false;
 	}
 	
-	public static JSONObject UserToJSONObject (User user) {
-		JSONObject object  = new JSONObject();
-		
-		object = new JSONObject();
-		object.put("id", user.id);
-		object.put("firstName", user.firstName);
-		object.put("lastName", user.lastName);
-		JSONArray emails = new JSONArray();
-		
-		for(int j = 0;j < user.emails.size();j++) 
-			emails.add(user.emails.get(j));
-		
-		object.put("emails", emails);
-		object.put("password", user.password);
-		
-		return object;
-	}
-	
-	public static DoublyLinkedList JSONArrayToList(JSONArray arr) {
-		DoublyLinkedList list = new DoublyLinkedList();
-		for (int i = 0;i < arr.size();i++) {
-			list.add(arr.get(i));
-		}
-		return list;
-	}
-	
-	public static JSONArray listToJSONArray(DoublyLinkedList list) {
-		JSONArray arr = new JSONArray();
-		for (int i = 0;i < list.size();i++) {
-			arr.add(list.get(i));
-		}
-		return arr;
-	}
+
+
 	 
 	public static void printUsers() {
 		DoublyLinkedList arr = getUsers();
 		for (int i = 0;i < arr.size();i++) {
-			JSONObject user = (JSONObject) arr.get(i);
+			User user = (User) arr.get(i);
 			System.out.println("---------------------------------------");
-			System.out.println("Id = " + user.get("id"));
+			System.out.println("Id = " + user.id);
 			
-			JSONArray emails = (JSONArray) user.get("emails");
-			String password =  (String) user.get("password");
-			
-
-			for (int j = 0;j < emails.size()&&emails.get(j)!=null;j++)
+			DoublyLinkedList emails = (DoublyLinkedList) user.emails;
+			for (int j = 0;j < emails.size();j++)
 				System.out.println("Email : " + emails.get(j));
 			
+			String password =  user.password;
 			System.out.println("pass = " + password);
 		}
 		System.out.println("........................................");
 	}
 	
+
 	/**
 	 * 
-	 * @param path of the index file required to clear
-	 * sets the index file to an empty JSONArray
+	 * @param path
+	 * @return the object that is saved in that path (please include ".txt")
 	 */
-	public static void clearJSONFile (String path) {
-		saveToFile(path, "[]");
+	public static Object loadObject (String path) {
+		//TODO handle if file doesn't exist
+
+		Object obj;
+		try {
+			FileInputStream fi = new FileInputStream(new File(path));
+			ObjectInputStream oi = new ObjectInputStream(fi);
+	
+			obj = oi.readObject();
+			
+			oi.close();
+			fi.close();
+			
+			return obj;
+		}catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println(path + "is empty");
+		}
+		return null;
 	}
 	
 	/** 
 	 * 
 	 * @param path of a file
-	 * @param data String to be saved in the file
+	 * @param data Object to be saved in the file
 	 * 
-	 * sets the text in the file to data.
-	 * (Note this function clears the file first. i.e doesn't add to the existing text) 
+	 * (Note this function clears the original first. i.e doesn't add to the existing text) 
 	 */
-	public static void saveToFile(String path, String data) {
+	public static void saveObject(String path, Object data) {
+		
+		//TODO handle if file doesn't exist
 		try {
-			FileWriter file = new FileWriter(path);
-			file.write(data);
-			file.close();
+			FileOutputStream f = new FileOutputStream(new File(path), false);
+			ObjectOutputStream o = new ObjectOutputStream(f);
+			o.writeObject(data);
+			o.close();
+			f.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

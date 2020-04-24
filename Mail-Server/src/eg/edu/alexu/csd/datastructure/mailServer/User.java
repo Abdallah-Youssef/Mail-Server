@@ -3,19 +3,20 @@ package eg.edu.alexu.csd.datastructure.mailServer;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Scanner;
 
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
 
-public class User implements IContact 
+public class User implements IContact, Serializable
 {
-	int id;
+	public int id;
 	String firstName;
 	String lastName;
 	 
 	
 	DoublyLinkedList emails;
-	String password;
+	public String password;
 	
 	public User(String firstName, String lastName, String email, String password) 
 	{
