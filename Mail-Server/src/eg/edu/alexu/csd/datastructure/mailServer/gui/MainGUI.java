@@ -22,7 +22,7 @@ public class MainGUI {
 		FolderManager.clearIndex("Users/usersIndex.json");
 		SwingUtilities.invokeLater(new Runnable () {
 			public void run() {
-				new MainPageGUI();
+				new EMailHomePageGUI();
 			}
 		});
 	}
