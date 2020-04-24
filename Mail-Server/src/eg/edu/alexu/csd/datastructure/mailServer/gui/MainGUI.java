@@ -1,8 +1,6 @@
 package eg.edu.alexu.csd.datastructure.mailServer.gui;
-import javax.swing.SwingUtilities;
 
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
-import eg.edu.alexu.csd.datastructure.mailServer.FolderManager;
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 
@@ -25,15 +23,9 @@ public class MainGUI {
 		FolderManagerBIN.saveUsersLinkedList(new DoublyLinkedList());
 		User test = new User("haha", "popo", "koskos@zobzob.com", "passssap");
 		
-		//DoublyLinkedList list = (DoublyLinkedList) FolderManagerBIN.ReadObjectFromFile("Users/usersIndex.json");
 		FolderManagerBIN.addUser(test);
 		EmailViewGUI.Run("koskos@zobzob.com", new DoublyLinkedList());
 		
-		/*SwingUtilities.invokeLater(new Runnable () {
-			public void run() {
-				new EMailHomePageGUI();
-			}
-		});*/
 	}
 }
  

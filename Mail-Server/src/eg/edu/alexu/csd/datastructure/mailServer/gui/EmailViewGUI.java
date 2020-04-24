@@ -1,5 +1,6 @@
 package eg.edu.alexu.csd.datastructure.mailServer.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -22,6 +23,7 @@ public class EmailViewGUI extends JFrame {
 	JTextField addReceiverField;
 	JTextArea receiversTextArea;
 	ReceiversPanel receiversPanel;
+	
 	
 
 	JScrollPane scroll;
@@ -50,11 +52,14 @@ public class EmailViewGUI extends JFrame {
 		receiversTextArea.setPreferredSize(new Dimension(200,200));
 		receiversTextArea.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 		receiversPanel = new ReceiversPanel();
+		scroll = new JScrollPane(receiversPanel);
+		scroll.setPreferredSize(new Dimension(0,200));
 		
-		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
-		add(optionsPanel);
-		add(textArea);
-		add(receiversPanel);
+		//setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+		setLayout(new BorderLayout());
+		add(optionsPanel, BorderLayout.NORTH);
+		add(textArea, BorderLayout.CENTER);
+		add(scroll, BorderLayout.SOUTH);
 		
 		
 		
@@ -65,6 +70,7 @@ public class EmailViewGUI extends JFrame {
 	
 	private class OptionsPanel extends JPanel{
 		public OptionsPanel(){
+			setPreferredSize(new Dimension(100,100));
 			setLayout(new GridBagLayout());
 			GridBagConstraints gc = new GridBagConstraints();
 			gc.fill = GridBagConstraints.NONE;
@@ -75,7 +81,7 @@ public class EmailViewGUI extends JFrame {
 			addReceiverBtn = new JButton("Add receiver");
 			sendBtn = new JButton("Send");
 			receiversTextArea = new JTextArea();
-			addReceiverField = new JTextField(50);
+			addReceiverField = new JTextField("koskos@zobzob.com");
 			addReceiverField.setMinimumSize(new Dimension(200,25));
 			
 			//FirstRow
@@ -114,8 +120,11 @@ public class EmailViewGUI extends JFrame {
 					 */
 					String receiverEmail = addReceiverField.getText();
 					if (FolderManagerBIN.getUser(receiverEmail) != null) {
+						receivers.add(receiverEmail);
 						receiversPanel.add(new Receiver(receiverEmail));
 						revalidate();
+						
+						receivers.print();
 					}
 					
 				}
@@ -123,7 +132,13 @@ public class EmailViewGUI extends JFrame {
 			
 			sendBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					//TODO create Email object
+					//Add the email to the receivers' folders
+					//Use IApp function
+					//Available info: 
+					// receivers (DoublyLinkedList of Strings)
+					// senderEmail
+					// textArea.getText()
 				}
 			});
 			
@@ -143,15 +158,31 @@ public class EmailViewGUI extends JFrame {
 			
 			delete.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					setVisible(false);
 					receiversPanel.remove(me);
-					revalidate();
+					receiversPanel.revalidate();
+					
+					for(int i = 0;i < receivers.size();i++)
+						if (label.getText().equals((String)receivers.get(i))) {
+							receivers.remove(i);
+							break;
+						}
+					
+					receivers.print();
 				}
 			});
 		}
 	}
 	
 	public class ReceiversPanel extends JPanel{
-		
+		public ReceiversPanel() {
+			
+			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			
+			JLabel receiversLabel = new JLabel(":Receivers:");
+			receiversLabel.setAlignmentX(CENTER_ALIGNMENT);
+			add(receiversLabel);
+		}
 	}
 	
 	
