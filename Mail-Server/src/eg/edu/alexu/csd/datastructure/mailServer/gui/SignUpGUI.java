@@ -55,14 +55,6 @@ public class SignUpGUI extends JFrame {
 		
 		signUpBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*
-				for each possible error => errorString += error + "\n"
-				
-				after all checks:
-				if success => errorString = "";
-				
-				errorLabel.setText(errorString);
-				*/
 				String firstNameData = firstNameField.getText().trim();
 				String lastNameData = lastNameField.getText().trim();
 				String emailData = emailField.getText().trim();
@@ -72,12 +64,12 @@ public class SignUpGUI extends JFrame {
 				if(!emailData.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"))
 					errorMsg += "Invalid Email form\n";
 				
-				if (FolderManager.getUser(emailData)!=null)
+				if (FolderManager.getUser(emailData) != null)
 					errorMsg += "Email already Exists\n";
 				
 				
 				if(passwordData.length() < 8){
-					errorMsg += "weak password (length must be more than 7 characters)";
+					errorMsg += "weak password (length must be more than 7 characters)\n";
 				}
 				
 				
