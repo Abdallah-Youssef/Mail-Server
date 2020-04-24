@@ -9,9 +9,8 @@ public class MainGUI {
 		new FolderManager();
 		FolderManager.clearJSONFile("Users/usersIndex.json");
 		
-		FolderManager.printUsers();
 		
-		LoginGUI.run();
+		EMailHomePageGUI.run();
 	}
 }
  
