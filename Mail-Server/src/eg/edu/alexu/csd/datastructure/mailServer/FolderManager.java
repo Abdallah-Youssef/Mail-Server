@@ -71,7 +71,7 @@ public class FolderManager {
 		
 		DoublyLinkedList users = getUsers();
 		users.add(contact);
-		saveObject("userIndex.txt", users);
+		saveObject("Users/userIndex.txt", users);
 		return true;
 	}
 	
@@ -98,7 +98,7 @@ public class FolderManager {
 				break;
 			}
 		}
-		saveObject("./userIndex", users);
+		saveObject("Users/userIndex.txt", users);
 		return true;
 	}
 	
@@ -110,7 +110,7 @@ public class FolderManager {
 	 * NOTE: returns an instance not a reference. i.e if you change the returned users nothing is saved in the file
 	 */
 	public static DoublyLinkedList getUsers() {
-		DoublyLinkedList usersIndex = (DoublyLinkedList) loadObject("userIndex.txt");
+		DoublyLinkedList usersIndex = (DoublyLinkedList) loadObject("Users/userIndex.txt");
 		if (usersIndex == null)
 			return new DoublyLinkedList();
 		return usersIndex;
