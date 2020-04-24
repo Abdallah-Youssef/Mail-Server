@@ -90,7 +90,7 @@ public class FolderManager {
 				break;
 			}
 		}
-		saveObject("./usersIndex", users);
+		saveObject("./userIndex", users);
 		return true;
 	}
 	
