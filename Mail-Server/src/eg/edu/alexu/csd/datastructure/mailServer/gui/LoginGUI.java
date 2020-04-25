@@ -126,7 +126,7 @@ public class LoginGUI extends JFrame{
 		gc.gridy = y;
 	}
 	
-	public static void Run(String senderEmail, DoublyLinkedList receivers) {
+	public static void Run() {
 		SwingUtilities.invokeLater(new Runnable () {
 			public void run() {
 				new LoginGUI();
