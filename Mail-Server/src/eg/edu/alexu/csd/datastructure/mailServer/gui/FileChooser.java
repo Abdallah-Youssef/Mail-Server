@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -69,7 +68,7 @@ public class FileChooser extends JPanel implements ActionListener {
 private static void createAndShowGUI(PathListener listener) {
     //Create and set up the window.
     JFrame frame = new JFrame("FileChooserDemo");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
     //Add content to the window.
     frame.add(new FileChooser(listener));

@@ -1,7 +1,6 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+
 
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
 
