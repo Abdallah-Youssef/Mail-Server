@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.Border;
 
+import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManager;
 
 public class LoginGUI extends JFrame{
@@ -123,5 +124,13 @@ public class LoginGUI extends JFrame{
 	public void setGridCell(int x, int y) {
 		gc.gridx = x;
 		gc.gridy = y;
+	}
+	
+	public static void Run(String senderEmail, DoublyLinkedList receivers) {
+		SwingUtilities.invokeLater(new Runnable () {
+			public void run() {
+				new LoginGUI();
+			}
+		});
 	}
 }
