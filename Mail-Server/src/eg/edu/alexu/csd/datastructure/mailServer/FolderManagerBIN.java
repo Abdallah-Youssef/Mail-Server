@@ -75,7 +75,6 @@ public class FolderManagerBIN {
 		{
 			try {
 				new File(path).createNewFile();
-				s = new Object();
 			} catch (IOException e1) {
 				System.out.println(e1.toString());
 			}
@@ -123,7 +122,7 @@ public class FolderManagerBIN {
 	
 	
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		FolderManagerBIN f = new FolderManagerBIN();
 		f.initProgramDirectories();
 		DoublyLinkedList users = getUsers();
@@ -131,5 +130,5 @@ public class FolderManagerBIN {
 		saveUsersLinkedList(users);
 		
 		System.out.println(((User)users.get(0)).emails[0]);
-	}
+	}*/
 }

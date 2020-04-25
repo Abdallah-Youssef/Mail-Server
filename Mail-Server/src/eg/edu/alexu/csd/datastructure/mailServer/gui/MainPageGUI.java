@@ -122,6 +122,7 @@ public class MainPageGUI extends JFrame{
 				String password;
 				email = emailField.getText();
 				password = new String(passwordField.getPassword());
+				System.out.println("pass sign in " + password);
 				
 				//TODO CHECK EMAIL FORMAT
 				if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
@@ -173,5 +174,5 @@ public class MainPageGUI extends JFrame{
 			}
 		});
 	}
-
+//[C@16179978
 }
