@@ -7,18 +7,8 @@ public class Folder implements IFolder
 {
 	String type;
 	
-	public Folder(int f) {
-		switch (f) {
-		case 0: 
-			type = "inbox";
-			break;
-		case 1:
-			type = "sent";
-			break;
-		case 2:
-			type = "drafts";
-			break;
-		}
+	public Folder(String type) {
+		this.type = type;
 	}
 	
 	public static String[] listFolders(int userID)
@@ -30,6 +20,6 @@ public class Folder implements IFolder
 			  public boolean accept(File current, String name) {
 			    return new File(current, name).isDirectory();
 			  }
-			});;
+			});
 	}
 }

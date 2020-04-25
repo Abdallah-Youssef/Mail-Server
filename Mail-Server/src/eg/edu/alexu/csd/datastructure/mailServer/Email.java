@@ -147,9 +147,9 @@ public class Email implements IMail, Serializable
 	
 	public static void main(String[] args) 
 	{
-		DoubleLinkedList e = readUserEmails(1, new Folder(0));
-		Email email = new Email("subject", "body", 1, "a@b.c", 2, "x@y.z", 0);
-		email.saveEmail(e, 1, new Folder(0));
+		DoubleLinkedList e = readUserEmails(1, new Folder("inbox"));
+		Email email = new Email("subject", "body", 1, "a@b.c", 2, "x@y.z", 0, 0);
+		email.saveEmail(e, 1, new Folder("inbox"));
 	}
 	
 }

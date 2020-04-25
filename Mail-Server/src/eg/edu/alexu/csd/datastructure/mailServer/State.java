@@ -10,17 +10,16 @@ public class State {
 	String path;
 
 	/*
-	 * Pair of the name and (list of emails => null if not loaded)
+	 * Pair of the name and (index of folder => null if not loaded)
 	 */
 	DoublyLinkedList folderStatus;
 	public State(User user) {
 		this.user = user;
 		path = "./Users/" + user.id + "/";
 		
-		folderStatus.add(new Pair("inbox", null));
-		folderStatus.add(new Pair("sent", null));
-		folderStatus.add(new Pair("drafts", null));
-		folderStatus.add(new Pair("trash", null));
+		String[] folderNames = Folder.listFolders(user.id);
+		for (int i = 0;i < folderNames.length;i++)
+			loadFolder(folderNames[i], i);
 	}
 	
 	/**
@@ -34,8 +33,6 @@ public class State {
 		for (int i = 0;i < folderStatus.size();i++) {
 			if ((((Pair)folderStatus.get(i)).getFirst()).equals(((Folder)folder).type)) {
 				if ((((Pair)folderStatus.get(i)).getSecond()) == null) {
-					//return loadFolder(folder);
-				}else {
 					return (DoublyLinkedList) ((Pair)folderStatus.get(i)).getSecond();
 				}
 			}
@@ -43,11 +40,9 @@ public class State {
 		return emails;
 	}
 	
+
 	
-	/*public DoublyLinkedList loadFolder(IFolder folder) {
-		FileReader reader = new FileReader(path + "body");
-		BufferedReader bufferedReader = new BufferedReader(reader);
-		
-		
-	}*/
+	private void loadFolder(String folderName, int folderStatusIndex) {
+		folderStatus.set(folderStatusIndex, Email.readUserEmails(user.id, new Folder(folderName)));
+	}
 }

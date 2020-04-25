@@ -52,8 +52,7 @@ public class Sort implements ISort{
 	}
 
 
-	@Override
-	public int compare(JSONObject o1, JSONObject o2) {
+	public int compare(Object o1, Object o2) {
 		// TODO Auto-generated method stub
 		return 0;
 	} 
