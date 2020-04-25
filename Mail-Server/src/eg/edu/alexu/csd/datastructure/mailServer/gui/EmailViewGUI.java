@@ -18,6 +18,7 @@ import eg.edu.alexu.csd.datastructure.mailServer.User;
 
 public class EmailViewGUI extends JFrame {
 	JLabel senderEmailLabel;
+	JLabel receiverError;
 	JButton addReceiverBtn;
 	JButton addAttachmentBtn;
 	JButton sendBtn;
@@ -80,7 +81,8 @@ public class EmailViewGUI extends JFrame {
 			gc.fill = GridBagConstraints.NONE;
 
 			
-			
+			receiverError = new JLabel("");
+			receiverError.setForeground(Color.RED);
 			senderEmailLabel = new JLabel(senderEmail);
 			addReceiverBtn = new JButton("Add receiver");
 			addAttachmentBtn = new JButton("Browse Attachment");
@@ -114,6 +116,10 @@ public class EmailViewGUI extends JFrame {
 			gc.anchor = GridBagConstraints.CENTER;
 			add(addReceiverBtn, gc);
 			
+			setGC(gc,3,1,1,1);
+			gc.anchor = GridBagConstraints.CENTER;
+			add(receiverError, gc);
+			
 			//Third Row
 			setGC(gc,0,2,1,1);
 			gc.anchor = GridBagConstraints.LINE_END;
@@ -142,6 +148,11 @@ public class EmailViewGUI extends JFrame {
 					String receiverEmail = addReceiverField.getText();
 					if (FolderManagerBIN.getUser(receiverEmail) != null) {
 						receiversPanel.Add(receiverEmail);
+						receiverError.setText("");
+
+						//TODO Get emails from state
+					}else {
+						receiverError.setText("Email doesn't exist");
 					}
 					
 				}

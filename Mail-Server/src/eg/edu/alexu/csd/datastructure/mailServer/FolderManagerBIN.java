@@ -27,6 +27,7 @@ public class FolderManagerBIN {
 	
 	public static User getUser(String email)
 	{
+		//TODO Load users one time only
 		DoublyLinkedList users = getUsers();
 		for(int i = 0; i < users.size();i++)
 		{
