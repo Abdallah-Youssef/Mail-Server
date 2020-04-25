@@ -206,5 +206,5 @@ public class EMailHomePageGUI extends JFrame {
 				new EMailHomePageGUI();
 			}
 		});
-}
+	}
 }

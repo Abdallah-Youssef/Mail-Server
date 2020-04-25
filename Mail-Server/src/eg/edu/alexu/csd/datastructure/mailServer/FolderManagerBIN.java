@@ -125,7 +125,7 @@ public class FolderManagerBIN {
 	
 	
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		FolderManagerBIN f = new FolderManagerBIN();
 		f.initProgramDirectories();
 		DoublyLinkedList users = getUsers();
@@ -133,5 +133,5 @@ public class FolderManagerBIN {
 		saveUsersLinkedList(users);
 		
 		System.out.println(((User)users.get(0)).emails[0]);
-	}
+	}*/
 }
