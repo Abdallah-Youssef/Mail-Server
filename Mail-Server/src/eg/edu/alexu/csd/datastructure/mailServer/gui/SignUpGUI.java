@@ -15,7 +15,6 @@ import javax.swing.border.Border;
 
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
-import oldFiles.FolderManager;
 public class SignUpGUI extends JFrame {
 	GridBagConstraints gc;
 	JLabel firstName, lastName;
@@ -141,7 +140,7 @@ public class SignUpGUI extends JFrame {
 				{
 					User newUser = new User(firstNameData, lastNameData, emailData, passwordData);
 					FolderManagerBIN.addUser(newUser);
-					FolderManager.printUsers();
+					FolderManagerBIN.printUsers();
 				}
 			}
 		});

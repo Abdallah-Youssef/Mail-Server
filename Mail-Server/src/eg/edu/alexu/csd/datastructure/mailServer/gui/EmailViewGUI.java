@@ -51,9 +51,7 @@ public class EmailViewGUI extends JFrame {
 		receiversTextArea = new JTextArea();
 		receiversTextArea.setPreferredSize(new Dimension(200,200));
 		receiversTextArea.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
-		receiversPanel = new ReceiversPanel();
-		scroll = new JScrollPane(receiversPanel);
-		scroll.setPreferredSize(new Dimension(0,200));
+		
 		
 		//setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		setLayout(new BorderLayout());
@@ -174,10 +172,13 @@ public class EmailViewGUI extends JFrame {
 		}
 	}
 	
-	public class ReceiversPanel extends JPanel{
+	public class ReceiversPanel extends JScrollPane{
 		public ReceiversPanel() {
+			super(receiversPanel);
 			
-			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			receiversPanel = new ReceiversPanel();
+			setPreferredSize(new Dimension(0,200));
+			receiversPanel.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			
 			JLabel receiversLabel = new JLabel(":Receivers:");
 			receiversLabel.setAlignmentX(CENTER_ALIGNMENT);

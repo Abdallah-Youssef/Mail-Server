@@ -1,14 +1,19 @@
 package eg.edu.alexu.csd.datastructure.mailServer.gui;
 
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
-import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
-import oldFiles.FolderManager;
+import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
 
 public class LoginGUI extends JFrame{
 	
@@ -116,7 +121,7 @@ public class LoginGUI extends JFrame{
 				else 
 					passwordErrorMessage.setText("");
 				
-				FolderManager.printUsers();
+				FolderManagerBIN.printUsers();
 			}});
 	}
 	

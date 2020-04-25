@@ -133,7 +133,7 @@ public class MainPageGUI extends JFrame{
 					return;
 				}
 				else {
-					user=FolderManagerBIN.getUser(email);
+					user = FolderManagerBIN.getUser(email);
 				}
 				if (password.contentEquals("")) {
 					passwordErrorMessage.setText("Please enter a password");
