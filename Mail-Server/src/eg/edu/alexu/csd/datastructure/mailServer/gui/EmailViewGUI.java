@@ -19,6 +19,7 @@ import eg.edu.alexu.csd.datastructure.mailServer.User;
 public class EmailViewGUI extends JFrame {
 	JLabel senderEmailLabel;
 	JLabel receiverError;
+	JLabel attachmentError;
 	JButton addReceiverBtn;
 	JButton addAttachmentBtn;
 	JButton sendBtn;
@@ -83,6 +84,9 @@ public class EmailViewGUI extends JFrame {
 			
 			receiverError = new JLabel("");
 			receiverError.setForeground(Color.RED);
+			attachmentError = new JLabel("");
+			attachmentError.setForeground(Color.RED);
+			
 			senderEmailLabel = new JLabel(senderEmail);
 			addReceiverBtn = new JButton("Add receiver");
 			addAttachmentBtn = new JButton("Browse Attachment");
@@ -133,6 +137,10 @@ public class EmailViewGUI extends JFrame {
 			gc.anchor = GridBagConstraints.CENTER;
 			add(addAttachmentBtn, gc);
 			
+			setGC(gc,3,2,1,1);
+			gc.anchor = GridBagConstraints.CENTER;
+			add(attachmentError, gc);
+			
 			//FourthRow
 			setGC(gc,0,3,3,1);
 			gc.anchor = GridBagConstraints.CENTER;
@@ -142,14 +150,14 @@ public class EmailViewGUI extends JFrame {
 			
 			addReceiverBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
 					/*
 					 * Maybe open a pop up that returns an email?
 					 */
 					String receiverEmail = addReceiverField.getText();
 					if (FolderManagerBIN.getUser(receiverEmail) != null) {
-						receiversPanel.Add(receiverEmail);
-						receiverError.setText("");
-
+						if (receiversPanel.Add(receiverEmail))
+							receiverError.setText("");
 						//TODO Get emails from state
 					}else {
 						receiverError.setText("Email doesn't exist");
@@ -163,9 +171,14 @@ public class EmailViewGUI extends JFrame {
 					/*
 					 * Maybe open a pop up that returns an email?
 					 */
-					String path = addAttachmentField.getText();
+					FileChooser.Run(new PathListener() {
+						public void pathChosen(String path) {
+							attachmentsPanel.Add(path);
+						}
+					});
+					/*String path = addAttachmentField.getText();
 					//TODO check path
-					attachmentsPanel.Add(path);
+					attachmentsPanel.Add(path);*/
 					
 				}
 			});
@@ -180,6 +193,7 @@ public class EmailViewGUI extends JFrame {
 					// receivers (DoublyLinkedList of Strings)
 					// senderEmail
 					// textArea.getText()
+					
 				}
 			});
 			
@@ -201,6 +215,7 @@ public class EmailViewGUI extends JFrame {
 			
 			delete.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					parent.errorLabel.setText("");
 					parent.Delete(me);
 				}
 			});
@@ -210,15 +225,13 @@ public class EmailViewGUI extends JFrame {
 
 	public class ElementsBox extends JPanel{
 		DoublyLinkedList elements;
-		JLabel emptyLabel;
-		/**
-		 * 
-		 * @param elements, the list of elements it will manage
-		 * 
-		 */
-		public ElementsBox(DoublyLinkedList elements, String Label) {
-			setMinimumSize(new Dimension(200,200));
+		JLabel errorLabel;
+		
+		public ElementsBox(DoublyLinkedList elements, String Label, JLabel errorLabel) {
 			this.elements = elements;
+			this.errorLabel = errorLabel;
+			
+			setMinimumSize(new Dimension(200,200));
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			setBorder(BorderFactory.createLineBorder(Color.black));
 			
@@ -227,23 +240,29 @@ public class EmailViewGUI extends JFrame {
 			add(label);
 		}
 		
-		public void Add(String string) {
+		public boolean Add(String string) {
+			//Check if it's not already exisiting in the list
+			for (int i = 0;i < elements.size();i++) {
+				if ( ((String)elements.get(i)) .equals(string)){
+					errorLabel.setText("Element already included");
+					return false;
+				}
+			}
+			
 			elements.add(string);
+			errorLabel.setText("");
 			add(new Element(string, this));
 			revalidate();
-			
-			
 			elements.print();
+			return true;
 		}
 		
 		public void Delete(Element element) {
 			//Remove component
-			System.out.println("nooooooooooooo");
 			element.setVisible(false);
 			remove(element);
 			revalidate();
 			
-			//REmove from list
 			for(int i = 0;i < elements.size();i++)
 				if ((element.label.getText()).equals((String)elements.get(i))) {
 					elements.remove(i);
@@ -262,24 +281,9 @@ public class EmailViewGUI extends JFrame {
 		public BottomPanel(){
 			setPreferredSize(new Dimension(200,200));
 			setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-			
-			
-			
-			
-			/*JLabel attachmentsLabel = new JLabel(":Attachments:");
-			attachmentsLabel.setAlignmentX(CENTER_ALIGNMENT);
-			
-			JLabel receiversLabel = new JLabel(":Receivers:");
-			receiversLabel.setAlignmentX(CENTER_ALIGNMENT);*/
-			
 
-			
-			
-			//Bottom
-			receiversPanel = new ElementsBox(receivers, "Receivers");
-			attachmentsPanel = new ElementsBox(attachments, "Attachments");
-			
-
+			receiversPanel = new ElementsBox(receivers, "Receivers", receiverError);
+			attachmentsPanel = new ElementsBox(attachments, "Attachments", attachmentError);
 			
 			JScrollPane scroll1 = new JScrollPane(receiversPanel);
 			JScrollPane scroll2 = new JScrollPane(attachmentsPanel);
@@ -289,12 +293,14 @@ public class EmailViewGUI extends JFrame {
 		}
 	}
 	
+	
 	/**
 	 * 
 	 * @param user
 	 * @param receivers  
 	 * If no receivers are ready, pass a new DoublyLinkedList()
 	 */
+	
 	public static void Run(String senderEmail, DoublyLinkedList receivers) {
 		SwingUtilities.invokeLater(new Runnable () {
 			public void run() {
@@ -309,5 +315,7 @@ public class EmailViewGUI extends JFrame {
 		gc.gridwidth = width;
 		gc.gridheight = height;
 	}
+	
+
 	
 }

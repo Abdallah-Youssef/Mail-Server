@@ -9,7 +9,6 @@ public class MainGUI {
 		
 		
 		User test = new User("haha", "popo", "koskos@zobzob.com", "passssap");
-		
 		FolderManagerBIN.addUser(test);
 		EmailViewGUI.Run("koskos@zobzob.com", new DoublyLinkedList());
 	}

@@ -18,12 +18,15 @@ import javax.swing.SwingUtilities;
 
 public class FileChooser extends JPanel implements ActionListener {
 	static private final String newline = "\n";
-    public String choosedbath;
+	PathListener listener;
+    public String chosenPath;
 	JButton openButton;
     JTextArea log;
     JFileChooser fc;
-    public FileChooser() {
+    public FileChooser(PathListener listener) {
     	super(new BorderLayout());
+    	this.listener = listener;
+    	
     	//create log
     	log=new JTextArea(5,20);
     	log.setMargin(new Insets(5,5,5,5));
@@ -50,7 +53,9 @@ public class FileChooser extends JPanel implements ActionListener {
 			if(returnVal==JFileChooser.APPROVE_OPTION)
 			{
 				File file = fc.getSelectedFile();
-				choosedbath=file.getAbsolutePath();
+				chosenPath=file.getAbsolutePath();
+				listener.pathChosen(chosenPath);
+				log.append(chosenPath);
 				/*
 				 * [think how to return it 
 				 */
@@ -61,28 +66,36 @@ public class FileChooser extends JPanel implements ActionListener {
 		}
 	}
     
-private static void createAndShowGUI() {
+private static void createAndShowGUI(PathListener listener) {
     //Create and set up the window.
     JFrame frame = new JFrame("FileChooserDemo");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     //Add content to the window.
-    frame.add(new FileChooser());
+    frame.add(new FileChooser(listener));
 
     //Display the window.
     frame.pack();
     frame.setVisible(true);
 }
 
-public static void main(String[] args) {
-    //Schedule a job for the event dispatch thread:
-    //creating and showing this application's GUI.
-    SwingUtilities.invokeLater(new Runnable() {
+public static void Run(PathListener listener) {
+	SwingUtilities.invokeLater(new Runnable() {
         public void run() {
-            //Turn off metal's use of bold fonts
-           // UIManager.put("swing.boldMetal", Boolean.FALSE); 
-            createAndShowGUI();
+            createAndShowGUI(listener);
         }
     });
 }
+
+/*public static void main(String[] args) {
+    //Schedule a job for the event dispatch thread:
+    //creating and showing this application's GUI.
+    /*SwingUtilities.invokeLater(new Runnable() {
+        public void run() {
+            //Turn off metal's use of bold fonts
+           // UIManager.put("swing.boldMetal", Boolean.FALSE); 
+            createAndShowGUI(new PathListener());
+        }
+    });
+}*/
 }
