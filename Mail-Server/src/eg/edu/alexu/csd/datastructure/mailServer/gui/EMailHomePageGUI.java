@@ -20,11 +20,19 @@ import javax.swing.border.Border;
 public class EMailHomePageGUI extends JFrame {
 		//declerations
 		GridBagConstraints GC;
-		String SortSelected;
+		String SortSelected="";
+		 String Filtered;
 		String Searched;
+		String SearchSelected="";
+		String FilterSelected="";
 		private JMenuItem m1,m2,m3,m4;
+		private JMenuItem F1,F2;
+		private JMenuItem S1,S2,S3,S4;
 		private JMenuBar MenuB;
 		private JMenu  SortMenu;
+		private JMenu  SearchMenu;
+		private JMenu  FilterMenu;
+		private JButton FilterButton;
 		private JButton []fileButtons;
 		private JButton Contacts;
 		private JButton Compose;
@@ -32,6 +40,7 @@ public class EMailHomePageGUI extends JFrame {
 		private JButton SearchButton;
 		private JLabel SortLabel;
 		public JTextField SearchTextField;
+		public JTextField FilterTextField;
 		private GridBagLayout gridBagLayout = new GridBagLayout();
 		private String []FileNames;
 		
@@ -51,23 +60,29 @@ public class EMailHomePageGUI extends JFrame {
 			SearchTextField=new JTextField(25);
 			EMailModification=new JButton("EMailModification");
 			SortLabel=new JLabel("Sort By : ");
-			
+			FilterButton=new JButton("Filter");
+			FilterTextField=new JTextField(15);
 			//BOXES COMPONENTS
 			Box FileBox=Box.createVerticalBox();
 			Box ButtonBox=Box.createVerticalBox();
-			Box SearchBox=Box.createHorizontalBox();
 			
 			//menu components
 			MenuB=new JMenuBar();
 			SortMenu=new JMenu("Default");
+			SearchMenu=new JMenu("Choose");
+			FilterMenu =new JMenu("Choose");
 			 m1 = new JMenuItem("Date");   
 			 m2 = new JMenuItem("Importance"); 
 		     m3 = new JMenuItem("Sender"); 
 		     m4 = new JMenuItem("Subject"); 
-		    
+		     S1 = new JMenuItem("Date");   
+			 S2 = new JMenuItem("Importance"); 
+		     S3 = new JMenuItem("Sender"); 
+		     S4 = new JMenuItem("Subject");
+		     F1 = new JMenuItem("Subject");   
+			 F2 = new JMenuItem("Sender"); 
 		     //BOXES Addition
-			SearchBox.add(SearchButton);
-			SearchBox.add(SearchTextField);
+			
 			ButtonBox.add(Contacts);
 			ButtonBox.add(EMailModification);
 			//END of Boxes
@@ -77,7 +92,18 @@ public class EMailHomePageGUI extends JFrame {
 		     SortMenu.add(m2);
 		     SortMenu.add(m3);
 		     SortMenu.add(m4);
-		     MenuB.add(SearchBox);
+		     SearchMenu.add(S1);
+		     SearchMenu.add(S2);
+		     SearchMenu.add(S3);
+		     SearchMenu.add(S4);
+		     FilterMenu.add(F1);
+		     FilterMenu.add(F2);
+		     MenuB.add(SearchButton);
+		     MenuB.add(SearchMenu);
+		     MenuB.add(SearchTextField);
+		     MenuB.add(FilterButton);
+		     MenuB.add(FilterMenu);
+		     MenuB.add(FilterTextField);
 		     MenuB.add(SortLabel);
 	         MenuB.add(SortMenu);
 			setJMenuBar(MenuB);
@@ -87,6 +113,12 @@ public class EMailHomePageGUI extends JFrame {
 			m2.addActionListener(new MenuActionListener());
 			m3.addActionListener(new MenuActionListener());
 			m4.addActionListener(new MenuActionListener());
+			S1.addActionListener(new SearchMenuActionListener());
+			S2.addActionListener(new SearchMenuActionListener());
+			S3.addActionListener(new SearchMenuActionListener());
+			S4.addActionListener(new SearchMenuActionListener());
+			F1.addActionListener(new FilterMenuActionListener());
+			F2.addActionListener(new FilterMenuActionListener());
 			//menu action listener classe handle th sorting
 			
 			for(int i=0;i<4;i++) {
@@ -168,6 +200,7 @@ public class EMailHomePageGUI extends JFrame {
 					 */
 				}
 			});
+			
 			//action for Compose
 			Compose.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -180,16 +213,51 @@ public class EMailHomePageGUI extends JFrame {
 			SearchButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					 Searched=SearchTextField.getText();
+					 String Type=SearchSelected;
+					 if(!Searched.trim().equals("")&&!Type.trim().equals("")) {
+						 
+					 }
 					/*
 					 * call the searched then display it 
 					 */
 				}
 			});
+			FilterButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					 Filtered=SearchTextField.getText();
+					 String Type=FilterSelected;
+					 if(!Searched.trim().equals("")&&!Type.trim().equals("")) {
+						 
+					 }
+					/*
+					 * call the searched then display it 
+					 */
+				}
+			});
+			
 		
 		}
 		class MenuActionListener implements ActionListener {
 			  public void actionPerformed(ActionEvent e) {
 			    SortSelected =e.getActionCommand();
+			   /*
+			    * sort fn and then display data 
+			    */
+
+			  }
+			}
+		class SearchMenuActionListener implements ActionListener {
+			  public void actionPerformed(ActionEvent e) {
+			    SearchSelected =e.getActionCommand();
+			   /*
+			    * sort fn and then display data 
+			    */
+
+			  }
+			}
+		class FilterMenuActionListener implements ActionListener {
+			  public void actionPerformed(ActionEvent e) {
+			    FilterSelected =e.getActionCommand();
 			   /*
 			    * sort fn and then display data 
 			    */
