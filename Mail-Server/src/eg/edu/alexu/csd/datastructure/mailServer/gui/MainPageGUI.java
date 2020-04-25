@@ -143,12 +143,15 @@ public class MainPageGUI extends JFrame{
 				else if(!(user.password).equals(password)) {
 					passwordErrorMessage.setText("Wrong password");
 				}
-				else 
+				else {
 					passwordErrorMessage.setText("");
 					/*
 					 * call the GUI for USer emails and his shit
 					 */
 				FolderManagerBIN.printUsers();
+				setVisible(false);
+				EMailHomePageGUI.run();
+			}
 			}
 			
 		});

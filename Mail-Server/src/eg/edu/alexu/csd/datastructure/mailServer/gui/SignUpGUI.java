@@ -142,6 +142,8 @@ public class SignUpGUI extends JFrame {
 					User newUser = new User(firstNameData, lastNameData, emailData, passwordData);
 					FolderManagerBIN.addUser(newUser);
 					FolderManagerBIN.printUsers();
+					setVisible(false);
+					EMailHomePageGUI.run();
 				}
 			}
 		});
