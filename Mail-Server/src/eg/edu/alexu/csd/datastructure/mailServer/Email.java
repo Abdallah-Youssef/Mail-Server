@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class Email implements IMail, Serializable
 {
 	int id;
+	int priority;
 	String subject;
 	String body;
 	LocalDateTime date;
@@ -21,7 +22,7 @@ public class Email implements IMail, Serializable
 	
 	
 	public Email(String subject, String body, int senderID, String senderEmail,
-			int receiverID, String receiverEmail, int numOfAttachements) 
+			int receiverID, String receiverEmail, int numOfAttachements, int priority) 
 	{
 		/*
 		int id;
@@ -61,8 +62,45 @@ public class Email implements IMail, Serializable
 		this.senderID = senderID;
 		this.senderEmail = senderEmail;
 		this.numOfAttachements = numOfAttachements;
+		this.priority = priority;
 	}
-
+	
+	
+	public static void DeleteTrash(int userID)
+	{		
+		String folders[] = Folder.listFolders(userID);
+		for(String folder: folders)
+		{
+			String path = "./Users/" + userID + "/" + folder + "/index.bin";
+			DoubleLinkedList emails = (DoubleLinkedList)FolderManagerBIN.ReadObjectFromFile(path);
+			for(int i = 0; i < emails.size();i++)
+			{
+				Email m = (Email)emails.get(i);
+				LocalDateTime now = LocalDateTime.now();
+				LocalDateTime emailDate = m.date;
+				if(now.compareTo(emailDate.plusDays(30)) >= 0)
+				{
+					String emailPath = "./Users/" + userID + "/" + folder + "/" + m.id;
+					File index = new File(emailPath);
+					String files[] = index.list();
+					for(String s: files)
+					{
+						File currentFile = new File(index.getPath(), s);
+						currentFile.delete();
+					}
+					index.delete();
+					emails.remove(i--);
+				}
+			}
+			FolderManagerBIN.WriteObjectToFile(emails, path);
+		}
+	}
+	
+	
+	/*
+	 * Send Logic: call this function with the sender id and "Sent" folder
+	 * Receive Logic: call this function with the Receiver id and "inbox" folder
+	 */
 	public void saveEmail(DoubleLinkedList emails, int userID, IFolder ifolder)
 	{
 		

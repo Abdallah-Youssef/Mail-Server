@@ -19,7 +19,7 @@ public class FolderManagerBIN {
 	    
 	}
 		
-	public void initProgramDirectories()
+	public static void initProgramDirectories()
 	{
 		new File("./Users").mkdirs();
 	}
@@ -94,8 +94,11 @@ public class FolderManagerBIN {
 	 * @return a DoublyLinkedList of all the users' JSONobjects
 	 */
 	public static DoublyLinkedList getUsers() 
-	{	
-		return (DoublyLinkedList)ReadObjectFromFile("./Users/usersIndex.json");
+	{
+		DoublyLinkedList d = (DoublyLinkedList)ReadObjectFromFile("./Users/usersIndex.json");
+		if(d == null)
+			return new DoublyLinkedList();
+		return d;
 	}
 	
 	public static void addUser(User newUser) {
