@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.datastructure.mailServer;
+package oldFiles;
 
 import java.io.File;
 import java.io.FileReader;
@@ -8,6 +8,8 @@ import java.io.IOException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import eg.edu.alexu.csd.datastructure.mailServer.User;
 
 
 

@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
-import eg.edu.alexu.csd.datastructure.mailServer.FolderManager;
+import oldFiles.FolderManager;
 
 public class LoginGUI extends JFrame{
 	

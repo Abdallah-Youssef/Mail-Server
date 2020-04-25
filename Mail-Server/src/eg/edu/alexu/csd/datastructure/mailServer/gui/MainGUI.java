@@ -8,11 +8,12 @@ public class MainGUI {
 	public static void main(String[] args) {
 		
 		
-		FolderManagerBIN.saveUsersLinkedList(new DoublyLinkedList());
+		/*FolderManagerBIN.saveUsersLinkedList(new DoublyLinkedList());
 		User test = new User("haha", "popo", "koskos@zobzob.com", "passssap");
 		
 		FolderManagerBIN.addUser(test);
-		EmailViewGUI.Run("koskos@zobzob.com", new DoublyLinkedList());
+		EmailViewGUI.Run("koskos@zobzob.com", new DoublyLinkedList());*/
+		MainPageGUI.Run();
 	}
 }
  

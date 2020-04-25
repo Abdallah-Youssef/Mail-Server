@@ -16,14 +16,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
-import eg.edu.alexu.csd.datastructure.mailServer.FolderManager;
+import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
+import eg.edu.alexu.csd.datastructure.mailServer.User;
 
 public class MainPageGUI extends JFrame{
 	//decleration
-	JSONObject user_;
+	User user;
 	JLabel emailErrorMessage, passwordErrorMessage;
 	GridBagConstraints GC;
 	JButton log_in_btn;
@@ -110,7 +108,6 @@ public class MainPageGUI extends JFrame{
 				
 			}
 		});
-		JSONArray users = FolderManager.getUsers();
 		log_in_btn.addActionListener(new ActionListener() {
 
 			@Override
@@ -131,18 +128,18 @@ public class MainPageGUI extends JFrame{
 					emailErrorMessage.setText("Please enter a valid email address");
 					return;
 				}
-				else if(FolderManager.userExists(users, email)==null) {
+				else if(FolderManagerBIN.getUser(email)==null) {
 					emailErrorMessage.setText("User doesn't exist");
 					return;
 				}
 				else {
-					user_=FolderManager.userExists(users, email);
+					user=FolderManagerBIN.getUser(email);
 				}
 				if (password.contentEquals("")) {
 					passwordErrorMessage.setText("Please enter a password");
 					return;
 				}
-				else if(!user_.get("password").equals(password)) {
+				else if(!(user.password).equals(password)) {
 					passwordErrorMessage.setText("Wrong password");
 				}
 				else 
@@ -150,7 +147,7 @@ public class MainPageGUI extends JFrame{
 					/*
 					 * call the GUI for USer emails and his shit
 					 */
-				FolderManager.printUsers();
+				FolderManagerBIN.printUsers();
 			}
 			
 		});
@@ -167,6 +164,14 @@ public class MainPageGUI extends JFrame{
 			add(SignUpMsg,BorderLayout.LINE_START);
 			add(sign_up_btn,BorderLayout.LINE_END);
 		}
+	}
+	
+	public static void Run() {
+		SwingUtilities.invokeLater(new Runnable () {
+			public void run() {
+				new MainPageGUI();
+			}
+		});
 	}
 
 }

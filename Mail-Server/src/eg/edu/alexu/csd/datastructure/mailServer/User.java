@@ -14,7 +14,7 @@ public class User implements IContact, Serializable
 	 
 	
 	String[] emails;
-	String password;
+	public String password;
 	
 	public static void createUserSubDirectory(int id)
 	{
