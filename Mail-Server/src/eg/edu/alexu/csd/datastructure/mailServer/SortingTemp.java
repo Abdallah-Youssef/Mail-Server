@@ -1,23 +1,18 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
-
-import java.util.Date;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
+import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
 import eg.edu.alexu.csd.datastructure.stack.Classes.Stack;
 
 
 public class SortingTemp {
 	
 	
-	public static void quickSort(JSONObject[] arr, ISort comp)
+	public static void quickSort(DoublyLinkedList arr, ISort comp)
 	{
-		_quickSort(arr, 0, arr.length, comp);
+		_quickSort(arr, 0, arr.size(), comp);
 	}
 	
-	public static void _quickSort(JSONObject[] arr, int l, int h, ISort comp) {
+	public static void _quickSort(DoublyLinkedList arr, int l, int h, ISort comp) {
 		
 		//Changed from StackDS because the jar we have imported it is called Stack
 		Stack stack = new Stack();
@@ -42,81 +37,124 @@ public class SortingTemp {
 	}
 	
 	
-	static int partition(JSONObject[] arr, int l, int h, ISort comp) 
+	static int partition(DoublyLinkedList arr, int l, int h, ISort c) 
 	{ 
-		JSONObject x = arr[h]; 
+		Object x = arr.get(h); 
+		
+		sortComparator comp = (sortComparator)c;
 	    int i = (l - 1); 
 	  
 	    for (int j = l; j <= h - 1; j++) { 
-	    	if (comp.compare(arr[j], x) <= 0) {
+	    	if (comp.mycompare(arr.get(j), x) <= 0) {
 	    		i++;
-	    		JSONObject temp = arr[i];
-	    		arr[i] = arr[j];
-	    		arr[j] = temp;
+	    		Object temp = arr.get(i);
+	    		arr.set(i, arr.get(j));
+	    		arr.set(j, temp);
 	    	}
 	    } 
 	    
-	    Object temp = arr[i+1];
-	    arr[i+1] = arr[h];
-	    arr[h] = (JSONObject) temp;
+	    Object temp = arr.get(i+1);
+	    arr.set(i+1, arr.get(h));
+	    arr.set(h, temp);
 	    return (i + 1); 
 	} 
 	
 	
 }
 
-class sortStrings implements ISort
+class sortComparator implements ISort
 {
-	String key;
+	int type;
 	
-	public sortStrings(String key) {
-		this.key = key;
+	public sortComparator(int type) {
+		this.type = type;
 	}
 	
-	public int compare(JSONObject a, JSONObject b)
+	public int mycompare(Object a, Object b)
 	{
-		return ((String)a.get(key)).compareTo((String)b.get(key));
+		switch(type)
+		{
+		case 0:
+			return ((User)a).firstName.compareTo(((User)b).firstName);
+		case 1:
+			return ((User)a).emails[0].compareTo(((User)b).emails[0]);
+		case 2:
+			return ((Email)a).subject.compareTo(((Email)b).subject);
+		case 3:
+			return ((Email)a).senderEmail.compareTo(((Email)b).senderEmail);
+		case 4:
+			return ((Email)a).receiverEmail.compareTo(((Email)b).receiverEmail);
+		case 5:
+			return ((Email)a).date.compareTo(((Email)b).date);
+		default:
+		{
+			if(((Email)a).priority < ((Email)b).priority)
+				return -1;
+			else if(((Email)a).priority == ((Email)a).priority)
+				return 0;
+			else
+				return 1;
+		}
+		}	
+	}
+}
+/*
+class sortUsersByName implements ISort
+{
+
+	public int compare(User o1, User o2) {
+		return o1.firstName.compareTo(o2.firstName);
 	}
 }
 
-class sortUserByEmail implements ISort
+class sortUsersByEmail implements ISort, Comparator<User>
 {
-	public int compare(JSONObject a, JSONObject b)
-	{
-		String emailA = (String)((JSONArray)a.get("emails")).get(0);
-		String emailB = (String)((JSONArray)a.get("emails")).get(0);
-		return emailA.compareTo(emailB);
+
+	public int compare(User o1, User o2) {
+		return o1.emails[0].compareTo(o2.emails[0]);
 	}
 }
 
-
-class sortUserByDate implements ISort
+class sortEmailsbySubject implements ISort, Comparator<Email>
 {
-	String key;
-	
-	public sortUserByDate(String key) {
-		this.key = key;
+	public int compare(Email o1, Email o2) {
+		return o1.subject.compareTo(o2.subject);
 	}
 	
-	public int compare(JSONObject a, JSONObject b)
-	{
-		Date dateA = (Date)(a.get(key));
-		Date dateB = (Date)(a.get(key));
-		return dateA.compareTo(dateB);
-	}
 }
 
-
-class sortNumbers implements ISort
+class sortEmailsbySender implements ISort, Comparator<Email>
 {
-	String key;
-	
-	public sortNumbers(String key) {
-		this.key = key;
-	}
 
-	public int compare(JSONObject a, JSONObject b)
-	{
-		return (int)a.get(key) - (int)b.get(key);
+	public int compare(Email o1, Email o2) {
+		return o1.senderEmail.compareTo(o2.senderEmail);
 	}
+	
 }
+
+class sortEmailsbyReceiver implements ISort, Comparator<Email>
+{
+
+	public int compare(Email o1, Email o2) {
+		return o1.receiverEmail.compareTo(o2.receiverEmail);
+	}
+	
+}
+
+class sortEmailsbyDate implements ISort, Comparator<Email>
+{
+
+	public int compare(Email o1, Email o2) {
+		return o1.date.compareTo(o2.date);
+	}
+	
+}
+
+class sortEmailsbyPriority implements ISort, Comparator<Email>
+{
+	public int compare(Email o1, Email o2) {
+		return o1.date.compareTo(o2.date);
+	}
+	
+}
+*/
