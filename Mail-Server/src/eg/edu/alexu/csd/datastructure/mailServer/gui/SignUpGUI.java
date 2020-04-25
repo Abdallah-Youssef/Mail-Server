@@ -4,8 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -31,7 +30,7 @@ public class SignUpGUI extends JFrame {
 	public SignUpGUI () {
 		super("Sign Up");
 		setSize(600, 300);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
 		
 		
@@ -150,15 +149,17 @@ public class SignUpGUI extends JFrame {
 			}
 		});
 		
-		addWindowListener(new WindowAdapter() {
+		/*addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-            	LoginGUI.Run();
-                setVisible(false);
+            	setVisible(false);
                 dispose();
+            	System.out.println("hehe");
+            	MainPageGUI.Run();
+                
                 
             }
-        });
+        });*/
 		
 		
 		 

@@ -129,15 +129,13 @@ public class EmailViewGUI extends JFrame {
 			gc.anchor = GridBagConstraints.LINE_END;
 			add(new JLabel("Attachments : "), gc);
 			
-			setGC(gc,1,2,1,1);
-			gc.anchor = GridBagConstraints.LINE_START;
-			add(addAttachmentField, gc);
+
 			
-			setGC(gc,2,2,1,1);
+			setGC(gc,1,2,1,1);
 			gc.anchor = GridBagConstraints.CENTER;
 			add(addAttachmentBtn, gc);
 			
-			setGC(gc,3,2,1,1);
+			setGC(gc,2,2,1,1);
 			gc.anchor = GridBagConstraints.CENTER;
 			add(attachmentError, gc);
 			

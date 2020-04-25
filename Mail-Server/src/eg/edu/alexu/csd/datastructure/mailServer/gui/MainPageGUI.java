@@ -99,7 +99,6 @@ public class MainPageGUI extends JFrame{
 		sign_up_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
 				SwingUtilities.invokeLater(new Runnable () {
 					public void run() {
 						new SignUpGUI();
@@ -177,5 +176,4 @@ public class MainPageGUI extends JFrame{
 			}
 		});
 	}
-//[C@16179978
 }
