@@ -16,20 +16,24 @@ public class User implements IContact, Serializable
 	String[] emails;
 	public String password;
 	
-	public static void createUserSubDirectory(int id)
+	public static void createUserSubDirectory(int id) throws IOException
 	{
 		
 		//String path = Paths.get("").toAbsolutePath().toString() + "\\Users\\" + id + "\\";
 		String path = "./Users/" + id + "/";
 		new File(path).mkdirs();
 		new File(path+"inbox/").mkdirs();
+		new File(path+"inbox/IboxIndex.txt").createNewFile();
 		new File(path+"sent/").mkdirs();
+		new File(path+"sent/SentIndex.txt").createNewFile();
 		new File(path+"trash/").mkdirs();
+		new File(path+"trash/TrashIndex.txt").createNewFile();
 		new File(path+"user defined folders/").mkdirs();
+		new File(path+"user defined folders/defindedIndex.txt").createNewFile();
 	}
 	
 	
-	public User(String firstName, String lastName, String email, String password) 
+	public User(String firstName, String lastName, String email, String password) throws IOException 
 	{
 		int id;
 		try

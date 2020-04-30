@@ -35,8 +35,6 @@ public class FolderManagerBIN {
 			for(int j = 0; j < 10;j++)
 			{
 				String userEmail = user.emails[j];
-				if(userEmail == null)
-					return null;
 				if(email.equals(userEmail))
 					return user;
 			}

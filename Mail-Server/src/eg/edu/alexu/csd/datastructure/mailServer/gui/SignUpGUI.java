@@ -4,7 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -140,11 +140,17 @@ public class SignUpGUI extends JFrame {
 				}
 				else
 				{
-					User newUser = new User(firstNameData, lastNameData, emailData, passwordData);
-					FolderManagerBIN.addUser(newUser);
-					FolderManagerBIN.printUsers();
-					setVisible(false);
-					EMailHomePageGUI.run();
+					User newUser;
+					try {
+						newUser = new User(firstNameData, lastNameData, emailData, passwordData);
+						FolderManagerBIN.addUser(newUser);
+						FolderManagerBIN.printUsers();
+						setVisible(false);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 				}
 			}
 		});

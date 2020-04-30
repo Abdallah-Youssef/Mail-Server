@@ -51,7 +51,8 @@ public class EmailViewGUI extends JFrame {
 		attachments = new DoublyLinkedList();
 		
 		setSize(600,600);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		//we will change the action here when he pree exit so we can save drafts
 		setVisible(true);
 		
 		
