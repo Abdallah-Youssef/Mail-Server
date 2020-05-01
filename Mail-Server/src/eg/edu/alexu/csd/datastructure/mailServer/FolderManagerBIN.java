@@ -101,6 +101,8 @@ public class FolderManagerBIN {
 	public static void addUser(User newUser) {
 		DoubleLinkedList users = getUsers();
 		
+		//compare every email in the new user with all the emails of the other users
+		
 		users.add(newUser);
 		saveUsersLinkedList(users);
 	}

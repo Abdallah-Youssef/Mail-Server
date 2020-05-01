@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
+import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 
 public class EMailHomePageGUI extends JFrame {
@@ -74,16 +75,16 @@ public class EMailHomePageGUI extends JFrame {
 			SortMenu=new JMenu("Default");
 			SearchMenu=new JMenu("Choose");
 			FilterMenu =new JMenu("Choose");
-			 m1 = new JMenuItem("Date");   
-			 m2 = new JMenuItem("Importance"); 
-		     m3 = new JMenuItem("Sender"); 
-		     m4 = new JMenuItem("Subject"); 
-		     S1 = new JMenuItem("Date");   
-			 S2 = new JMenuItem("Importance"); 
-		     S3 = new JMenuItem("Sender"); 
-		     S4 = new JMenuItem("Subject");
-		     F1 = new JMenuItem("Subject");   
-			 F2 = new JMenuItem("Sender"); 
+			m1 = new JMenuItem("Date");   
+			m2 = new JMenuItem("Importance"); 
+			m3 = new JMenuItem("Sender"); 
+			m4 = new JMenuItem("Subject"); 
+			S1 = new JMenuItem("Date");   
+			S2 = new JMenuItem("Importance"); 
+			S3 = new JMenuItem("Sender"); 
+			S4 = new JMenuItem("Subject");
+			F1 = new JMenuItem("Subject");   
+			F2 = new JMenuItem("Sender"); 
 		     //BOXES Addition
 			
 			ButtonBox.add(Contacts);
@@ -91,24 +92,24 @@ public class EMailHomePageGUI extends JFrame {
 			//END of Boxes
 			
 			//menu addition
-		     SortMenu.add(m1);
-		     SortMenu.add(m2);
-		     SortMenu.add(m3);
-		     SortMenu.add(m4);
-		     SearchMenu.add(S1);
-		     SearchMenu.add(S2);
-		     SearchMenu.add(S3);
-		     SearchMenu.add(S4);
-		     FilterMenu.add(F1);
-		     FilterMenu.add(F2);
-		     MenuB.add(SearchButton);
-		     MenuB.add(SearchMenu);
-		     MenuB.add(SearchTextField);
-		     MenuB.add(FilterButton);
-		     MenuB.add(FilterMenu);
-		     MenuB.add(FilterTextField);
-		     MenuB.add(SortLabel);
-	         MenuB.add(SortMenu);
+		    SortMenu.add(m1);
+		    SortMenu.add(m2);
+		    SortMenu.add(m3);
+		    SortMenu.add(m4);
+		    SearchMenu.add(S1);
+		    SearchMenu.add(S2);
+		    SearchMenu.add(S3);
+		    SearchMenu.add(S4);
+		    FilterMenu.add(F1);
+		    FilterMenu.add(F2);
+		    MenuB.add(SearchButton);
+		    MenuB.add(SearchMenu);
+		    MenuB.add(SearchTextField);
+		    MenuB.add(FilterButton);
+		    MenuB.add(FilterMenu);
+		    MenuB.add(FilterTextField);
+		    MenuB.add(SortLabel);
+		    MenuB.add(SortMenu);
 			setJMenuBar(MenuB);
 			
 			//adding action listeners for sort menu
@@ -193,7 +194,6 @@ public class EMailHomePageGUI extends JFrame {
 					/*
 					 * call the EMAILMODIFICATION panel to the mails area
 					 */
-					
 				}
 			});
 			//action for CONTACTS 
@@ -208,7 +208,7 @@ public class EMailHomePageGUI extends JFrame {
 			//action for Compose
 			Compose.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					DoublyLinkedList recevires=new DoublyLinkedList();
+					DoubleLinkedList recevires=new DoubleLinkedList();
 					EmailViewGUI.Run(Email, recevires);
 				}
 			});
@@ -260,8 +260,8 @@ public class EMailHomePageGUI extends JFrame {
 			  }
 			}
 		class FilterMenuActionListener implements ActionListener {
-			  public void actionPerformed(ActionEvent e) {
-			    FilterSelected =e.getActionCommand();
+			public void actionPerformed(ActionEvent e) {
+				FilterSelected =e.getActionCommand();
 			   /*
 			    * sort fn and then display data 
 			    */
@@ -269,10 +269,14 @@ public class EMailHomePageGUI extends JFrame {
 			  }
 			}
 		private void setGridCell(int x, int y) {
-		GC.gridx = x;
-		GC.gridy = y;
-	}
-	public static void run(User user,String Email) {
+			GC.gridx = x;
+			GC.gridy = y;
+		}
+	
+		
+		
+	
+		public static void run(User user,String Email) {
 		SwingUtilities.invokeLater(new Runnable () {
 			public void run() {
 				new EMailHomePageGUI(user ,Email);

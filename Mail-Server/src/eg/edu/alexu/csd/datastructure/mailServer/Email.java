@@ -23,7 +23,17 @@ public class Email implements IMail, Serializable
 	String receiverEmail;
 	int numOfAttachements;
 	
-	
+	/**
+	 * 
+	 * @param subject
+	 * @param body
+	 * @param senderID
+	 * @param senderEmail
+	 * @param receiverID
+	 * @param receiverEmail
+	 * @param numOfAttachements
+	 * @param priority
+	 */
 	public Email(String subject, String body, int senderID, String senderEmail,
 			int receiverID, String receiverEmail, int numOfAttachements, int priority) 
 	{
@@ -136,6 +146,7 @@ public class Email implements IMail, Serializable
 			emails.add(this);
 			FolderManagerBIN.WriteObjectToFile(emails, savePath);
 		} catch (IOException e) {
+		
 		}
 	}
 	

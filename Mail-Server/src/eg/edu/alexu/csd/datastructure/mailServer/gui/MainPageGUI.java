@@ -111,7 +111,6 @@ public class MainPageGUI extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				/*we check if the email exsist if not error msg email
 				doesn't exist
 				else check if the password is right
@@ -123,7 +122,6 @@ public class MainPageGUI extends JFrame{
 				password = new String(passwordField.getPassword());
 				System.out.println("pass sign in " + password);
 				
-				//TODO CHECK EMAIL FORMAT
 				if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
 					emailErrorMessage.setText("Please enter a valid email address");
 					return;
@@ -144,13 +142,11 @@ public class MainPageGUI extends JFrame{
 				}
 				else {
 					passwordErrorMessage.setText("");
-					/*
-					 * call the GUI for USer emails and his shit
-					 */
+					
 				FolderManagerBIN.printUsers();
 				setVisible(false);
-				EMailHomePageGUI.run(user,email );
-			}
+				EMailHomePageGUI.run(user,email);
+				}
 			}
 			
 		});

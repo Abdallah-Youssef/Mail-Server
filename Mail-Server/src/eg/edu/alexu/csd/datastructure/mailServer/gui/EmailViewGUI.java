@@ -13,56 +13,66 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
+import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
+import eg.edu.alexu.csd.datastructure.mailServer.Email;
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 
 public class EmailViewGUI extends JFrame {
 	JLabel senderEmailLabel;
+	
+	JLabel receiverLabel;
 	JLabel receiverError;
+	
+	JLabel attachmentsLabel;
 	JLabel attachmentError;
+	
+	JLabel subjectLabel;
+	
+	
+	
+	JTextArea textArea;
+	JTextField addReceiverField;
+	JTextField subjectField;
+	
+	
+	
 	JButton addReceiverBtn;
 	JButton addAttachmentBtn;
 	JButton sendBtn;
-	JTextArea textArea;
-	JTextField addReceiverField;
-	JTextField addAttachmentField;
-	JTextArea receiversTextArea;
 	
-	
-	ElementsBox receiversPanel;
-	ElementsBox attachmentsPanel;
-	BottomPanel bottomPanel;
+	ElementsBox receiversBox;
+	ElementsBox attachmentsBox;
+	BottomPanel bottomPanel;  //contains both boxes
 	
 
 	
 	OptionsPanel optionsPanel;
 	
-	User sender;
+	User user;
 	String senderEmail;
-	DoublyLinkedList receivers;
-	DoublyLinkedList attachments;
-	String testReceiver = "jk";
+	DoubleLinkedList receivers; //String
+	DoubleLinkedList attachments; //String
 	
-	public EmailViewGUI(String senderEmail, DoublyLinkedList receivers) {
+	public EmailViewGUI(String senderEmail, DoubleLinkedList doubleLinkedList) {
 		super("Compose E-mail");
 		this.senderEmail = senderEmail;
-		this.sender = FolderManagerBIN.getUser(senderEmail);
-		this.receivers = receivers;
-		attachments = new DoublyLinkedList();
+		this.user = FolderManagerBIN.getUser(senderEmail);
 		
-		setSize(600,600);
+		this.receivers = doubleLinkedList;
+		attachments = new DoubleLinkedList();
+		
+		setSize(600,800);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		//we will change the action here when he pree exit so we can save drafts
+		//TODO save draft, we will change the action here when he pree exit so we can save drafts
 		setVisible(true);
 		
 		
 		optionsPanel = new OptionsPanel();
+		optionsPanel.setPreferredSize(new Dimension(0, 150));
 		
 		textArea = new JTextArea();
 		textArea.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
-		receiversTextArea = new JTextArea();
-		receiversTextArea.setPreferredSize(new Dimension(200,200));
-		receiversTextArea.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 		bottomPanel = new BottomPanel();
 		
 		setLayout(new BorderLayout());
@@ -82,23 +92,29 @@ public class EmailViewGUI extends JFrame {
 			GridBagConstraints gc = new GridBagConstraints();
 			gc.fill = GridBagConstraints.NONE;
 
+			senderEmailLabel = new JLabel(senderEmail);
 			
+			receiverLabel = new JLabel("Reciever:");
+			addReceiverField = new JTextField("koskos@zobzob.com");
+			addReceiverField.setMinimumSize(new Dimension(200,25));
+			addReceiverBtn = new JButton("Add receiver");
 			receiverError = new JLabel("");
 			receiverError.setForeground(Color.RED);
+			
+			
+			attachmentsLabel = new JLabel("Attachments");
+			addAttachmentBtn = new JButton("Browse Attachment");
 			attachmentError = new JLabel("");
 			attachmentError.setForeground(Color.RED);
 			
-			senderEmailLabel = new JLabel(senderEmail);
-			addReceiverBtn = new JButton("Add receiver");
-			addAttachmentBtn = new JButton("Browse Attachment");
+			subjectLabel = new JLabel("Subject:");
+			subjectField = new JTextField(25);
+			subjectField.setMinimumSize(new Dimension(200, 25));
 			
 			sendBtn = new JButton("Send");
-			receiversTextArea = new JTextArea();
-			addReceiverField = new JTextField("koskos@zobzob.com");
-			addReceiverField.setMinimumSize(new Dimension(200,25));
 			
-			addAttachmentField = new JTextField("skakalansshikoshiko");
-			addAttachmentField.setMinimumSize(new Dimension(200,25));
+			
+
 			
 			//FirstRow
 			setGC(gc,0,0,1,1);
@@ -111,7 +127,7 @@ public class EmailViewGUI extends JFrame {
 			//Second Row
 			setGC(gc,0,1,1,1);
 			gc.anchor = GridBagConstraints.LINE_END;
-			add(new JLabel("Recievers : "), gc);
+			add(receiverLabel, gc);
 			
 			setGC(gc,1,1,1,1);
 			gc.anchor = GridBagConstraints.LINE_START;
@@ -128,10 +144,8 @@ public class EmailViewGUI extends JFrame {
 			//Third Row
 			setGC(gc,0,2,1,1);
 			gc.anchor = GridBagConstraints.LINE_END;
-			add(new JLabel("Attachments : "), gc);
-			
-
-			
+			add(attachmentsLabel, gc);
+		
 			setGC(gc,1,2,1,1);
 			gc.anchor = GridBagConstraints.CENTER;
 			add(addAttachmentBtn, gc);
@@ -140,8 +154,15 @@ public class EmailViewGUI extends JFrame {
 			gc.anchor = GridBagConstraints.CENTER;
 			add(attachmentError, gc);
 			
-			//FourthRow
-			setGC(gc,0,3,3,1);
+			//Fourth row
+			setGC(gc, 0,3,1,1);
+			add(subjectLabel, gc);
+			
+			setGC(gc, 1,3,1,1);
+			add(subjectField, gc);
+			
+			//FiftthRow
+			setGC(gc,0,4,3,1);
 			gc.anchor = GridBagConstraints.CENTER;
 			add(sendBtn, gc);
 			
@@ -150,14 +171,12 @@ public class EmailViewGUI extends JFrame {
 			addReceiverBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					/*
-					 * Maybe open a pop up that returns an email?
-					 */
 					String receiverEmail = addReceiverField.getText();
 					if (FolderManagerBIN.getUser(receiverEmail) != null) {
-						if (receiversPanel.Add(receiverEmail))
+						if (receiversBox.Add(receiverEmail)) { //returns true if Adding is successful
 							receiverError.setText("");
-						//TODO Get emails from state
+					}
+					
 					}else {
 						receiverError.setText("Email doesn't exist");
 					}
@@ -167,25 +186,20 @@ public class EmailViewGUI extends JFrame {
 			
 			addAttachmentBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					/*
-					 * Maybe open a pop up that returns an email?
-					 */
 					FileChooser.Run(new PathListener() {
 						public void pathChosen(String path) {
-							attachmentsPanel.Add(path);
+							attachmentsBox.Add(path);
 						}
-					});
-					/*String path = addAttachmentField.getText();
-					//TODO check path
-					attachmentsPanel.Add(path);*/
-					
+					});	
 				}
 			});
 			
 			
 			sendBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
 					//TODO create Email object
+					//Email email = new Email(name, name, flags, name, flags, name, flags, flags);
 					//Add the email to the receivers' folders
 					//Use IApp function
 					//Available info: 
@@ -223,11 +237,11 @@ public class EmailViewGUI extends JFrame {
 	
 
 	public class ElementsBox extends JPanel{
-		DoublyLinkedList elements;
+		DoubleLinkedList elements;
 		JLabel errorLabel;
 		
-		public ElementsBox(DoublyLinkedList elements, String Label, JLabel errorLabel) {
-			this.elements = elements;
+		public ElementsBox(DoubleLinkedList attachments, String Label, JLabel errorLabel) {
+			this.elements = attachments;
 			this.errorLabel = errorLabel;
 			
 			setMinimumSize(new Dimension(200,200));
@@ -252,7 +266,6 @@ public class EmailViewGUI extends JFrame {
 			errorLabel.setText("");
 			add(new Element(string, this));
 			revalidate();
-			elements.print();
 			return true;
 		}
 		
@@ -268,7 +281,6 @@ public class EmailViewGUI extends JFrame {
 					break;
 				}
 			
-			elements.print();
 		}
 		
 	}
@@ -281,11 +293,11 @@ public class EmailViewGUI extends JFrame {
 			setPreferredSize(new Dimension(200,200));
 			setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-			receiversPanel = new ElementsBox(receivers, "Receivers", receiverError);
-			attachmentsPanel = new ElementsBox(attachments, "Attachments", attachmentError);
+			receiversBox = new ElementsBox(receivers, "Receivers", receiverError);
+			attachmentsBox = new ElementsBox(attachments, "Attachments", attachmentError);
 			
-			JScrollPane scroll1 = new JScrollPane(receiversPanel);
-			JScrollPane scroll2 = new JScrollPane(attachmentsPanel);
+			JScrollPane scroll1 = new JScrollPane(receiversBox);
+			JScrollPane scroll2 = new JScrollPane(attachmentsBox);
 			
 			add(scroll1, BorderLayout.WEST);
 			add(scroll2, BorderLayout.EAST);
@@ -296,14 +308,14 @@ public class EmailViewGUI extends JFrame {
 	/**
 	 * 
 	 * @param user
-	 * @param receivers  
+	 * @param doubleLinkedList  
 	 * If no receivers are ready, pass a new DoublyLinkedList()
 	 */
 	
-	public static void Run(String senderEmail, DoublyLinkedList receivers) {
+	public static void Run(String senderEmail, DoubleLinkedList doubleLinkedList) {
 		SwingUtilities.invokeLater(new Runnable () {
 			public void run() {
-				new EmailViewGUI(senderEmail, receivers);
+				new EmailViewGUI(senderEmail, doubleLinkedList);
 			}
 		});
 	}
