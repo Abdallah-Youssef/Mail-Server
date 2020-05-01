@@ -1,5 +1,7 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
+import interfaces.IPriorityQueue;
+
 public class PriorityQueueDS implements IPriorityQueue
 {
 

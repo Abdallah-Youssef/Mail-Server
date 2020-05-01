@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
+import interfaces.IFolder;
+import interfaces.IMail;
+
 public class Email implements IMail, Serializable
 {
 	int id;

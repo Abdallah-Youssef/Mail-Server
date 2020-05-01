@@ -3,6 +3,8 @@ package eg.edu.alexu.csd.datastructure.mailServer;
 import java.io.File;
 import java.io.FilenameFilter;
 
+import interfaces.IFolder;
+
 public class Folder implements IFolder 
 {
 	String type;

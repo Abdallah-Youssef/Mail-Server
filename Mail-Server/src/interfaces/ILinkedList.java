@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.datastructure.mailServer;
+package interfaces;
 public interface ILinkedList {
 	/**
 	* Inserts a specified element at the specified position in the list.

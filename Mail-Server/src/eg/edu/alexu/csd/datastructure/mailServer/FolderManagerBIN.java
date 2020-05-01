@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
 
 
 
@@ -28,7 +27,7 @@ public class FolderManagerBIN {
 	public static User getUser(String email)
 	{
 		//TODO Load users one time only
-		DoublyLinkedList users = getUsers();
+		DoubleLinkedList users = getUsers();
 		for(int i = 0; i < users.size();i++)
 		{
 			User user = (User)users.get(i);
@@ -85,7 +84,7 @@ public class FolderManagerBIN {
 	
 		
 	
-	public static void saveUsersLinkedList(DoublyLinkedList users)
+	public static void saveUsersLinkedList(DoubleLinkedList users)
 	{
 		WriteObjectToFile(users, "./Users/usersIndex.json");
 	}
@@ -93,23 +92,23 @@ public class FolderManagerBIN {
 	/**  
 	 * @return a DoublyLinkedList of all the users' JSONobjects
 	 */
-	public static DoublyLinkedList getUsers() 
+	public static DoubleLinkedList getUsers() 
 	{
-		DoublyLinkedList d = (DoublyLinkedList)ReadObjectFromFile("./Users/usersIndex.json");
+		DoubleLinkedList d = (DoubleLinkedList)ReadObjectFromFile("./Users/usersIndex.json");
 		if(d == null)
-			return new DoublyLinkedList();
+			return new DoubleLinkedList();
 		return d;
 	}
 	
 	public static void addUser(User newUser) {
-		DoublyLinkedList users = getUsers();
+		DoubleLinkedList users = getUsers();
 		
 		users.add(newUser);
 		saveUsersLinkedList(users);
 	}
 	
 	public static void printUsers() {
-		DoublyLinkedList arr = getUsers();
+		DoubleLinkedList arr = getUsers();
 		for (int i = 0;i < arr.size();i++) {
 			User user = (User) arr.get(i);
 			System.out.println("---------------------------------------");

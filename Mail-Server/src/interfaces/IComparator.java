@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.datastructure.mailServer;
+package interfaces;
 
 public interface IComparator {
 	/**

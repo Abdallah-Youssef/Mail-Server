@@ -2,6 +2,7 @@ package eg.edu.alexu.csd.datastructure.mailServer;
 
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
 import eg.edu.alexu.csd.datastructure.stack.Classes.Stack;
+import interfaces.ISort;
 
 
 public class SortingTemp {

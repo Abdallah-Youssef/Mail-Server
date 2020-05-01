@@ -1,6 +1,8 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 import java.io.Serializable;
 
+import interfaces.ILinkedList;
+
 public class DoubleLinkedList implements ILinkedList, Serializable
 {
 	private static final long serialVersionUID = 1L;

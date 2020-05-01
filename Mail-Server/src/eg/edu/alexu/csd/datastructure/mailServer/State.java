@@ -3,6 +3,7 @@ package eg.edu.alexu.csd.datastructure.mailServer;
 
 
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
+import interfaces.IFolder;
 
 public class State {
 	User user;

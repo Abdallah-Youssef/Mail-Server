@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.datastructure.mailServer;
+package interfaces;
 
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Interfaces.ILinkedList;
 
