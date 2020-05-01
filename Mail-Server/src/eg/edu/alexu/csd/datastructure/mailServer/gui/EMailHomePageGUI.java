@@ -17,6 +17,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
+import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
+import eg.edu.alexu.csd.datastructure.mailServer.User;
+
 public class EMailHomePageGUI extends JFrame {
 		//declerations
 		GridBagConstraints GC;
@@ -44,7 +47,7 @@ public class EMailHomePageGUI extends JFrame {
 		private GridBagLayout gridBagLayout = new GridBagLayout();
 		private String []FileNames;
 		
-		public EMailHomePageGUI(){
+		public EMailHomePageGUI(User user,String Email){
 			//user is an object that we will pass it to the constructor but i didn't pass it untill we start to deal with data
 			//super("Welcome"+user.get("firstName"));
 			setSize(800,600);
@@ -190,6 +193,7 @@ public class EMailHomePageGUI extends JFrame {
 					/*
 					 * call the EMAILMODIFICATION panel to the mails area
 					 */
+					
 				}
 			});
 			//action for CONTACTS 
@@ -204,9 +208,8 @@ public class EMailHomePageGUI extends JFrame {
 			//action for Compose
 			Compose.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					/*
-					 * call the defined panel to the mails area
-					 */
+					DoublyLinkedList recevires=new DoublyLinkedList();
+					EmailViewGUI.Run(Email, recevires);
 				}
 			});
 			//action for search button
@@ -220,6 +223,7 @@ public class EMailHomePageGUI extends JFrame {
 					/*
 					 * call the searched then display it 
 					 */
+					 
 				}
 			});
 			FilterButton.addActionListener(new ActionListener() {
@@ -268,10 +272,10 @@ public class EMailHomePageGUI extends JFrame {
 		GC.gridx = x;
 		GC.gridy = y;
 	}
-	public static void run() {
+	public static void run(User user,String Email) {
 		SwingUtilities.invokeLater(new Runnable () {
 			public void run() {
-				new EMailHomePageGUI();
+				new EMailHomePageGUI(user ,Email);
 			}
 		});
 	}
