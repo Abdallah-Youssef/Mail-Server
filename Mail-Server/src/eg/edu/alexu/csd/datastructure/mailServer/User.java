@@ -13,25 +13,26 @@ public class User implements IContact, Serializable
 	int id;
 	String firstName;
 	String lastName;
+	
+	State state;
 	 
 	
-	String[] emails;
+	DoubleLinkedList emails;
 	public String password;
 	
 	public static void createUserSubDirectory(int id) throws IOException
 	{
-		
 		//String path = Paths.get("").toAbsolutePath().toString() + "\\Users\\" + id + "\\";
 		String path = "./Users/" + id + "/";
 		new File(path).mkdirs();
 		new File(path+"inbox/").mkdirs();
-		new File(path+"inbox/IboxIndex.txt").createNewFile();
+		new File(path+"inbox/index.txt").createNewFile();
 		new File(path+"sent/").mkdirs();
-		new File(path+"sent/SentIndex.txt").createNewFile();
+		new File(path+"sent/index.txt").createNewFile();
 		new File(path+"trash/").mkdirs();
-		new File(path+"trash/TrashIndex.txt").createNewFile();
+		new File(path+"trash/index.txt").createNewFile();
 		new File(path+"user defined folders/").mkdirs();
-		new File(path+"user defined folders/defindedIndex.txt").createNewFile();
+		new File(path+"user defined folders/index.txt").createNewFile();
 	}
 	
 	
@@ -68,9 +69,14 @@ public class User implements IContact, Serializable
 		
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.emails = new String[10];
-		this.emails[0] = email;
+		this.emails = new DoubleLinkedList();
+		this.emails.add(email);
 		this.password = password;
+		this.id = id;
+		this.state = new State(this);
 	}
 	
+	public int getID() {
+		return id;
+	}
 }

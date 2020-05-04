@@ -78,7 +78,9 @@ class sortComparator implements ISort
 		case 0:
 			return ((User)a).firstName.compareTo(((User)b).firstName);
 		case 1:
-			return ((User)a).emails[0].compareTo(((User)b).emails[0]);
+			String emailA = (String) ((User)a).emails.get(0);
+			String emailB = (String) ((User)b).emails.get(0);
+			return emailA.compareTo(emailB);
 		case 2:
 			return ((Email)a).subject.compareTo(((Email)b).subject);
 		case 3:

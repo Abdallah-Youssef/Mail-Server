@@ -143,7 +143,7 @@ public class SignUpGUI extends JFrame {
 					User newUser;
 					try {
 						newUser = new User(firstNameData, lastNameData, emailData, passwordData);
-						FolderManagerBIN.addUser(newUser);
+						FolderManagerBIN.addNewUser(newUser);
 						FolderManagerBIN.printUsers();
 						setVisible(false);
 					} catch (IOException e1) {

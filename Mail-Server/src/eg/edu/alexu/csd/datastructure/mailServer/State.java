@@ -2,47 +2,55 @@ package eg.edu.alexu.csd.datastructure.mailServer;
 
 
 
+import java.io.Serializable;
+
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
 import interfaces.IFolder;
 
-public class State {
+public class State implements Serializable{
 	User user;
 	String path;
-
+	
 	/*
-	 * Pair of the name and (index of folder => null if not loaded)
+	 * Pair of the name and (list of emails in folder => null if not loaded)
 	 */
-	DoublyLinkedList folderStatus;
+	DoubleLinkedList folderStatus;
+	String[] folderNames;
 	public State(User user) {
 		this.user = user;
 		path = "./Users/" + user.id + "/";
 		
-		String[] folderNames = Folder.listFolders(user.id);
+		//TODO fix listFolders
+		//String[] folderNames = Folder.listFolders(user.id);
+		folderNames = new String[]{"inbox","sent","trash"};
+		
+		folderStatus = new DoubleLinkedList();
+		
+		/*//debugging
+		System.out.println("folder names");
 		for (int i = 0;i < folderNames.length;i++)
-			loadFolder(folderNames[i], i);
+			System.out.print(folderNames[i] + " ");
+		System.out.println();*/
+		
+		for (int i = 0;i < folderNames.length;i++) {
+			folderStatus.add(Email.readUserEmails(user.id, new Folder(folderNames[i])));
+		}
 	}
 	
-	/**
-	 * 
-	 * @param folder
-	 * @return doublyLinkedList of Email objects
-	 */
-	public DoublyLinkedList getFolder(IFolder folder) {
-		DoublyLinkedList emails = new DoublyLinkedList();
+	public DoubleLinkedList getEmailsFromFolder(String folderName) {
+		DoubleLinkedList emails = new DoubleLinkedList();
 		
-		for (int i = 0;i < folderStatus.size();i++) {
-			if ((((Pair)folderStatus.get(i)).getFirst()).equals(((Folder)folder).type)) {
-				if ((((Pair)folderStatus.get(i)).getSecond()) == null) {
-					return (DoublyLinkedList) ((Pair)folderStatus.get(i)).getSecond();
-				}
+		for (int i = 0;i < folderNames.length;i++) {
+			if (folderName.equals(folderNames[i])) {
+				return (DoubleLinkedList) folderStatus.get(i);
 			}
 		}
-		return emails;
+		System.out.println("Failed to find the folder");
+		return null;
 	}
-	
 
 	
 	private void loadFolder(String folderName, int folderStatusIndex) {
-		folderStatus.set(folderStatusIndex, Email.readUserEmails(user.id, new Folder(folderName)));
+		folderStatus.set(folderStatusIndex, Email.readUserEmails(user.id, new Folder(path + folderName)));
 	}
 }

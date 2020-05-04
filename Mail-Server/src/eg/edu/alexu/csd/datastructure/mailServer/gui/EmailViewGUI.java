@@ -12,11 +12,15 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.DoublyLinkedList;
+import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.SinglyLinked;
 import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.Email;
+import eg.edu.alexu.csd.datastructure.mailServer.Folder;
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
+import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
+import eg.edu.alexu.csd.datastructure.queue.cs.LinkedBasedQueue;
+import interfaces.IFolder;
 
 public class EmailViewGUI extends JFrame {
 	JLabel senderEmailLabel;
@@ -51,16 +55,17 @@ public class EmailViewGUI extends JFrame {
 	
 	User user;
 	String senderEmail;
-	DoubleLinkedList receivers; //String
-	DoubleLinkedList attachments; //String
+	SinglyLinked receivers; //String
+	SinglyLinked attachments; //String
 	
-	public EmailViewGUI(String senderEmail, DoubleLinkedList doubleLinkedList) {
+	public EmailViewGUI(String senderEmail, SinglyLinked receivers) {
 		super("Compose E-mail");
 		this.senderEmail = senderEmail;
 		this.user = FolderManagerBIN.getUser(senderEmail);
 		
-		this.receivers = doubleLinkedList;
-		attachments = new DoubleLinkedList();
+		this.receivers = receivers;
+		attachments = new SinglyLinked();
+		
 		
 		setSize(600,800);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -175,9 +180,10 @@ public class EmailViewGUI extends JFrame {
 					if (FolderManagerBIN.getUser(receiverEmail) != null) {
 						if (receiversBox.Add(receiverEmail)) { //returns true if Adding is successful
 							receiverError.setText("");
+						}
 					}
-					
-					}else {
+					else {
+						
 						receiverError.setText("Email doesn't exist");
 					}
 					
@@ -200,12 +206,30 @@ public class EmailViewGUI extends JFrame {
 					
 					//TODO create Email object
 					//Email email = new Email(name, name, flags, name, flags, name, flags, flags);
-					//Add the email to the receivers' folders
-					//Use IApp function
+					
+					LinkedBasedQueue q = ListUtils.singleToQueue(receivers);
+					
+					while(!q.isEmpty()) {
+						String receiver = (String) q.dequeue();
+						User receiverUser = FolderManagerBIN.getUser(receiver);
+						
+						Email email = new Email(subjectField.getText(),
+								textArea.getText(),
+								user.getID(),
+								senderEmail,
+								receiverUser.getID(),
+								receiver,
+								attachments.size(),
+								0 //place holder priority
+								);
+						
+						email.saveEmail(receiverUser.getID(),(IFolder) new Folder("inbox"));
+					}
 					//Available info: 
 					// receivers (DoublyLinkedList of Strings)
 					// senderEmail
 					// textArea.getText()
+					// attachments paths
 					
 				}
 			});
@@ -237,12 +261,14 @@ public class EmailViewGUI extends JFrame {
 	
 
 	public class ElementsBox extends JPanel{
-		DoubleLinkedList elements;
+		SinglyLinked elements;
 		JLabel errorLabel;
 		
-		public ElementsBox(DoubleLinkedList attachments, String Label, JLabel errorLabel) {
-			this.elements = attachments;
+		public ElementsBox(SinglyLinked elements, String Label, JLabel errorLabel) {
+			this.elements = elements;
 			this.errorLabel = errorLabel;
+			
+			System.out.println(elements.size());
 			
 			setMinimumSize(new Dimension(200,200));
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -251,10 +277,16 @@ public class EmailViewGUI extends JFrame {
 			JLabel label = new JLabel(Label);
 			label.setAlignmentX(CENTER_ALIGNMENT);
 			add(label);
+			
+			
+			for (int i = 0;i < elements.size();i++) {
+				add(new Element((String) elements.get(i), this));
+				revalidate();
+			}
 		}
 		
 		public boolean Add(String string) {
-			//Check if it's not already exisiting in the list
+			//Check if it's not already existing in the list
 			for (int i = 0;i < elements.size();i++) {
 				if ( ((String)elements.get(i)) .equals(string)){
 					errorLabel.setText("Element already included");
@@ -293,6 +325,8 @@ public class EmailViewGUI extends JFrame {
 			setPreferredSize(new Dimension(200,200));
 			setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
+			
+			System.out.println(receivers.size());
 			receiversBox = new ElementsBox(receivers, "Receivers", receiverError);
 			attachmentsBox = new ElementsBox(attachments, "Attachments", attachmentError);
 			
@@ -312,10 +346,10 @@ public class EmailViewGUI extends JFrame {
 	 * If no receivers are ready, pass a new DoublyLinkedList()
 	 */
 	
-	public static void Run(String senderEmail, DoubleLinkedList doubleLinkedList) {
+	public static void Run(String senderEmail, SinglyLinked receivers) {
 		SwingUtilities.invokeLater(new Runnable () {
 			public void run() {
-				new EmailViewGUI(senderEmail, doubleLinkedList);
+				new EmailViewGUI(senderEmail, receivers);
 			}
 		});
 	}

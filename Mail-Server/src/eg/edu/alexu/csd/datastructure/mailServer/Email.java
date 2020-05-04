@@ -84,7 +84,7 @@ public class Email implements IMail, Serializable
 		String folders[] = Folder.listFolders(userID);
 		for(String folder: folders)
 		{
-			String path = "./Users/" + userID + "/" + folder + "/index.bin";
+			String path = "./Users/" + userID + "/" + folder + "/index.txt";
 			DoubleLinkedList emails = (DoubleLinkedList)FolderManagerBIN.ReadObjectFromFile(path);
 			for(int i = 0; i < emails.size();i++)
 			{
@@ -114,13 +114,22 @@ public class Email implements IMail, Serializable
 	 * Send Logic: call this function with the sender id and "Sent" folder
 	 * Receive Logic: call this function with the Receiver id and "inbox" folder
 	 */
-	public void saveEmail(DoubleLinkedList emails, int userID, IFolder ifolder)
+	public void saveEmail(int userID, IFolder ifolder)
 	{
+		User user = FolderManagerBIN.getUser(userID);
+		DoubleLinkedList emails = user.state.getEmailsFromFolder(  ((Folder)ifolder).type );
+		
+		
+		for (int i = 0;i < emails.size();i++)
+			System.out.print(((Email)emails.get(i)).subject);
+		
 		
 		Folder folder = (Folder)ifolder;
 		
 		String path = "./Users/" + userID + "/" + folder.type + "/lastID.txt";
-		String savePath = "./Users/" + userID + "/" + folder.type + "/index.bin";
+		String savePath = "./Users/" + userID + "/" + folder.type + "/index.txt";
+		
+		//ID the email object
 		try
 		{
 			File file = new File(path);
@@ -150,20 +159,29 @@ public class Email implements IMail, Serializable
 		}
 	}
 	
+	/**
+	 * 
+	 * @param userID
+	 * @param Folder object, its type will be used (inbox, sent, trash ..)
+	 * @return DoubleLinkedList of the Email objects inside the folder
+	 */
 	public static DoubleLinkedList readUserEmails(int userID, IFolder f)
 	{
 		Folder folder = (Folder)f;
-		String path = "./Users/" + userID + "/" + folder.type + "/index.bin";
-		System.out.println(path);
+		String path = "./Users/" + userID + "/" + folder.type + "/index.txt";
+		//System.out.println(path);
+		if (FolderManagerBIN.ReadObjectFromFile(path) == null)
+			return new DoubleLinkedList();
+		
 		return (DoubleLinkedList)FolderManagerBIN.ReadObjectFromFile(path);
 	}
 	
 	
-	public static void main(String[] args) 
+	/*public static void main(String[] args) 
 	{
 		DoubleLinkedList e = readUserEmails(1, new Folder("inbox"));
 		Email email = new Email("subject", "body", 1, "a@b.c", 2, "x@y.z", 0, 0);
 		email.saveEmail(e, 1, new Folder("inbox"));
-	}
+	}*/
 	
 }
