@@ -10,6 +10,19 @@ import interfaces.ISort;
 
 public class App implements IApp {
 
+	
+	Folder folder;
+	Filter filter;
+	sortComparator sort;
+	DoubleLinkedList currentlyLoadedEmails;
+	
+	public App() {
+		folder = new Folder("inbox");
+		filter = new Filter();
+		sort = new sortComparator(0);
+	}
+	
+	
 	@Override
 	public boolean signin(String email, String password) {
 		// TODO Auto-generated method stub
@@ -24,14 +37,21 @@ public class App implements IApp {
 
 	@Override
 	public void setViewingOptions(IFolder folder, IFilter filter, ISort sort) {
-		// TODO Auto-generated method stub
-
+		currentlyLoadedEmails = Email.readUserEmails(LoggedInUserID, folder);
+		Filter.filter(currentlyLoadedEmails, sort);
+		SortingTemp.quickSort(currentlyLoadedEmails, sort);
 	}
 
 	@Override
 	public IMail[] listEmails(int page) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		setViewingOptions(folder, filter, sort);
+		
+		Email[] emails = new Email[10];
+		
+		for(int i = 0;i < 10 && 10*page + i < currentlyLoadedEmails.size();i++)
+			emails[i] = (Email)currentlyLoadedEmails.get(10*page+i);
+		return emails;
 	}
 
 	@Override
