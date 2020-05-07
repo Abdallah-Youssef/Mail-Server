@@ -14,8 +14,6 @@ public class User implements IContact, Serializable
 	String firstName;
 	String lastName;
 	
-	State state;
-	 
 	
 	DoubleLinkedList emails;
 	public String password;
@@ -64,6 +62,7 @@ public class User implements IContact, Serializable
 			writer.write(String.valueOf(id));
 			writer.close();
 		} catch (IOException e) {
+			
 		}
 		
 		
@@ -73,7 +72,6 @@ public class User implements IContact, Serializable
 		this.emails.add(email);
 		this.password = password;
 		this.id = id;
-		this.state = new State(this);
 	}
 	
 	public int getID() {

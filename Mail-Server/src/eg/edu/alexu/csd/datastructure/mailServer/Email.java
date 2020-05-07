@@ -117,7 +117,7 @@ public class Email implements IMail, Serializable
 	public void saveEmail(int userID, IFolder ifolder)
 	{
 		User user = FolderManagerBIN.getUser(userID);
-		DoubleLinkedList emails = user.state.getEmailsFromFolder(  ((Folder)ifolder).type );
+		DoubleLinkedList emails = readUserEmails(userID, ifolder);
 		
 		
 		for (int i = 0;i < emails.size();i++)

@@ -17,7 +17,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
-import eg.edu.alexu.csd.datastructure.mailServer.State;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 
 public class MainPageGUI extends JFrame{
@@ -147,7 +146,6 @@ public class MainPageGUI extends JFrame{
 				FolderManagerBIN.printUsers();
 				setVisible(false);
 				
-				new State(user);
 				EMailHomePageGUI.run(user,email);
 				}
 			}
