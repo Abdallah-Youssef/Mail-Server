@@ -78,6 +78,17 @@ public class Email implements IMail, Serializable
 		this.priority = priority;
 	}
 	
+	public String getSubject(){
+		return this.subject;
+	}
+	
+	public String getSender(){
+		return this.senderEmail;
+	}
+	
+	public String getBody(){
+		return this.body;
+	}
 	
 	public static void DeleteTrash(int userID)
 	{		
@@ -124,8 +135,8 @@ public class Email implements IMail, Serializable
 			System.out.print(((Email)emails.get(i)).subject);
 		
 		
-		Folder folder = (Folder)ifolder;
 		
+		Folder folder = (Folder)ifolder;
 		String path = "./Users/" + userID + "/" + folder.type + "/lastID.txt";
 		String savePath = "./Users/" + userID + "/" + folder.type + "/index.txt";
 		
