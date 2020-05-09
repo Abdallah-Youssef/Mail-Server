@@ -14,6 +14,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 public class SignUpGUI extends JFrame {
@@ -24,7 +25,7 @@ public class SignUpGUI extends JFrame {
 	JTextField firstNameField, lastNameField;
 	JTextField emailField;
 	JPasswordField passwordField;
-	
+	App app;
 	JButton btn;
 	
 	public SignUpGUI () {
@@ -47,6 +48,7 @@ public class SignUpGUI extends JFrame {
 		passwordField = new JPasswordField(25);
 		btn = new JButton("Sign Up");
 		
+		app = new App();
 		
 		//Border
 		Border outsideBorder = BorderFactory.createEmptyBorder(40, 25, 50, 25);
@@ -112,60 +114,22 @@ public class SignUpGUI extends JFrame {
 		
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*
-				for each possible error => errorString += error + "\n"
 				
-				after all checks:
-				if success => errorString = "";
+				String firstNameData 	= firstNameField.getText().trim();
+				String lastNameData 	= lastNameField.getText().trim();
+				String emailData 		= emailField.getText().trim();
+				String passwordData 	= new String(passwordField.getPassword());
 				
-				errorLabel.setText(errorString);
-				*/
-				String firstNameData = firstNameField.getText().trim();
-				String lastNameData = lastNameField.getText().trim();
-				String emailData = emailField.getText().trim();
-				
-				String passwordData = new String(passwordField.getPassword());
-				
-				if(!emailData.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$") || 
-						FolderManagerBIN.getUser(emailData)!=null)
+				User user = new User(firstNameData, lastNameData, emailData, passwordData);
+				if(app.signup(user))
 				{
-					//generateError
-					errorLabel.setText("Invalid Email form");
-					return;
-				}else if(passwordData.length() < 8)
+					setVisible(false);
+				}else
 				{
-					//generate error
-					errorLabel.setText("weak password");
-					return;
-				}
-				else
-				{
-					User newUser;
-					try {
-						newUser = new User(firstNameData, lastNameData, emailData, passwordData);
-						FolderManagerBIN.addNewUser(newUser);
-						FolderManagerBIN.printUsers();
-						setVisible(false);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
+					errorLabel.setText("Invalid Email or Password");
 				}
 			}
 		});
-		
-		/*addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-            	setVisible(false);
-                dispose();
-            	System.out.println("hehe");
-            	MainPageGUI.Run();
-                
-                
-            }
-        });*/
 		
 		
 		 

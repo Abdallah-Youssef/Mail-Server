@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
@@ -172,6 +174,22 @@ public class Email implements IMail, Serializable
 			FolderManagerBIN.WriteObjectToFile(emails, savePath);
 		} catch (IOException e) {
 		
+		}
+		
+		String attachmentSavePath = "./Users/" + userID + "/" + folder.type + "/" + id + "/";
+		new File(attachmentSavePath).mkdirs();
+		for(int i = 0; i < attachments.size();i++)
+		{
+			File attachmentPath = new File((String)attachments.get(i));
+			try
+			{
+			Files.copy(attachmentPath.toPath(), 
+					new File(attachmentSavePath + attachmentPath.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+			}catch(IOException e)
+			{
+				e.printStackTrace();
+			}
+			
 		}
 	}
 	

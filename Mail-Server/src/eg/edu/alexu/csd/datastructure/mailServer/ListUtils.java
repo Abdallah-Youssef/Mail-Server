@@ -11,8 +11,8 @@ public class ListUtils {
 		return single;
 	}
 	
-	static public  LinkedBasedQueue singleToQueue (SinglyLinked singly) {
-		LinkedBasedQueue queue = new LinkedBasedQueue();
+	static public  QueueLinkedBased singleToQueue (SinglyLinked singly) {
+		QueueLinkedBased queue = new QueueLinkedBased();
 		for (int i = 0;i < singly.size();i++)
 			queue.enqueue(singly.get(i));
 		return queue;

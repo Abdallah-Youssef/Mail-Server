@@ -1,5 +1,7 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
+import java.io.IOException;
+
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Interfaces.ILinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.gui.EMailHomePageGUI;
 import eg.edu.alexu.csd.datastructure.mailServer.gui.SignInErrorListener;
@@ -14,7 +16,7 @@ public class App implements IApp {
 
 	SignInErrorListener signInErrorListener;
 	Folder folder;
-	User loggedInUser;
+	public User loggedInUser;
 	FilterComp filter;
 	sortComparator sort;
 	DoubleLinkedList currentlyLoadedEmails;
@@ -29,16 +31,16 @@ public class App implements IApp {
 	@Override
 	public boolean signin(String email, String password) {
 		if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-			//emailErrorMessage.setText("Please enter a valid email address");
 			signInErrorListener.sendEmailError("Please enter a valid email address");
 			return false;
 		}
-		else if(FolderManagerBIN.getUser(email)==null) {
+		User user = FolderManagerBIN.getUser(email);
+		if(user == null) {
 			signInErrorListener.sendEmailError("User doesn't exist");
 			return false;
 		}
 		
-		User user = FolderManagerBIN.getUser(email);
+		
 		if (password.contentEquals("")) {
 			signInErrorListener.sendPasswordError("Please enter a password");
 			return false;
@@ -56,30 +58,40 @@ public class App implements IApp {
 
 	@Override
 	public boolean signup(IContact contact) {
-		return false;
+		User user = (User)contact;
+		String email = (String)user.emails.get(0);
+		if(!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"))
+		{
+			//errorLabel.setText("Invalid Email form");
+			return false;
+		}else if(FolderManagerBIN.getUser(email)!=null)
+		{
+			//errorLabel.setText("User already exists");
+			return false;
+		}
+		
+		else if(user.password.length() < 8)
+		{
+			//generate error
+			//errorLabel.setText("weak password");
+			return false;
+		}
+		else
+		{
+			user.saveToFileSystem();
+			
+		}
+		return true;
 	}
 
 	@Override
 	public void setViewingOptions(IFolder folder, IFilter filter, ISort sort) {
-<<<<<<< HEAD
-		currentlyLoadedEmails = Email.readUserEmails(LoggedInUserID, folder);	//TODO
+
+		currentlyLoadedEmails = Email.readUserEmails(loggedInUser.id, folder);	//TODO
 		if(filter != null)
 			Filter.filter(currentlyLoadedEmails, (FilterComp)filter);
 		SortingTemp.quickSort(currentlyLoadedEmails, sort);
-=======
-		//Abdallah : this is giving me the error: the method setViewingOptions (IFolder ,IFilter, ISort)
-				//				isn't applicable for the arguments (Folder, Filter, SortComparator)
-		
-		currentlyLoadedEmails = Email.readUserEmails(LoggedInUserID, folder);
-		
-		//Abdallah : this is giving me the error: the method filter (DoubleLinkedList, FilterComp)
-		//				isn't applicable for the arguments (DoubleLinkedList, ISort)
-		
-		//TODO Should I cast sort to ISort?
-		
-		/*Filter.filter(currentlyLoadedEmails, sort);
-		SortingTemp.quickSort(currentlyLoadedEmails, sort);*/
->>>>>>> refs/remotes/origin/master
+		currentlyLoadedEmails = Email.readUserEmails(loggedInUser.id, folder);
 	}
 
 	@Override

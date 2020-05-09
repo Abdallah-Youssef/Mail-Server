@@ -34,22 +34,23 @@ public class MainPageGUI extends JFrame{
 	
 	SignUpPanel signupPanel;
 	public MainPageGUI() {
+		
 		super("Log IN");
 		setSize(600,400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		//componenets
-		emailErrorMessage = new JLabel("");
-		passwordErrorMessage = new JLabel("");
-		email=new JLabel("E-Mail : ");
-		password=new JLabel("Password : ");
-		SignUpMsg=new JLabel("Don't have an E-Mail ?  ");
-		emailField= new JTextField(25);
-		passwordField=new JPasswordField(25);
-		log_in_btn=new JButton("Log In");
-		sign_up_btn=new JButton("Sign Up");
-		signupPanel = new SignUpPanel();
-		app = new App();
+		emailErrorMessage 		= new JLabel("");
+		passwordErrorMessage 	= new JLabel("");
+		email					= new JLabel("E-Mail : ");
+		password				= new JLabel("Password : ");
+		SignUpMsg				= new JLabel("Don't have an E-Mail ?  ");
+		emailField				= new JTextField(25);
+		passwordField			= new JPasswordField(25);
+		log_in_btn				= new JButton("Log In");
+		sign_up_btn 			= new JButton("Sign Up");
+		signupPanel 			= new SignUpPanel();
+		app 					= new App();
 		
 		Border outsideBorder = BorderFactory.createEmptyBorder(40, 25, 50, 25);
 		Border insideBorder = BorderFactory.createTitledBorder("Log In : ");
@@ -114,44 +115,12 @@ public class MainPageGUI extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*we check if the email exsist if not error msg email
-				doesn't exist
-				else check if the password is right
-				if not error msg password is wrong
-				*/
+
 				String email;
 				String password;
 				email = emailField.getText();
 				password = new String(passwordField.getPassword());
 				System.out.println("pass sign in " + password);
-				/*
-				if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-					emailErrorMessage.setText("Please enter a valid email address");
-					return;
-				}
-				else if(FolderManagerBIN.getUser(email)==null) {
-					emailErrorMessage.setText("User doesn't exist");
-					return;
-				}
-				else {
-					user = FolderManagerBIN.getUser(email);
-				}
-				if (password.contentEquals("")) {
-					passwordErrorMessage.setText("Please enter a password");
-					return;
-				}
-				else if(!(user.password).equals(password)) {
-					passwordErrorMessage.setText("Wrong password");
-				}
-				else {
-					passwordErrorMessage.setText("");
-					
-				FolderManagerBIN.printUsers();
-				setVisible(false);
-				
-				EMailHomePageGUI.run(user);
-				}
-				*/
 				
 				app.setSignInListener(new SignInErrorListener() {
 					public void sendEmailError(String errorMessage) {
@@ -167,7 +136,7 @@ public class MainPageGUI extends JFrame{
 					FolderManagerBIN.printUsers();
 					setVisible(false);
 					
-					EMailHomePageGUI.run(app.user);
+					EMailHomePageGUI.run(app.loggedInUser);
 				}
 			}
 			

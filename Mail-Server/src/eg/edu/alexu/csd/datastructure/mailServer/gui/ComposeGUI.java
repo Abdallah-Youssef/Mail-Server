@@ -18,6 +18,7 @@ import eg.edu.alexu.csd.datastructure.mailServer.Email;
 import eg.edu.alexu.csd.datastructure.mailServer.Folder;
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
 import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;
+import eg.edu.alexu.csd.datastructure.mailServer.QueueLinkedBased;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 import eg.edu.alexu.csd.datastructure.queue.cs.LinkedBasedQueue;
 import interfaces.IFolder;
@@ -60,6 +61,7 @@ public class ComposeGUI extends JFrame {
 	String senderEmail;
 	SinglyLinked receivers; //String
 	SinglyLinked attachments; //String
+	
 	
 	public ComposeGUI(String senderEmail, SinglyLinked receivers) {
 		super("Compose E-mail");
@@ -199,6 +201,7 @@ public class ComposeGUI extends JFrame {
 					FileChooser.Run(new PathListener() {
 						public void pathChosen(String path) {
 							attachmentsBox.Add(path);
+							
 						}
 					});	
 				}
@@ -207,8 +210,7 @@ public class ComposeGUI extends JFrame {
 			
 			sendBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-					LinkedBasedQueue q = ListUtils.singleToQueue(receivers);
+					QueueLinkedBased q = ListUtils.singleToQueue(receivers);
 					
 					while(!q.isEmpty()) {
 						String receiver = (String) q.dequeue();
