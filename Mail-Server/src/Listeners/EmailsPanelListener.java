@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.datastructure.mailServer.gui;
+package Listeners;
 
 import eg.edu.alexu.csd.datastructure.mailServer.Email;
 

@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.datastructure.mailServer.gui;
+package Listeners;
 
 public interface SignInErrorListener {
 	public void sendEmailError(String errorMessage);

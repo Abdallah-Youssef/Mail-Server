@@ -8,12 +8,12 @@ import interfaces.ISort;
 public class SortingTemp {
 	
 	
-	public static void quickSort(DoublyLinkedList arr, ISort comp)
+	public static void quickSort(DoubleLinkedList arr, ISort comp)
 	{
 		_quickSort(arr, 0, arr.size(), comp);
 	}
 	
-	public static void _quickSort(DoublyLinkedList arr, int l, int h, ISort comp) {
+	public static void _quickSort(DoubleLinkedList arr, int l, int h, ISort comp) {
 		
 		//Changed from StackDS because the jar we have imported it is called Stack
 		Stack stack = new Stack();
@@ -38,7 +38,7 @@ public class SortingTemp {
 	}
 	
 	
-	static int partition(DoublyLinkedList arr, int l, int h, ISort c) 
+	static int partition(DoubleLinkedList arr, int l, int h, ISort c) 
 	{ 
 		Object x = arr.get(h); 
 		

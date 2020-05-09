@@ -1,8 +1,8 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
+import Listeners.SignInErrorListener;
+import Listeners.SignUpErrorListener;
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Interfaces.ILinkedList;
-import eg.edu.alexu.csd.datastructure.mailServer.gui.EMailHomePageGUI;
-import eg.edu.alexu.csd.datastructure.mailServer.gui.SignInErrorListener;
 import interfaces.IApp;
 import interfaces.IContact;
 import interfaces.IFilter;
@@ -13,8 +13,10 @@ import interfaces.ISort;
 public class App implements IApp {
 
 	SignInErrorListener signInErrorListener;
+	SignUpErrorListener signUpErrorListener;
+	
 	Folder folder;
-	User loggedInUser;
+	public User loggedInUser;
 	FilterComp filter;
 	sortComparator sort;
 	DoubleLinkedList currentlyLoadedEmails;
@@ -29,16 +31,16 @@ public class App implements IApp {
 	@Override
 	public boolean signin(String email, String password) {
 		if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-			//emailErrorMessage.setText("Please enter a valid email address");
 			signInErrorListener.sendEmailError("Please enter a valid email address");
 			return false;
 		}
-		else if(FolderManagerBIN.getUser(email)==null) {
+		User user = FolderManagerBIN.getUser(email);
+		if(user == null) {
 			signInErrorListener.sendEmailError("User doesn't exist");
 			return false;
 		}
 		
-		User user = FolderManagerBIN.getUser(email);
+		
 		if (password.contentEquals("")) {
 			signInErrorListener.sendPasswordError("Please enter a password");
 			return false;
@@ -56,24 +58,41 @@ public class App implements IApp {
 
 	@Override
 	public boolean signup(IContact contact) {
-		return false;
+		User user = (User)contact;
+		String email = (String)user.emails.get(0);
+		if(!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"))
+		{
+			signUpErrorListener.sendError("Invalid Email form");
+			return false;
+		}else if(FolderManagerBIN.getUser(email)!=null)
+		{
+			signUpErrorListener.sendError("User already exists");
+			return false;
+		}
+		
+		else if(user.password.length() < 8)
+		{
+			signUpErrorListener.sendError("Password length must be at least 8");
+			return false;
+		}
+		else
+		{
+			user.saveToFileSystem();
+		}
+		return true;
 	}
 
 	@Override
 	public void setViewingOptions(IFolder folder, IFilter filter, ISort sort) {
-		currentlyLoadedEmails = Email.readUserEmails(loggedInUser.getID(), folder);	//TODO
+		currentlyLoadedEmails = Email.readUserEmails(loggedInUser.getID(), folder);
+
 		if(filter != null)
 			Filter.filter(currentlyLoadedEmails, (FilterComp)filter);
-		SortingTemp.quickSort(currentlyLoadedEmails, sort);
-
+		SortingTemp.quickSort(currentlyLoadedEmails,(ISort) sort);
 	}
 
 	@Override
 	public IMail[] listEmails(int page) {
-		//Abdallah : this is giving me the error: the method setViewingOptions (IFolder ,IFilter, ISort)
-		//				isn't applicable for the arguments (Folder, Filter, SortComparator)
-		//setViewingOptions(folder, filter, sort); 
-		
 		Email[] emails = new Email[10];
 		
 		for(int i = 0;i < 10 && 10*page + i < currentlyLoadedEmails.size();i++)
@@ -83,7 +102,7 @@ public class App implements IApp {
 
 	@Override
 	public void deleteEmails(ILinkedList mails) {
-
+		
 	}
 
 	@Override
@@ -98,8 +117,12 @@ public class App implements IApp {
 	}
 	
 	
+	//Listeners Setters
 	public void setSignInListener (SignInErrorListener listener) {
 		this.signInErrorListener = listener;
+	}
+	public void setSignUpListener (SignUpErrorListener listener) {
+		this.signUpErrorListener = listener;
 	}
 
 }

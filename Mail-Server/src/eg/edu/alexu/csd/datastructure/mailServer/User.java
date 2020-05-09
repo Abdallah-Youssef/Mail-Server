@@ -19,9 +19,11 @@ public class User implements IContact, Serializable
 	DoubleLinkedList contactsIDs;
 	public String password;
 	
-	public static void createUserSubDirectory(int id) throws IOException
+	public static void createUserSubDirectory(int id)
 	{
 		//String path = Paths.get("").toAbsolutePath().toString() + "\\Users\\" + id + "\\";
+		try
+		{
 		String path = "./Users/" + id + "/";
 		new File(path).mkdirs();
 		new File(path+"inbox/").mkdirs();
@@ -32,10 +34,14 @@ public class User implements IContact, Serializable
 		new File(path+"trash/index.txt").createNewFile();
 		new File(path+"user defined folders/").mkdirs();
 		new File(path+"user defined folders/index.txt").createNewFile();
+		}catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	
-	public User(String firstName, String lastName, String email, String password) throws IOException 
+	private int calculateNewUserID()
 	{
 		int id;
 		try
@@ -55,9 +61,6 @@ public class User implements IContact, Serializable
 			}
 		}
 		
-		//System.out.println(id);
-		createUserSubDirectory(id);
-		
 		try {
 			FileWriter writer = new FileWriter("./Users/lastID.txt");
 			writer.write(String.valueOf(id));
@@ -65,16 +68,26 @@ public class User implements IContact, Serializable
 		} catch (IOException e) {
 			
 		}
-		
-		
+		return id;
+	}
+	
+	public User(String firstName, String lastName, String email, String password)
+	{		
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emails = new DoubleLinkedList();
 		this.emails.add(email);
 		this.password = password;
-		this.id = id;
 		this.contactsIDs = new DoubleLinkedList();
 	}
+	
+	public void saveToFileSystem()
+	{
+		this.id = calculateNewUserID();
+		createUserSubDirectory(id);
+		FolderManagerBIN.addNewUser(this);
+	}
+	
 	
 	public int getID() {
 		return id;

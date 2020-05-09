@@ -1,4 +1,7 @@
-package eg.edu.alexu.csd.datastructure.mailServer.gui;
+package Listeners;
+
+import eg.edu.alexu.csd.datastructure.mailServer.gui.ElementsBox;
+import eg.edu.alexu.csd.datastructure.mailServer.gui.ElementsBox.Element;
 
 public interface RemoveElementListener {
 	/**

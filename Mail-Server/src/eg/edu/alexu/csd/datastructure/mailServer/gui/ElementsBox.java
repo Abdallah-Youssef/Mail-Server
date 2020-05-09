@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import Listeners.RemoveElementListener;
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.SinglyLinked;
 
 public class ElementsBox extends JPanel{

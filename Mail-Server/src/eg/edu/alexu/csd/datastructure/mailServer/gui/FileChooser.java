@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+import Listeners.PathListener;
+
 
 public class FileChooser extends JPanel implements ActionListener {
 	static private final String newline = "\n";
