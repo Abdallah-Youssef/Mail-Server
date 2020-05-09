@@ -28,11 +28,11 @@ public class EMailsPanel extends JPanel {
 	JFrame parentFrame = (JFrame) this.getParent();
 	User user;
 	boolean[] checkedEmails;
-	public EMailsPanel(User user) {//Email[] emails) {
-		Email[] emails = new Email[7];
+	public EMailsPanel(Email[] emails, User user) {
+		/*Email[] emails = new Email[7];
 		for (int i = 0;i < emails.length;i++) {
 			emails[i] = new Email("subject" + i, "body" + i, user.getID(), "hahah@gmail.com", 2, "receiver@gmail.com", new SinglyLinked(), 0);
-		}
+		}*/
 		
 		setPreferredSize(new Dimension(500,400));
 		EMailsBox box = new EMailsBox();

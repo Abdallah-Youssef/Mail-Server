@@ -127,6 +127,7 @@ public class EmailModificationGUI extends JFrame {
 						user.addEmail(newEMail);
 						emailsBox.Add(newEMail);
 						emailErrorLabel.setText("");
+						revalidate();
 					}else {
 						emailErrorLabel.setText("Email Already Exists");
 					}

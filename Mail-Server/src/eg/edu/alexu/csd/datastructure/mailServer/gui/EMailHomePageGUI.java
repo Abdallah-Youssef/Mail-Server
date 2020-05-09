@@ -11,9 +11,14 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
+import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
+import eg.edu.alexu.csd.datastructure.mailServer.Email;
+import eg.edu.alexu.csd.datastructure.mailServer.Folder;
+import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 
 public class EMailHomePageGUI extends JFrame {
+		JFrame frame = this;
 		//declerations
 		/*GridBagConstraints GC;
 		private GridBagLayout gridBagLayout = new GridBagLayout();*/
@@ -23,7 +28,9 @@ public class EMailHomePageGUI extends JFrame {
 		EMailsPanel emailsPanel;
 		JScrollPane scroll;
 		
-		public EMailHomePageGUI(User user,String Email){
+		EmailsPanelListener emailsPanelListener;
+		
+		public EMailHomePageGUI(User user,String email){
 			//user is an object that we will pass it to the constructor but i didn't pass it untill we start to deal with data
 			//super("Welcome"+user.get("firstName"));
 			setResizable(false);
@@ -37,8 +44,8 @@ public class EMailHomePageGUI extends JFrame {
 			navigationPanel = new NavigationPanel(user);
 			menuBar = new MenuBar();
 			
-			
-			emailsPanel = new EMailsPanel(user);
+			DoubleLinkedList initialMails = Email.readUserEmails(user.getID(), new Folder("inbox"));
+			emailsPanel = new EMailsPanel(ListUtils.getPage(initialMails, 1),user);
 			scroll = new JScrollPane(emailsPanel);
 			//Layout
 			Border outsideBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
@@ -52,6 +59,20 @@ public class EMailHomePageGUI extends JFrame {
 			setJMenuBar(menuBar);
 	
 			add(scroll, BorderLayout.CENTER);
+			
+			
+			//Listener for emailsPanel
+			emailsPanelListener = new EmailsPanelListener() {
+				public void newEmails(eg.edu.alexu.csd.datastructure.mailServer.Email[] emails) {
+					frame.remove(scroll);
+					emailsPanel = new EMailsPanel(emails, user);
+					scroll = new JScrollPane(emailsPanel);
+					add(scroll, BorderLayout.CENTER);
+					revalidate();
+				}
+			};
+			navigationPanel.setListener(emailsPanelListener);
+			
 			
 			
 			

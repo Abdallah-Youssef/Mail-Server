@@ -213,7 +213,6 @@ public class ComposeGUI extends JFrame {
 					while(!q.isEmpty()) {
 						String receiver = (String) q.dequeue();
 						User receiverUser = FolderManagerBIN.getUser(receiver);
-						
 						Email email = new Email(subjectField.getText(),
 								textArea.getText(),
 								user.getID(),
@@ -223,15 +222,20 @@ public class ComposeGUI extends JFrame {
 								attachments,
 								0 //place holder priority
 								);
-						
 						email.saveEmail(receiverUser.getID(),(IFolder) new Folder("inbox"));
 					}
-					//Available info: 
-					// receivers (DoublyLinkedList of Strings)
-					// senderEmail
-					// textArea.getText()
-					// attachments paths
 					
+					//Save it in sent for sender
+					Email email = new Email(subjectField.getText(),
+							textArea.getText(),
+							user.getID(),
+							senderEmail,
+							user.getID(),
+							senderEmail,
+							attachments,
+							0 //place holder priority
+							);
+					email.saveEmail(user.getID(),(IFolder) new Folder("sent"));
 				}
 			});
 			

@@ -13,8 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
+import eg.edu.alexu.csd.datastructure.mailServer.Email;
+import eg.edu.alexu.csd.datastructure.mailServer.Folder;
 import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
+import interfaces.IFolder;
 
 public class NavigationPanel extends JPanel {
 	GridBagConstraints GC;
@@ -25,6 +28,8 @@ public class NavigationPanel extends JPanel {
 	private JButton Compose;
 	private JButton EMailModification;
 	private String[] FileNames;
+	
+	EmailsPanelListener emailsPanelListener;
 	
 	
 	public NavigationPanel(User user){
@@ -96,6 +101,8 @@ public class NavigationPanel extends JPanel {
 				/*
 				 * call the inbox panel to the mails area
 				 */
+				DoubleLinkedList emailsList = Email.readUserEmails(user.getID(), new Folder("inbox"));
+				emailsPanelListener.newEmails(ListUtils.getPage(emailsList, 1));
 			}
 		});
 		fileButtons[1].addActionListener(new ActionListener() {
@@ -103,6 +110,8 @@ public class NavigationPanel extends JPanel {
 				/*
 				 * call the sent panel to the mails area
 				 */
+				DoubleLinkedList emailsList = Email.readUserEmails(user.getID(), new Folder("sent"));
+				emailsPanelListener.newEmails(ListUtils.getPage(emailsList, 1));
 			}
 		});
 		fileButtons[2].addActionListener(new ActionListener() {
@@ -110,6 +119,8 @@ public class NavigationPanel extends JPanel {
 				/*
 				 * call the trash panel to the mails area
 				 */
+				DoubleLinkedList emailsList = Email.readUserEmails(user.getID(), new Folder("trash"));
+				emailsPanelListener.newEmails(ListUtils.getPage(emailsList, 1));
 			}
 		});
 		fileButtons[3].addActionListener(new ActionListener() {
@@ -117,6 +128,7 @@ public class NavigationPanel extends JPanel {
 				/*
 				 * call the defined panel to the mails area
 				 */
+				//TODO
 			}
 		});
 		//actions for file buttons end
@@ -146,16 +158,21 @@ public class NavigationPanel extends JPanel {
 		});
 		
 		
+		
 		/*
 		 Testing stuff
 		 TODO remove
 		 */
-		EmailModificationGUI.run(user);
+		//EmailModificationGUI.run(user);
 		
 	}
 	
 	private void setGridCell(int x, int y) {
 		GC.gridx = x;
 		GC.gridy = y;
+	}
+	
+	public void setListener(EmailsPanelListener emailsPanelListener) {
+		this.emailsPanelListener = emailsPanelListener;
 	}
 }
