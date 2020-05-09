@@ -41,35 +41,20 @@ public class EMailHomePageGUI extends JFrame {
 			emailsPanel = new EMailsPanel(user);
 			scroll = new JScrollPane(emailsPanel);
 			//Layout
-			
-			Border outsideBorder = BorderFactory.createEmptyBorder(4, 2, 5, 2);
+			Border outsideBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 			Border insideBorder = BorderFactory.createTitledBorder("Main Page : "  );
 			getRootPane().setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 
 			setLayout(new BorderLayout());
-			/*GC=new GridBagConstraints();
-			GC.weightx =1 ;
-			GC.weighty =1;
-			GC.fill = GridBagConstraints.NONE;*/		
-			
-			//setGridCell(0,0);
-			/*GC.anchor = GridBagConstraints.LINE_START;
-			navigationPanel.setPreferredSize(new Dimension(500,200));*/
+
 			add(navigationPanel, BorderLayout.WEST);
 			
 			setJMenuBar(menuBar);
-			
-			//setGridCell(1,0);
-			/*GC.anchor = GridBagConstraints.LINE_START;
-			navigationPanel.setPreferredSize(new Dimension(100,200));*/
+	
 			add(scroll, BorderLayout.CENTER);
 
 		}
 		
-		/*private void setGridCell(int x, int y) {
-			GC.gridx = x;
-			GC.gridy = y;
-		}*/
 		
 		public static void run(User user,String Email) {
 		SwingUtilities.invokeLater(new Runnable () {

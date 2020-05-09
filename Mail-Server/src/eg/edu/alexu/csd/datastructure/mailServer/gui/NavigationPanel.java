@@ -136,7 +136,7 @@ public class NavigationPanel extends JPanel {
 		Compose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DoubleLinkedList recevires=new DoubleLinkedList();
-				EmailViewGUI.Run("koskoszobzob@gmail.com", ListUtils.doubleToSingleList(recevires));
+				ComposeGUI.Run("koskoszobzob@gmail.com", ListUtils.doubleToSingleList(recevires));
 			}
 		});
 	}

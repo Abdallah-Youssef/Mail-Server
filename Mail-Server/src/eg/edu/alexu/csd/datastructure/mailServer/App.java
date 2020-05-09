@@ -37,15 +37,15 @@ public class App implements IApp {
 
 	@Override
 	public void setViewingOptions(IFolder folder, IFilter filter, ISort sort) {
-		currentlyLoadedEmails = Email.readUserEmails(LoggedInUserID, folder);
+		/*currentlyLoadedEmails = Email.readUserEmails(LoggedInUserID, folder);
 		Filter.filter(currentlyLoadedEmails, sort);
-		SortingTemp.quickSort(currentlyLoadedEmails, sort);
+		SortingTemp.quickSort(currentlyLoadedEmails, sort);*/
 	}
 
 	@Override
 	public IMail[] listEmails(int page) {
 		
-		setViewingOptions(folder, filter, sort);
+		//setViewingOptions(folder, filter, sort);
 		
 		Email[] emails = new Email[10];
 		

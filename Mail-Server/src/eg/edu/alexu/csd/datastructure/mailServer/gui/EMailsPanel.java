@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.SinglyLinked;
 import eg.edu.alexu.csd.datastructure.mailServer.Email;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 
@@ -30,7 +31,7 @@ public class EMailsPanel extends JPanel {
 	public EMailsPanel(User user) {//Email[] emails) {
 		Email[] emails = new Email[7];
 		for (int i = 0;i < emails.length;i++) {
-			emails[i] = new Email("subject" + i, "body" + i, user.getID(), "hahah@gmail.com", 2, "receiver@gmail.com", 0, 0);
+			emails[i] = new Email("subject" + i, "body" + i, user.getID(), "hahah@gmail.com", 2, "receiver@gmail.com", new SinglyLinked(), 0);
 		}
 		
 		setPreferredSize(new Dimension(500,400));
@@ -111,17 +112,11 @@ public class EMailsPanel extends JPanel {
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					 JDialog d = new JDialog(parentFrame, "Body"); 
-					  
-		            // create a label 
-		            JLabel l = new JLabel(email.getBody()); 
-		            d.add(l); 
-		  
-		            // set size of dialog 
-		            d.setSize(100, 100); 
-		            
-		            //set visibility of dialog 
-		            d.setVisible(true); 
+					JDialog d = new JDialog(parentFrame, "Body"); 
+					JLabel l = new JLabel(email.getBody()); 
+					d.add(l); 
+					d.setSize(100, 100); 
+					d.setVisible(true); 
 				}
 			});
 		}

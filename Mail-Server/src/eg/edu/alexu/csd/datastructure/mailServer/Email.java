@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
+import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.SinglyLinked;
 import interfaces.IFolder;
 import interfaces.IMail;
 
@@ -21,7 +22,7 @@ public class Email implements IMail, Serializable
 	String senderEmail;
 	int receiverID;
 	String receiverEmail;
-	int numOfAttachements;
+	SinglyLinked attachments;
 	
 	/**
 	 * 
@@ -35,7 +36,7 @@ public class Email implements IMail, Serializable
 	 * @param priority
 	 */
 	public Email(String subject, String body, int senderID, String senderEmail,
-			int receiverID, String receiverEmail, int numOfAttachements, int priority) 
+			int receiverID, String receiverEmail, SinglyLinked attachments, int priority) 
 	{
 		/*
 		int id;
@@ -74,20 +75,24 @@ public class Email implements IMail, Serializable
 		this.receiverEmail = receiverEmail;
 		this.senderID = senderID;
 		this.senderEmail = senderEmail;
-		this.numOfAttachements = numOfAttachements;
+		this.attachments = attachments;
 		this.priority = priority;
 	}
 	
 	public String getSubject(){
-		return this.subject;
+		return subject;
 	}
 	
 	public String getSender(){
-		return this.senderEmail;
+		return senderEmail;
 	}
 	
 	public String getBody(){
-		return this.body;
+		return body;
+	}
+	
+	public SinglyLinked getAttachments() {
+		return attachments;
 	}
 	
 	public static void DeleteTrash(int userID)

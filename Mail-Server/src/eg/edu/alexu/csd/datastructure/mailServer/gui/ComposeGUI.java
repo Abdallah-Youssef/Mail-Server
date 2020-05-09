@@ -22,7 +22,7 @@ import eg.edu.alexu.csd.datastructure.mailServer.User;
 import eg.edu.alexu.csd.datastructure.queue.cs.LinkedBasedQueue;
 import interfaces.IFolder;
 
-public class EmailViewGUI extends JFrame {
+public class ComposeGUI extends JFrame {
 	JLabel senderEmailLabel;
 	
 	JLabel receiverLabel;
@@ -58,7 +58,7 @@ public class EmailViewGUI extends JFrame {
 	SinglyLinked receivers; //String
 	SinglyLinked attachments; //String
 	
-	public EmailViewGUI(String senderEmail, SinglyLinked receivers) {
+	public ComposeGUI(String senderEmail, SinglyLinked receivers) {
 		super("Compose E-mail");
 		this.senderEmail = senderEmail;
 		this.user = FolderManagerBIN.getUser(senderEmail);
@@ -219,7 +219,7 @@ public class EmailViewGUI extends JFrame {
 								senderEmail,
 								receiverUser.getID(),
 								receiver,
-								attachments.size(),
+								attachments,
 								0 //place holder priority
 								);
 						
@@ -349,7 +349,7 @@ public class EmailViewGUI extends JFrame {
 	public static void Run(String senderEmail, SinglyLinked receivers) {
 		SwingUtilities.invokeLater(new Runnable () {
 			public void run() {
-				new EmailViewGUI(senderEmail, receivers);
+				new ComposeGUI(senderEmail, receivers);
 			}
 		});
 	}
