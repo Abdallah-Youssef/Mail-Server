@@ -16,12 +16,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
+import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 
 public class MainPageGUI extends JFrame{
 	//decleration
 	User user;
+	App app;
 	JLabel emailErrorMessage, passwordErrorMessage;
 	GridBagConstraints GC;
 	JButton log_in_btn;
@@ -47,6 +49,7 @@ public class MainPageGUI extends JFrame{
 		log_in_btn=new JButton("Log In");
 		sign_up_btn=new JButton("Sign Up");
 		signupPanel = new SignUpPanel();
+		app = new App();
 		
 		Border outsideBorder = BorderFactory.createEmptyBorder(40, 25, 50, 25);
 		Border insideBorder = BorderFactory.createTitledBorder("Log In : ");
@@ -121,7 +124,7 @@ public class MainPageGUI extends JFrame{
 				email = emailField.getText();
 				password = new String(passwordField.getPassword());
 				System.out.println("pass sign in " + password);
-				
+				/*
 				if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
 					emailErrorMessage.setText("Please enter a valid email address");
 					return;
@@ -147,6 +150,14 @@ public class MainPageGUI extends JFrame{
 				setVisible(false);
 				
 				EMailHomePageGUI.run(user);
+				}
+				*/
+				if(app.signin(email, password))
+				{
+					FolderManagerBIN.printUsers();
+					setVisible(false);
+					
+					EMailHomePageGUI.run(app.user);
 				}
 			}
 			

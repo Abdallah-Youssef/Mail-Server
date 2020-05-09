@@ -10,12 +10,13 @@ public class MainGUI {
 	public static void main(String[] args) throws IOException {
 		/*FolderManagerBIN.clearUsers();
 		User test = new User("haha", "popo", "koskos@zobzob.com", "passssap");
-		FolderManagerBIN.addNewUser(test);*/
+		FolderManagerBIN.addNewUser(test);
 
 		User test2 = new User("haha", "popo", "koskos@eltany.com", "passssap");
 		FolderManagerBIN.addNewUser(test2);
+		*/
 		
-		EMailHomePageGUI.run(test2);
+		MainPageGUI.Run();
 	}
 }
  

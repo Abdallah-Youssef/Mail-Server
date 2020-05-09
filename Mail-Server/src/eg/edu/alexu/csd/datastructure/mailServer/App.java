@@ -1,6 +1,7 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Interfaces.ILinkedList;
+import eg.edu.alexu.csd.datastructure.mailServer.gui.EMailHomePageGUI;
 import interfaces.IApp;
 import interfaces.IContact;
 import interfaces.IFilter;
@@ -12,21 +13,43 @@ public class App implements IApp {
 
 	
 	Folder folder;
-	Filter filter;
+	User loggedInUser;
+	FilterComp filter;
 	sortComparator sort;
 	DoubleLinkedList currentlyLoadedEmails;
-	int LoggedInUserID;
 	
 	public App() {
 		folder = new Folder("inbox");
-		filter = new Filter();
-		sort = new sortComparator(0);
+		filter = null;
+		sort = new sortComparator(5);	//default sorted by date
 	}
 	
 	
 	@Override
 	public boolean signin(String email, String password) {
-		return false;
+		if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+			//emailErrorMessage.setText("Please enter a valid email address");
+			return false;
+		}
+		else if(FolderManagerBIN.getUser(email)==null) {
+			//emailErrorMessage.setText("User doesn't exist");
+			return false;
+		}
+		
+		User user = FolderManagerBIN.getUser(email);
+		if (password.contentEquals("")) {
+			//passwordErrorMessage.setText("Please enter a password");
+			return false;
+		}
+		else if(!(user.password).equals(password)) {
+			//passwordErrorMessage.setText("Wrong password");
+			return false;
+		}
+		else {
+			//passwordErrorMessage.setText("");
+			loggedInUser = user;
+			return true;
+		}
 	}
 
 	@Override
@@ -36,6 +59,12 @@ public class App implements IApp {
 
 	@Override
 	public void setViewingOptions(IFolder folder, IFilter filter, ISort sort) {
+<<<<<<< HEAD
+		currentlyLoadedEmails = Email.readUserEmails(LoggedInUserID, folder);	//TODO
+		if(filter != null)
+			Filter.filter(currentlyLoadedEmails, (FilterComp)filter);
+		SortingTemp.quickSort(currentlyLoadedEmails, sort);
+=======
 		//Abdallah : this is giving me the error: the method setViewingOptions (IFolder ,IFilter, ISort)
 				//				isn't applicable for the arguments (Folder, Filter, SortComparator)
 		
@@ -48,6 +77,7 @@ public class App implements IApp {
 		
 		/*Filter.filter(currentlyLoadedEmails, sort);
 		SortingTemp.quickSort(currentlyLoadedEmails, sort);*/
+>>>>>>> refs/remotes/origin/master
 	}
 
 	@Override
