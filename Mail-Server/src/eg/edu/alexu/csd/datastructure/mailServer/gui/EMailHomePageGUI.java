@@ -30,9 +30,8 @@ public class EMailHomePageGUI extends JFrame {
 		
 		EmailsPanelListener emailsPanelListener;
 		
-		public EMailHomePageGUI(User user,String email){
-			//user is an object that we will pass it to the constructor but i didn't pass it untill we start to deal with data
-			//super("Welcome"+user.get("firstName"));
+		public EMailHomePageGUI(User user){
+			super("Welcome user number : " + user.getID());
 			setResizable(false);
 			setSize(800,500);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,10 +80,10 @@ public class EMailHomePageGUI extends JFrame {
 		}
 		
 		
-		public static void run(User user,String Email) {
+		public static void run(User user) {
 		SwingUtilities.invokeLater(new Runnable () {
 			public void run() {
-				new EMailHomePageGUI(user ,Email);
+				new EMailHomePageGUI(user);
 			}
 		});
 	}

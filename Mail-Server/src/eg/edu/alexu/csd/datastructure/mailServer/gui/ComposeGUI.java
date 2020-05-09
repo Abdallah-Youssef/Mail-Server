@@ -23,6 +23,9 @@ import eg.edu.alexu.csd.datastructure.queue.cs.LinkedBasedQueue;
 import interfaces.IFolder;
 
 public class ComposeGUI extends JFrame {
+	//TODO choose sender from emails
+	//TODO choose receivers from contacts
+	
 	JLabel senderEmailLabel;
 	
 	JLabel receiverLabel;
@@ -204,9 +207,6 @@ public class ComposeGUI extends JFrame {
 			
 			sendBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-					//TODO create Email object
-					//Email email = new Email(name, name, flags, name, flags, name, flags, flags);
 					
 					LinkedBasedQueue q = ListUtils.singleToQueue(receivers);
 					

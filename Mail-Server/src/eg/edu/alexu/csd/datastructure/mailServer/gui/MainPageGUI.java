@@ -146,7 +146,7 @@ public class MainPageGUI extends JFrame{
 				FolderManagerBIN.printUsers();
 				setVisible(false);
 				
-				EMailHomePageGUI.run(user,email);
+				EMailHomePageGUI.run(user);
 				}
 			}
 			
