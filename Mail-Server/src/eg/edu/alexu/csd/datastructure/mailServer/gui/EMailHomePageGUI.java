@@ -34,7 +34,7 @@ public class EMailHomePageGUI extends JFrame {
 			
 			
 			
-			navigationPanel = new NavigationPanel();
+			navigationPanel = new NavigationPanel(user);
 			menuBar = new MenuBar();
 			
 			

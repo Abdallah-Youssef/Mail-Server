@@ -77,4 +77,7 @@ public class User implements IContact, Serializable
 	public int getID() {
 		return id;
 	}
+	public  void addEmail(User user,String Email) {
+		user.emails.add(Email);
+	}
 }

@@ -14,6 +14,7 @@ import javax.swing.border.Border;
 
 import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;
+import eg.edu.alexu.csd.datastructure.mailServer.User;
 
 public class NavigationPanel extends JPanel {
 	GridBagConstraints GC;
@@ -26,7 +27,7 @@ public class NavigationPanel extends JPanel {
 	private String[] FileNames;
 	
 	
-	public NavigationPanel(){
+	public NavigationPanel(User user){
 		FileNames=new String [] {"Inbox","Sent","Trash","Defined"};
 		fileButtons=new JButton[4];
 		Contacts=new JButton("Contacts");
@@ -121,6 +122,7 @@ public class NavigationPanel extends JPanel {
 				/*
 				 * call the EMAILMODIFICATION panel to the mails area
 				 */
+				EmailModificationGUI.run(user);
 			}
 		});
 		//action for CONTACTS 
