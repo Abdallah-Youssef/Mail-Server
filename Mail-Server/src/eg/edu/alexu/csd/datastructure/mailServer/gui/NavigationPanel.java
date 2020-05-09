@@ -154,7 +154,7 @@ public class NavigationPanel extends JPanel {
 				DoubleLinkedList recevires=new DoubleLinkedList();
 				
 				//TODO add the correct email
-				ComposeGUI.Run("koskos@zobzob.com", ListUtils.doubleToSingleList(recevires));
+				ComposeGUI.Run(user, ListUtils.doubleToSingleList(recevires));
 			}
 		});
 		

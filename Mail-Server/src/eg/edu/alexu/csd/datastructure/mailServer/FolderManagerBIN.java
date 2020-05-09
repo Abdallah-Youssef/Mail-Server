@@ -80,11 +80,7 @@ public class FolderManagerBIN {
 			objectIn.close();
 		}catch(Exception e)
 		{
-			try {
-				new File(path).createNewFile();
-			} catch (IOException e1) {
-				System.out.println(e1.toString());
-			}
+			new File(path);
 		}
 		return s;
 	}
@@ -152,7 +148,7 @@ public class FolderManagerBIN {
 			DoubleLinkedList emails = user.emails;
 			String password = user.password;
 
-			for (int j = 0;j < 10 && emails.get(j) != null;j++)
+			for (int j = 0;j < emails.size() && emails.get(j) != null;j++)
 				System.out.println("Email : " + emails.get(j) + ", pass : " + password);
 		}
 		System.out.println("........................................");

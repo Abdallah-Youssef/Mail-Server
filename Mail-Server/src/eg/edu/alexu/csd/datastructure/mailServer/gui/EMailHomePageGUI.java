@@ -1,9 +1,7 @@
 package eg.edu.alexu.csd.datastructure.mailServer.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -71,7 +69,11 @@ public class EMailHomePageGUI extends JFrame {
 					revalidate();
 				}
 			};
+			
+			
 			navigationPanel.setListener(emailsPanelListener);
+			//TODO add the listener to the rest of the panels
+			//ex menuBar.setListener(emailsPanelListener);
 			
 			
 			

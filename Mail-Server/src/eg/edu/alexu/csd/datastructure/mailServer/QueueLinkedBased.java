@@ -6,16 +6,11 @@ import interfaces.IQueue;
 public class QueueLinkedBased implements IQueue, ILinkedBased
 {
 	
-	private class Node
-	{
+	private class Node{
 		Object data;
 		Node next;
 		
-		Node()
-		{
-			data = null;
-			next = null;
-		}
+		
 		
 		Node(Object element)
 		{
@@ -35,8 +30,7 @@ public class QueueLinkedBased implements IQueue, ILinkedBased
 	}
 	
 	
-	public void enqueue(Object item) 
-	{
+	public void enqueue(Object item) {
 		Node tmp = new Node(item);
 		if(head == null)
 			head = tmp;
@@ -47,8 +41,7 @@ public class QueueLinkedBased implements IQueue, ILinkedBased
 	}
 
 	
-	public Object dequeue() 
-	{
+	public Object dequeue() {
 		if(head == null)
 			throw new RuntimeException("Queue is empty");
 		Object data = head.data;

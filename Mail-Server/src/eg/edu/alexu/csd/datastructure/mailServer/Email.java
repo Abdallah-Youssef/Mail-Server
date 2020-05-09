@@ -134,7 +134,7 @@ public class Email implements IMail, Serializable
 	 */
 	public void saveEmail(int userID, IFolder ifolder)
 	{
-		User user = FolderManagerBIN.getUser(userID);
+		//User user = FolderManagerBIN.getUser(userID);
 		DoubleLinkedList emails = readUserEmails(userID, ifolder);
 		
 		
@@ -204,10 +204,11 @@ public class Email implements IMail, Serializable
 		Folder folder = (Folder)f;
 		String path = "./Users/" + userID + "/" + folder.type + "/index.txt";
 		//System.out.println(path);
-		if (FolderManagerBIN.ReadObjectFromFile(path) == null)
+		DoubleLinkedList emails = (DoubleLinkedList) FolderManagerBIN.ReadObjectFromFile(path);
+		if (emails == null)
 			return new DoubleLinkedList();
 		
-		return (DoubleLinkedList)FolderManagerBIN.ReadObjectFromFile(path);
+		return emails;
 	}
 	
 	

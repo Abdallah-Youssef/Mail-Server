@@ -60,8 +60,11 @@ public class App implements IApp {
 	public boolean signup(IContact contact) {
 		User user = (User)contact;
 		String email = (String)user.emails.get(0);
+		
+		
 		if(!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"))
 		{
+			
 			signUpErrorListener.sendError("Invalid Email form");
 			return false;
 		}else if(FolderManagerBIN.getUser(email)!=null)

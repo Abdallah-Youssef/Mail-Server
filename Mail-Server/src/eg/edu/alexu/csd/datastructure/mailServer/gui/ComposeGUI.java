@@ -3,7 +3,6 @@ package eg.edu.alexu.csd.datastructure.mailServer.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,6 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 import Listeners.PathListener;
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.SinglyLinked;
@@ -21,14 +24,15 @@ import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
 import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;
 import eg.edu.alexu.csd.datastructure.mailServer.QueueLinkedBased;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
-import eg.edu.alexu.csd.datastructure.queue.cs.LinkedBasedQueue;
 import interfaces.IFolder;
 
 public class ComposeGUI extends JFrame {
 	//TODO choose sender from emails
 	//TODO choose receivers from contacts
 	
-	JLabel senderEmailLabel;
+	//JLabel senderEmailLabel;
+	MenuButton senderEmailMenuButton;
+	JPopupMenu senderEmailMenu;
 	
 	JLabel receiverLabel;
 	JLabel receiverError;
@@ -59,15 +63,13 @@ public class ComposeGUI extends JFrame {
 	OptionsPanel optionsPanel;
 	
 	User user;
-	String senderEmail;
 	SinglyLinked receivers; //String
 	SinglyLinked attachments; //String
 	
 	
-	public ComposeGUI(String senderEmail, SinglyLinked receivers) {
+	public ComposeGUI(User user, SinglyLinked receivers) {
 		super("Compose E-mail");
-		this.senderEmail = senderEmail;
-		this.user = FolderManagerBIN.getUser(senderEmail);
+		this.user = user;
 		
 		this.receivers = receivers;
 		attachments = new SinglyLinked();
@@ -75,6 +77,7 @@ public class ComposeGUI extends JFrame {
 		
 		setSize(600,800);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
 		//TODO save draft, we will change the action here when he pree exit so we can save drafts
 		setVisible(true);
 		
@@ -103,10 +106,14 @@ public class ComposeGUI extends JFrame {
 			GridBagConstraints gc = new GridBagConstraints();
 			gc.fill = GridBagConstraints.NONE;
 
-			senderEmailLabel = new JLabel(senderEmail);
+			//senderEmailLabel = new JLabel(senderEmail);
+			senderEmailMenu = new JPopupMenu();
+			senderEmailMenuButton = new MenuButton("Choose Sender Email", senderEmailMenu);
+			
+			
 			
 			receiverLabel = new JLabel("Reciever:");
-			addReceiverField = new JTextField(senderEmail);
+			addReceiverField = new JTextField("Type email");
 			addReceiverField.setMinimumSize(new Dimension(200,30));
 			addReceiverBtn = new JButton("Add receiver");
 			receiverError = new JLabel("");
@@ -133,7 +140,8 @@ public class ComposeGUI extends JFrame {
 			add(new JLabel("Sender : "), gc);
 			setGC(gc,1,0,1,1);
 			gc.anchor = GridBagConstraints.LINE_START;
-			add(senderEmailLabel, gc);
+			add(senderEmailMenuButton, gc);
+			
 			
 			//Second Row
 			setGC(gc,0,1,1,1);
@@ -179,6 +187,38 @@ public class ComposeGUI extends JFrame {
 			
 			
 			
+			//I will have to load the user emails every time the menu is clicked because it's possible to open-
+			//The email modification and compose at the same time
+			/*senderEmailMenu.addPopupMenuListener(new PopupMenuListener () {
+				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+					senderEmailMenu.removeAll();
+					DoubleLinkedList emails = user.getEmails();
+					for (int i = 0;i < emails.size();i++) {
+						//Make a menuItem for each email
+						//each menuItem when pressed will change the text of the JMenu to its email
+						
+						JMenuItem email = new JMenuItem((String)emails.get(i));
+						email.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								senderEmailMenu.setLabel(email.getText());
+							}
+						});
+						
+						senderEmailMenu.add(email);
+					}
+				}
+
+				@Override
+				public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+					senderEmailMenu.setLabel("Choose Sender Email");
+				}
+
+				@Override
+				public void popupMenuCanceled(PopupMenuEvent e) {
+					senderEmailMenu.setLabel("Choose Sender Email");
+				}
+			});*/
+			
 			addReceiverBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
@@ -219,7 +259,7 @@ public class ComposeGUI extends JFrame {
 						Email email = new Email(subjectField.getText(),
 								textArea.getText(),
 								user.getID(),
-								senderEmail,
+								senderEmailMenu.getLabel(),
 								receiverUser.getID(),
 								receiver,
 								attachments,
@@ -232,9 +272,9 @@ public class ComposeGUI extends JFrame {
 					Email email = new Email(subjectField.getText(),
 							textArea.getText(),
 							user.getID(),
-							senderEmail,
+							senderEmailMenu.getLabel(),
 							user.getID(),
-							senderEmail,
+							senderEmailMenu.getLabel(),
 							attachments,
 							0 //place holder priority
 							);
@@ -278,10 +318,10 @@ public class ComposeGUI extends JFrame {
 	 * If no receivers are ready, pass a new DoublyLinkedList()
 	 */
 	
-	public static void Run(String senderEmail, SinglyLinked receivers) {
+	public static void Run(User user, SinglyLinked receivers) {
 		SwingUtilities.invokeLater(new Runnable () {
 			public void run() {
-				new ComposeGUI(senderEmail, receivers);
+				new ComposeGUI(user, receivers);
 			}
 		});
 	}
@@ -294,5 +334,54 @@ public class ComposeGUI extends JFrame {
 	}
 	
 
+	public class MenuButton extends JToggleButton {
+
+        JPopupMenu popup;
+
+        public MenuButton(String name, JPopupMenu menu) {
+            super(name);
+            this.popup = menu;
+            addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ev) {
+                    JToggleButton b = MenuButton.this;
+                    if (b.isSelected()) {
+                        popup.show(b, 0, b.getBounds().height);
+                    } else {
+                        popup.setVisible(false);
+                    }
+                }
+            });
+            popup.addPopupMenuListener(new PopupMenuListener() {
+                @Override
+                public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+                	menu.removeAll();
+                	DoubleLinkedList emails = user.getEmails();
+        			for (int i = 0;i < emails.size();i++) {
+        				//Make a menuItem for each email
+        				//each menuItem when pressed will change the text of the JMenu to its email
+        				
+        				JMenuItem email = new JMenuItem((String)emails.get(i));
+        				email.addActionListener(new ActionListener() {
+        					public void actionPerformed(ActionEvent e) {
+        						setName(email.getText());
+        					}
+        				});
+        				menu.add(email);
+        			}
+                }
+                @Override
+                public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+                    MenuButton.this.setSelected(false);
+                }
+                @Override
+                public void popupMenuCanceled(PopupMenuEvent e) {}
+            });
+        }
+        
+        public void setName(String name) {
+        	super.setText(name);
+        }
+    }
 	
 }

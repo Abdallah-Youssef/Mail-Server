@@ -9,15 +9,16 @@ import eg.edu.alexu.csd.datastructure.mailServer.User;
 public class MainGUI {
 	public static void main(String[] args) throws IOException {
 		
-		/*FolderManagerBIN.clearUsers();
-		User test = new User("haha", "popo", "koskos@zobzob.com", "passssap");
+		FolderManagerBIN.clearUsers();
+		User test = new User("haha", "popo", "user1@gmail.com", "passssap");
 		FolderManagerBIN.addNewUser(test);
 
 		User test2 = new User("haha", "popo", "koskos@eltany.com", "passssap");
 		FolderManagerBIN.addNewUser(test2);
-	*/
+		
+	
 		FolderManagerBIN.printUsers();
-		MainPageGUI.Run();
+		EMailHomePageGUI.run(test);
 	}
 }
  
