@@ -15,7 +15,7 @@ public class MainGUI {
 
 		User test2 = new User("haha", "popo", "koskos@eltany.com", "passssap");
 		FolderManagerBIN.addNewUser(test2);
-		*/
+	
 		
 		MainPageGUI.Run();
 	}

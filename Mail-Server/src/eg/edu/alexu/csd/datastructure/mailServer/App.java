@@ -2,6 +2,7 @@ package eg.edu.alexu.csd.datastructure.mailServer;
 
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Interfaces.ILinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.gui.EMailHomePageGUI;
+import eg.edu.alexu.csd.datastructure.mailServer.gui.SignInErrorListener;
 import interfaces.IApp;
 import interfaces.IContact;
 import interfaces.IFilter;
@@ -11,7 +12,7 @@ import interfaces.ISort;
 
 public class App implements IApp {
 
-	
+	SignInErrorListener signInErrorListener;
 	Folder folder;
 	User loggedInUser;
 	FilterComp filter;
@@ -29,24 +30,25 @@ public class App implements IApp {
 	public boolean signin(String email, String password) {
 		if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
 			//emailErrorMessage.setText("Please enter a valid email address");
+			signInErrorListener.sendEmailError("Please enter a valid email address");
 			return false;
 		}
 		else if(FolderManagerBIN.getUser(email)==null) {
-			//emailErrorMessage.setText("User doesn't exist");
+			signInErrorListener.sendEmailError("User doesn't exist");
 			return false;
 		}
 		
 		User user = FolderManagerBIN.getUser(email);
 		if (password.contentEquals("")) {
-			//passwordErrorMessage.setText("Please enter a password");
+			signInErrorListener.sendPasswordError("Please enter a password");
 			return false;
 		}
 		else if(!(user.password).equals(password)) {
-			//passwordErrorMessage.setText("Wrong password");
+			signInErrorListener.sendPasswordError("Wrong password");
 			return false;
 		}
 		else {
-			//passwordErrorMessage.setText("");
+			signInErrorListener.sendPasswordError("");
 			loggedInUser = user;
 			return true;
 		}
@@ -107,6 +109,11 @@ public class App implements IApp {
 	public boolean compose(IMail email) {
 		
 		return false;
+	}
+	
+	
+	public void setSignInListener (SignInErrorListener listener) {
+		this.signInErrorListener = listener;
 	}
 
 }

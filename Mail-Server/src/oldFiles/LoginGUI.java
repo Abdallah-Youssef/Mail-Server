@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.datastructure.mailServer.gui;
+package oldFiles;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

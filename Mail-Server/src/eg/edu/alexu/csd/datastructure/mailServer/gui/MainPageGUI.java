@@ -152,6 +152,16 @@ public class MainPageGUI extends JFrame{
 				EMailHomePageGUI.run(user);
 				}
 				*/
+				
+				app.setSignInListener(new SignInErrorListener() {
+					public void sendEmailError(String errorMessage) {
+						emailErrorMessage.setText(errorMessage);
+					}
+					public void sendPasswordError(String errorMessage) {
+						passwordErrorMessage.setText(errorMessage);						
+					}
+				});
+				
 				if(app.signin(email, password))
 				{
 					FolderManagerBIN.printUsers();
