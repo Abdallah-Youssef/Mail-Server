@@ -15,6 +15,7 @@ public class App implements IApp {
 	Filter filter;
 	sortComparator sort;
 	DoubleLinkedList currentlyLoadedEmails;
+	int LoggedInUserID;
 	
 	public App() {
 		folder = new Folder("inbox");
@@ -25,27 +26,35 @@ public class App implements IApp {
 	
 	@Override
 	public boolean signin(String email, String password) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean signup(IContact contact) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void setViewingOptions(IFolder folder, IFilter filter, ISort sort) {
-		/*currentlyLoadedEmails = Email.readUserEmails(LoggedInUserID, folder);
-		Filter.filter(currentlyLoadedEmails, sort);
+		//Abdallah : this is giving me the error: the method setViewingOptions (IFolder ,IFilter, ISort)
+				//				isn't applicable for the arguments (Folder, Filter, SortComparator)
+		
+		currentlyLoadedEmails = Email.readUserEmails(LoggedInUserID, folder);
+		
+		//Abdallah : this is giving me the error: the method filter (DoubleLinkedList, FilterComp)
+		//				isn't applicable for the arguments (DoubleLinkedList, ISort)
+		
+		//TODO Should I cast sort to ISort?
+		
+		/*Filter.filter(currentlyLoadedEmails, sort);
 		SortingTemp.quickSort(currentlyLoadedEmails, sort);*/
 	}
 
 	@Override
 	public IMail[] listEmails(int page) {
-		
-		//setViewingOptions(folder, filter, sort);
+		//Abdallah : this is giving me the error: the method setViewingOptions (IFolder ,IFilter, ISort)
+		//				isn't applicable for the arguments (Folder, Filter, SortComparator)
+		//setViewingOptions(folder, filter, sort); 
 		
 		Email[] emails = new Email[10];
 		
@@ -56,13 +65,11 @@ public class App implements IApp {
 
 	@Override
 	public void deleteEmails(ILinkedList mails) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void moveEmails(ILinkedList mails, IFolder des) {
-		// TODO Auto-generated method stub
 
 	}
 

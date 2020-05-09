@@ -30,10 +30,14 @@ public class NavigationPanel extends JPanel {
 	public NavigationPanel(User user){
 		FileNames=new String [] {"Inbox","Sent","Trash","Defined"};
 		fileButtons=new JButton[4];
-		Contacts=new JButton("Contacts");
-		Compose=new JButton("Compose");
-		EMailModification=new JButton("EMailModification");
 		
+		Contacts=new JButton("Contacts");
+		Contacts.setAlignmentX(CENTER_ALIGNMENT);
+		
+		Compose=new JButton("Compose");
+		
+		EMailModification=new JButton("EMailModification");
+		EMailModification.setAlignmentX(CENTER_ALIGNMENT);
 		Box ButtonBox=Box.createVerticalBox();
 		Box FileBox=Box.createVerticalBox();
 		
@@ -62,18 +66,18 @@ public class NavigationPanel extends JPanel {
 		GC.fill = GridBagConstraints.NONE;	
 		
 		setGridCell(0,0);	
-		GC.anchor = GridBagConstraints.LINE_START;
+		GC.anchor = GridBagConstraints.CENTER;
 		add(FileBox,GC);
 		
 		
 		
 		
 		setGridCell(0,1);	
-		GC.anchor = GridBagConstraints.LINE_START;
+		GC.anchor = GridBagConstraints.CENTER;
 		add(ButtonBox,GC);
 		
 		setGridCell(0,2);	
-		GC.anchor = GridBagConstraints.LINE_START;
+		GC.anchor = GridBagConstraints.CENTER;
 		add(Compose,GC);
 		
 		
@@ -119,9 +123,6 @@ public class NavigationPanel extends JPanel {
 		//action for email modification
 		EMailModification.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*
-				 * call the EMAILMODIFICATION panel to the mails area
-				 */
 				EmailModificationGUI.run(user);
 			}
 		});
@@ -138,9 +139,19 @@ public class NavigationPanel extends JPanel {
 		Compose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DoubleLinkedList recevires=new DoubleLinkedList();
-				ComposeGUI.Run("koskoszobzob@gmail.com", ListUtils.doubleToSingleList(recevires));
+				
+				//TODO add the correct email
+				ComposeGUI.Run("koskos@zobzob.com", ListUtils.doubleToSingleList(recevires));
 			}
 		});
+		
+		
+		/*
+		 Testing stuff
+		 TODO remove
+		 */
+		EmailModificationGUI.run(user);
+		
 	}
 	
 	private void setGridCell(int x, int y) {

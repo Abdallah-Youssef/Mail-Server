@@ -100,8 +100,8 @@ public class ComposeGUI extends JFrame {
 			senderEmailLabel = new JLabel(senderEmail);
 			
 			receiverLabel = new JLabel("Reciever:");
-			addReceiverField = new JTextField("koskos@zobzob.com");
-			addReceiverField.setMinimumSize(new Dimension(200,25));
+			addReceiverField = new JTextField(senderEmail);
+			addReceiverField.setMinimumSize(new Dimension(200,30));
 			addReceiverBtn = new JButton("Add receiver");
 			receiverError = new JLabel("");
 			receiverError.setForeground(Color.RED);
@@ -177,6 +177,7 @@ public class ComposeGUI extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					
 					String receiverEmail = addReceiverField.getText();
+					FolderManagerBIN.printUsers();
 					if (FolderManagerBIN.getUser(receiverEmail) != null) {
 						if (receiversBox.Add(receiverEmail)) { //returns true if Adding is successful
 							receiverError.setText("");
@@ -237,85 +238,10 @@ public class ComposeGUI extends JFrame {
 		}
 	}
 	
-	public class Element extends JPanel{
-		Element me = this;
-		ElementsBox parent;
-		JLabel label;
-		public Element(String text, ElementsBox parent) {
-			this.parent = parent;
-			label = new JLabel(text);
-			label.setFont(new Font("Serif", Font.PLAIN, 20));
-			JButton delete = new JButton("X");
-			setLayout(new FlowLayout());
-			add(label);
-			add(delete);
-			
-			delete.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					parent.errorLabel.setText("");
-					parent.Delete(me);
-				}
-			});
-		}
-	}
+	
 	
 
-	public class ElementsBox extends JPanel{
-		SinglyLinked elements;
-		JLabel errorLabel;
-		
-		public ElementsBox(SinglyLinked elements, String Label, JLabel errorLabel) {
-			this.elements = elements;
-			this.errorLabel = errorLabel;
-			
-			System.out.println(elements.size());
-			
-			setMinimumSize(new Dimension(200,200));
-			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-			setBorder(BorderFactory.createLineBorder(Color.black));
-			
-			JLabel label = new JLabel(Label);
-			label.setAlignmentX(CENTER_ALIGNMENT);
-			add(label);
-			
-			
-			for (int i = 0;i < elements.size();i++) {
-				add(new Element((String) elements.get(i), this));
-				revalidate();
-			}
-		}
-		
-		public boolean Add(String string) {
-			//Check if it's not already existing in the list
-			for (int i = 0;i < elements.size();i++) {
-				if ( ((String)elements.get(i)) .equals(string)){
-					errorLabel.setText("Element already included");
-					return false;
-				}
-			}
-			
-			elements.add(string);
-			errorLabel.setText("");
-			add(new Element(string, this));
-			revalidate();
-			return true;
-		}
-		
-		public void Delete(Element element) {
-			//Remove component
-			element.setVisible(false);
-			remove(element);
-			revalidate();
-			
-			for(int i = 0;i < elements.size();i++)
-				if ((element.label.getText()).equals((String)elements.get(i))) {
-					elements.remove(i);
-					break;
-				}
-			
-		}
-		
-	}
+	
 	
 
 	
@@ -326,7 +252,6 @@ public class ComposeGUI extends JFrame {
 			setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
 			
-			System.out.println(receivers.size());
 			receiversBox = new ElementsBox(receivers, "Receivers", receiverError);
 			attachmentsBox = new ElementsBox(attachments, "Attachments", attachmentError);
 			

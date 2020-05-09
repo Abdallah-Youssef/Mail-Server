@@ -10,6 +10,7 @@ public class MainGUI {
 	public static void main(String[] args) throws IOException {
 		FolderManagerBIN.clearUsers();
 		User test = new User("haha", "popo", "koskos@zobzob.com", "passssap");
+		FolderManagerBIN.addNewUser(test);
 
 	
 		

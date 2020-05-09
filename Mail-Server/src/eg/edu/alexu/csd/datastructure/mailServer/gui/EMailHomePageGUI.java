@@ -52,6 +52,10 @@ public class EMailHomePageGUI extends JFrame {
 			setJMenuBar(menuBar);
 	
 			add(scroll, BorderLayout.CENTER);
+			
+			
+			
+			
 
 		}
 		

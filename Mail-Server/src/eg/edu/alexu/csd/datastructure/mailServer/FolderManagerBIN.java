@@ -25,7 +25,6 @@ public class FolderManagerBIN {
 	
 	public static User getUser(int id)
 	{
-		//TODO Load users one time only
 		DoubleLinkedList users = getUsers();
 		for(int i = 0; i < users.size();i++)
 		{
@@ -38,7 +37,6 @@ public class FolderManagerBIN {
 	
 	public static User getUser(String email)
 	{
-		//TODO Load users one time only
 		DoubleLinkedList users = getUsers();
 		for(int i = 0; i < users.size();i++)
 		{
@@ -112,7 +110,7 @@ public class FolderManagerBIN {
 	public static void addNewUser(User newUser) {
 		DoubleLinkedList users = getUsers();
 		
-		//compare every email in the new user with all the emails of the other users
+		//TODO compare every email in the new user with all the emails of the other users
 		for (int i = 0;i < users.size();i++) {
 			User user = (User) users.get(i);
 			for (int j = 0;j < user.emails.size();j++) {
@@ -126,6 +124,23 @@ public class FolderManagerBIN {
 		saveUsersLinkedList(users);
 	}
 	
+	/**
+	 * 
+	 * @param updatedUser
+	 * the user has to exist
+	 */
+	public static void updateUser (User updatedUser) {
+		DoubleLinkedList users = getUsers();
+		for (int i = 0;i < users.size();i++) {
+			User user = (User) users.get(i);
+			if (updatedUser.getID() == user.getID()) {
+				users.set(i, updatedUser);
+				saveUsersLinkedList(users);
+				return;
+			}
+		}
+		
+	}
 	public static void printUsers() {
 		DoubleLinkedList arr = getUsers();
 		

@@ -16,6 +16,7 @@ public class User implements IContact, Serializable
 	
 	
 	DoubleLinkedList emails;
+	DoubleLinkedList contactsIDs;
 	public String password;
 	
 	public static void createUserSubDirectory(int id) throws IOException
@@ -72,12 +73,34 @@ public class User implements IContact, Serializable
 		this.emails.add(email);
 		this.password = password;
 		this.id = id;
+		this.contactsIDs = new DoubleLinkedList();
 	}
 	
 	public int getID() {
 		return id;
 	}
-	public  void addEmail(User user,String Email) {
-		user.emails.add(Email);
+	
+	public DoubleLinkedList getEmails() {
+		return emails;
+	}
+	public void addEmail(String Email) {
+		emails.add(Email);
+		FolderManagerBIN.updateUser(this);
+	}
+	
+	public void removeEmail(String Email) {
+		for (int i = 0;i < emails.size();i++) {
+			if (((String)emails.get(i)).equals(Email)) {
+				emails.remove(i);
+				FolderManagerBIN.updateUser(this);
+				return;
+			}
+		}
+	}
+	public void printEmails() {
+		for (int i = 0;i < emails.size();i++) {
+			System.out.print((String)emails.get(i) + " ");
+		}
+		System.out.println();
 	}
 }
