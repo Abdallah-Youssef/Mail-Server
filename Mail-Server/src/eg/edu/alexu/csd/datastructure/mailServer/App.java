@@ -61,25 +61,11 @@ public class App implements IApp {
 
 	@Override
 	public void setViewingOptions(IFolder folder, IFilter filter, ISort sort) {
-<<<<<<< HEAD
-		currentlyLoadedEmails = Email.readUserEmails(LoggedInUserID, folder);	//TODO
+		currentlyLoadedEmails = Email.readUserEmails(loggedInUser.getID(), folder);	//TODO
 		if(filter != null)
 			Filter.filter(currentlyLoadedEmails, (FilterComp)filter);
 		SortingTemp.quickSort(currentlyLoadedEmails, sort);
-=======
-		//Abdallah : this is giving me the error: the method setViewingOptions (IFolder ,IFilter, ISort)
-				//				isn't applicable for the arguments (Folder, Filter, SortComparator)
-		
-		currentlyLoadedEmails = Email.readUserEmails(LoggedInUserID, folder);
-		
-		//Abdallah : this is giving me the error: the method filter (DoubleLinkedList, FilterComp)
-		//				isn't applicable for the arguments (DoubleLinkedList, ISort)
-		
-		//TODO Should I cast sort to ISort?
-		
-		/*Filter.filter(currentlyLoadedEmails, sort);
-		SortingTemp.quickSort(currentlyLoadedEmails, sort);*/
->>>>>>> refs/remotes/origin/master
+
 	}
 
 	@Override
