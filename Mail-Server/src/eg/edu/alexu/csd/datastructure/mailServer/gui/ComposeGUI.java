@@ -407,6 +407,8 @@ public class ComposeGUI extends JFrame {
 			add(scroll2);
 		}
 	}
+	
+	
 
 	
 	

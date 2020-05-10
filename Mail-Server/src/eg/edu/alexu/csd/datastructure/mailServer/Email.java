@@ -81,6 +81,7 @@ public class Email implements IMail, Serializable
 		this.priority = priority;
 	}
 	
+	
 	public String getSubject(){
 		return subject;
 	}

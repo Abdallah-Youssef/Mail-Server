@@ -49,6 +49,7 @@ public class LOadDraftGUI extends JFrame {
 	add(scroll1,GC);
 	
 	
+	
 }
 	public void adding(DoubleLinkedList drafts) {
 		for(int i=0;i<drafts.size();i++) {
