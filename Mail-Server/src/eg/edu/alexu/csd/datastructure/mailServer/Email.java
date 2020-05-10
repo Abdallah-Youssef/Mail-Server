@@ -88,11 +88,15 @@ public class Email implements IMail, Serializable
 	public String getSender(){
 		return senderEmail;
 	}
-	
+	public String getReceiver(){
+		return receiverEmail;
+	}
 	public String getBody(){
 		return body;
 	}
-	
+	public LocalDateTime getDate(){
+		return date;
+	}
 	public SinglyLinked getAttachments() {
 		return attachments;
 	}
