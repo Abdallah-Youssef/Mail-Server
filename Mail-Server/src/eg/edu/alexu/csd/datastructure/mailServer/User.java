@@ -34,6 +34,8 @@ public class User implements IContact, Serializable
 		new File(path+"trash/index.txt").createNewFile();
 		new File(path+"user defined folders/").mkdirs();
 		new File(path+"user defined folders/index.txt").createNewFile();
+		new File(path+"Draft/").mkdirs();
+		new File(path+"Draft/index.txt").createNewFile();
 		}catch(IOException e)
 		{
 			e.printStackTrace();
