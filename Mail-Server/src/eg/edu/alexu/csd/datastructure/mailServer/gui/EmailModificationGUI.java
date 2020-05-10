@@ -16,12 +16,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
-import Listeners.RemoveElementListener;
 import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
 import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 import eg.edu.alexu.csd.datastructure.mailServer.gui.ElementsBox.Element;
+import listeners.RemoveElementListener;
 
 public class EmailModificationGUI extends JFrame {
 	String newEMail;

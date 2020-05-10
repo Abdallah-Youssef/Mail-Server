@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
+import eg.edu.alexu.csd.datastructure.mailServer.User;
 
 public class MainGUI {
 	public static void main(String[] args) throws IOException {
@@ -21,10 +22,10 @@ public class MainGUI {
 		//TODO fix error : all users have the same id
 		test.addContactID(test2.getID());
 	
-		FolderManagerBIN.printUsers();*/
-		/*App app = new App();
-		app.loggedInUser = FolderManagerBIN.getUser(2);*/
 		FolderManagerBIN.printUsers();
+		App app = new App();
+		app.loggedInUser = FolderManagerBIN.getUser(2);
+		FolderManagerBIN.printUsers();*/
 		MainPageGUI.Run();
 	}
 }

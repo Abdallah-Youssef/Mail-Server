@@ -12,9 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-import Listeners.EmailsPanelListener;
-import Listeners.FolderChangeListener;
-import Listeners.NewEmailListListener;
 import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.Email;
@@ -22,6 +19,9 @@ import eg.edu.alexu.csd.datastructure.mailServer.Folder;
 import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 import interfaces.IFolder;
+import listeners.EmailsPanelListener;
+import listeners.FolderChangeListener;
+import listeners.NewEmailListListener;
 
 public class NavigationPanel extends JPanel {
 	GridBagConstraints GC;

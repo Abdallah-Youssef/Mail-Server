@@ -13,9 +13,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import Listeners.SignUpErrorListener;
 import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
+import listeners.SignUpErrorListener;
 public class SignUpGUI extends JFrame {
 	GridBagConstraints gc;
 	JLabel firstName, lastName;

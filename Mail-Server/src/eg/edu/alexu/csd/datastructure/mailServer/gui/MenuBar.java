@@ -10,10 +10,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 
-import Listeners.FilterSortChangeListener;
 import eg.edu.alexu.csd.datastructure.mailServer.sortComparator;
 import interfaces.IFilter;
 import interfaces.ISort;
+import listeners.FilterSortChangeListener;
 
 
 

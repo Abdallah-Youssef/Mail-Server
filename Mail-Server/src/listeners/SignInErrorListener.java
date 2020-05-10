@@ -1,4 +1,4 @@
-package Listeners;
+package listeners;
 
 public interface SignInErrorListener {
 	public void sendEmailError(String errorMessage);

@@ -9,10 +9,6 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
-import Listeners.EmailsPanelListener;
-import Listeners.FilterSortChangeListener;
-import Listeners.FolderChangeListener;
-import Listeners.NewEmailListListener;
 import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.Email;
@@ -24,6 +20,11 @@ import eg.edu.alexu.csd.datastructure.mailServer.sortComparator;
 import interfaces.IFilter;
 import interfaces.IFolder;
 import interfaces.IMail;
+import listeners.EmailPanelUtilsListener;
+import listeners.EmailsPanelListener;
+import listeners.FilterSortChangeListener;
+import listeners.FolderChangeListener;
+import listeners.NewEmailListListener;
 
 public class EMailHomePageGUI extends JFrame {
 		JFrame frame = this;
@@ -34,6 +35,8 @@ public class EMailHomePageGUI extends JFrame {
 		NavigationPanel navigationPanel;
 		MenuBar menuBar;
 		EMailsPanel emailsPanel;
+		EmailPanelUtil emailPanelUtil;
+		
 		JScrollPane scroll;
 		App app;
 		User user;
@@ -55,6 +58,14 @@ public class EMailHomePageGUI extends JFrame {
 			navigationPanel = new NavigationPanel(app);
 			menuBar = new MenuBar();
 			
+			
+			//TODO get folders from user
+			DoubleLinkedList folders = new DoubleLinkedList();
+			folders.add("inbox");
+			folders.add("sent");
+			folders.add("trash");
+			emailPanelUtil = new EmailPanelUtil(folders);
+			
 			DoubleLinkedList initialMails = Email.readUserEmails(user.getID(), new Folder("inbox"));
 			emailsPanel = new EMailsPanel(ListUtils.getPage(initialMails, 1),user);
 			scroll = new JScrollPane(emailsPanel);
@@ -70,6 +81,7 @@ public class EMailHomePageGUI extends JFrame {
 			setJMenuBar(menuBar);
 	
 			add(scroll, BorderLayout.CENTER);
+			add(emailPanelUtil, BorderLayout.SOUTH);
 			
 			navigationPanel.setListener(new FolderChangeListener() {
 				public void newFolder(IFolder folder) {
@@ -91,22 +103,25 @@ public class EMailHomePageGUI extends JFrame {
 				}
 			});
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			emailPanelUtil.setListener(new EmailPanelUtilsListener(){
+				public void moveEmails(Folder folder) {
+					// TODO move emails
+				}
+
+				@Override
+				public void deleteEmails() {
+					// TODO delete selected emails
+					//        ------>  emailsPanel.checkedEmails ;
+				}
+
+				@Override
+				public boolean newPage(int page) {
+					//decide if the new page is allowed and return true if yes and refresh the emails panel
+					//return false if not allowed
+					return false;
+				}
+				
+			});
 
 		}
 		

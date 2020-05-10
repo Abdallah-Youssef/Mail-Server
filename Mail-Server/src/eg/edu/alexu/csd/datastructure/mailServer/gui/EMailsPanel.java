@@ -27,7 +27,7 @@ import eg.edu.alexu.csd.datastructure.mailServer.User;
 public class EMailsPanel extends JPanel {
 	JFrame parentFrame = (JFrame) this.getParent();
 	User user;
-	boolean[] checkedEmails;
+	public boolean[] checkedEmails;
 	public EMailsPanel(Email[] emails, User user) {
 		/*Email[] emails = new Email[7];
 		for (int i = 0;i < emails.length;i++) {

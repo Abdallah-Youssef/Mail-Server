@@ -1,5 +1,6 @@
 package eg.edu.alexu.csd.datastructure.mailServer.gui;
 
+
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,10 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-import Listeners.EmailChooserListener;
-import Listeners.PathListener;
 import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
+import listeners.EmailChooserListener;
 
 public class EmailChooser extends JFrame {
 	boolean[] checkedEmails;

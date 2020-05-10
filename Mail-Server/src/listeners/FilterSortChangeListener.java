@@ -1,4 +1,4 @@
-package Listeners;
+package listeners;
 
 import eg.edu.alexu.csd.datastructure.mailServer.*;
 

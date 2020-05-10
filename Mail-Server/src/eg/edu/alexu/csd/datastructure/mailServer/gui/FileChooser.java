@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
-import Listeners.PathListener;
+import listeners.PathListener;
 
 
 public class FileChooser extends JPanel implements ActionListener {

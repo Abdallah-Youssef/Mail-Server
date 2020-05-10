@@ -15,8 +15,6 @@ import javax.swing.event.MenuListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-import Listeners.EmailChooserListener;
-import Listeners.PathListener;
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.SinglyLinked;
 import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.Email;
@@ -26,12 +24,14 @@ import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;
 import eg.edu.alexu.csd.datastructure.mailServer.QueueLinkedBased;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 import interfaces.IFolder;
+import listeners.EmailChooserListener;
+import listeners.PathListener;
 
 public class ComposeGUI extends JFrame {
 	//TODO choose sender from emails
 	//TODO choose receivers from contacts
 	
-	MenuButton senderButton;
+	DropDownMenuButton senderButton;
 	JPopupMenu sendersMenu;
 	JLabel senderError;
 	
@@ -109,7 +109,7 @@ public class ComposeGUI extends JFrame {
 
 			//senderEmailLabel = new JLabel(senderEmail);
 			sendersMenu = new JPopupMenu();
-			senderButton = new MenuButton("Choose Sender", sendersMenu);
+			senderButton = new DropDownMenuButton("Choose Sender", sendersMenu);
 			senderError = new JLabel("");
 			senderError.setForeground(Color.RED);
 			
@@ -293,6 +293,32 @@ public class ComposeGUI extends JFrame {
 				}
 			});
 			
+			senderButton.setPopupListener(new PopupMenuListener() {
+	            @Override
+	            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+	            	senderButton.popup.removeAll();
+	            	DoubleLinkedList emails = user.getEmails();
+	    			for (int i = 0;i < emails.size();i++) {
+	    				//Make a menuItem for each email
+	    				//each menuItem when pressed will change the text of the JMenu to its email
+	    				
+	    				JMenuItem email = new JMenuItem((String)emails.get(i));
+	    				email.addActionListener(new ActionListener() {
+	    					public void actionPerformed(ActionEvent e) {
+	    						senderButton.setName(email.getText());
+	    					}
+	    				});
+	    				senderButton.popup.add(email);
+	    			}
+	            }
+	            @Override
+	            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+	            	senderButton.setSelected(false);
+	            }
+	            @Override
+	            public void popupMenuCanceled(PopupMenuEvent e) {}
+	        });
+			
 		}
 	}
 	
@@ -349,56 +375,6 @@ public class ComposeGUI extends JFrame {
 	}
 	
 
-	public class MenuButton extends JToggleButton {
-
-        JPopupMenu popup;
-
-        public MenuButton(String name, JPopupMenu menu) {
-            super(name);
-            this.popup = menu;
-            addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent ev) {
-                    JToggleButton b = MenuButton.this;
-                    if (b.isSelected()) {
-                        popup.show(b, 0, b.getBounds().height);
-                    } else {
-                        popup.setVisible(false);
-                    }
-                }
-            });
-            
-            
-            popup.addPopupMenuListener(new PopupMenuListener() {
-                @Override
-                public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-                	menu.removeAll();
-                	DoubleLinkedList emails = user.getEmails();
-        			for (int i = 0;i < emails.size();i++) {
-        				//Make a menuItem for each email
-        				//each menuItem when pressed will change the text of the JMenu to its email
-        				
-        				JMenuItem email = new JMenuItem((String)emails.get(i));
-        				email.addActionListener(new ActionListener() {
-        					public void actionPerformed(ActionEvent e) {
-        						setName(email.getText());
-        					}
-        				});
-        				menu.add(email);
-        			}
-                }
-                @Override
-                public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-                    MenuButton.this.setSelected(false);
-                }
-                @Override
-                public void popupMenuCanceled(PopupMenuEvent e) {}
-            });
-        }
-        
-        public void setName(String name) {
-        	super.setText(name);
-        }
-    }
+	
 	
 }
