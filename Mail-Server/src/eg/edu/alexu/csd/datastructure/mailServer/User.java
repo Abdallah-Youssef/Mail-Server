@@ -133,8 +133,25 @@ public class User implements IContact, Serializable
 	}
 	
 	public void addContactID(int id) {
+		for (int i = 0;i < contactsIDs.size();i++) {
+			if (id == (int)contactsIDs.get(i)) {
+				//id already exists
+				return;
+			}
+		}
+		
 		contactsIDs.add(id);
 		FolderManagerBIN.updateUser(this);
+	}
+	
+	public void removeContactID(int id) {
+		for (int i = 0;i < contactsIDs.size();i++) {
+			if (id == (int)contactsIDs.get(i)) {
+				contactsIDs.remove(i);
+				FolderManagerBIN.updateUser(this);
+				return;
+			}
+		}
 	}
 	
 	public void addFolder(String folderName) {
