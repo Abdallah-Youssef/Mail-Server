@@ -150,6 +150,7 @@ public class NavigationPanel extends JPanel {
 				/*
 				 * call the defined panel to the mails area
 				 */
+				ContactsGUI.run(app);
 			}
 		});
 		

@@ -22,9 +22,10 @@ public class MainGUI {
 		test.addContactID(test2.getID());
 	
 		FolderManagerBIN.printUsers();*/
-		App app = new App();
-		app.loggedInUser = FolderManagerBIN.getUser(2);
-		EMailHomePageGUI.run(app);
+		/*App app = new App();
+		app.loggedInUser = FolderManagerBIN.getUser(2);*/
+		FolderManagerBIN.printUsers();
+		MainPageGUI.Run();
 	}
 }
  

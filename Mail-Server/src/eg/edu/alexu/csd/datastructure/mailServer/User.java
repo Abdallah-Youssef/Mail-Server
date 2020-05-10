@@ -94,6 +94,14 @@ public class User implements IContact, Serializable
 	public DoubleLinkedList getContactsIDs() {
 		return contactsIDs;
 	}
+	public boolean idExistInContacts(int id) {
+		for(int i=0;i<contactsIDs.size();i++) {
+			if(id==(int)contactsIDs.get(i)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public DoubleLinkedList getEmails() {
 		return emails;
