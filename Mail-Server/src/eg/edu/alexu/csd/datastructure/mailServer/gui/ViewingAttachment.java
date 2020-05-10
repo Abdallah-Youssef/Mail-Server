@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class ViewingAttachment {
 
-	ViewingAttachment(String path) throws IOException{
+	public static void ViewingAttachment(String path) throws IOException{
 	Desktop.getDesktop().open(new File(path));
 		}
 	}

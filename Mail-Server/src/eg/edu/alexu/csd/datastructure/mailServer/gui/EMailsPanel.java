@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -119,7 +120,12 @@ public class EMailsPanel extends JPanel {
 					EmailView.run(email, new PathListener() {
 						public void pathChosen(String path) {
 							//TODO for youssef : open the path
-							
+							try {
+								ViewingAttachment.ViewingAttachment(path);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 					});
 				}
