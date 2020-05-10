@@ -1,14 +1,13 @@
 package eg.edu.alexu.csd.datastructure.mailServer.gui;
 
 import java.awt.BorderLayout;
-
-
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
+import eg.edu.alexu.csd.datastructure.linkedList.cs.Interfaces.ILinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.Email;
@@ -26,16 +25,17 @@ import listeners.FilterSortChangeListener;
 import listeners.FolderChangeListener;
 import listeners.NewEmailListListener;
 
+
+
 public class EMailHomePageGUI extends JFrame {
 		JFrame frame = this;
-		//declerations
-		/*GridBagConstraints GC;
-		private GridBagLayout gridBagLayout = new GridBagLayout();*/
 		
 		NavigationPanel navigationPanel;
 		MenuBar menuBar;
 		EMailsPanel emailsPanel;
 		EmailPanelUtil emailPanelUtil;
+		
+		boolean[] checkedEmails;
 		
 		JScrollPane scroll;
 		App app;
@@ -67,7 +67,7 @@ public class EMailHomePageGUI extends JFrame {
 			emailPanelUtil = new EmailPanelUtil(folders);
 			
 			DoubleLinkedList initialMails = Email.readUserEmails(user.getID(), new Folder("inbox"));
-			emailsPanel = new EMailsPanel(ListUtils.getPage(initialMails, 1),user);
+			emailsPanel = new EMailsPanel(ListUtils.getPage(initialMails, 1),user, checkedEmails, emailPanelUtil.page);
 			scroll = new JScrollPane(emailsPanel);
 			//Layout
 			Border outsideBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
@@ -88,6 +88,9 @@ public class EMailHomePageGUI extends JFrame {
 					app.setViewingOptions(folder, app.filter, app.sort);
 					
 					refreshEmailsPanel(app.listEmails(0));
+					int size = app.currentlyLoadedEmails.size();
+					if(size != 0)
+						checkedEmails = new boolean[size];
 				}
 			});
 			
@@ -105,20 +108,45 @@ public class EMailHomePageGUI extends JFrame {
 			
 			emailPanelUtil.setListener(new EmailPanelUtilsListener(){
 				public void moveEmails(Folder folder) {
-					// TODO move emails
-					//		  ------>  emailsPanel.checkedEmails ;
+					int n = 0;
+					DoubleLinkedList emailsToBeMoved = new DoubleLinkedList();
+					for(int i = 0; i < checkedEmails.length;i++)
+					{
+						if(checkedEmails[i])
+						{
+							emailsToBeMoved.add((Email)app.currentlyLoadedEmails.get(n));
+							app.currentlyLoadedEmails.remove(n);
+							continue;
+						}
+						n++;
+					}
+					app.moveEmails((ILinkedList)emailsToBeMoved, folder);
+					Email.saveBulkEmails(app.currentlyLoadedEmails, app.loggedInUser.getID(), app.folder);
 				}
 
 				@Override
 				public void deleteEmails() {
-					// TODO delete selected emails
-					//        ------>  emailsPanel.checkedEmails ;
+					int n = 0;
+					for(int i = 0; i < checkedEmails.length;i++)
+					{
+						if(checkedEmails[i])
+						{
+							app.currentlyLoadedEmails.remove(n);
+							continue;
+						}
+						n++;
+					}
+					Email.saveBulkEmails(app.currentlyLoadedEmails, app.loggedInUser.getID(), app.folder);
 				}
 
 				@Override
 				public boolean newPage(int page) {
-					//decide if the new page is allowed and return true if yes and refresh the emails panel
-					//return false if not allowed
+					int size = app.currentlyLoadedEmails.size();
+					if(page*10 >= 0 && page*10 < size)
+					{
+						refreshEmailsPanel(app.listEmails(page));
+						return true;
+					}
 					return false;
 				}
 				
@@ -128,7 +156,7 @@ public class EMailHomePageGUI extends JFrame {
 		
 		public void refreshEmailsPanel(IMail[] emails) {
 			frame.remove(scroll);
-			emailsPanel = new EMailsPanel((Email[])emails, user);
+			emailsPanel = new EMailsPanel((Email[])emails, user, checkedEmails, emailPanelUtil.page);
 			scroll = new JScrollPane(emailsPanel);
 			add(scroll, BorderLayout.CENTER);
 			revalidate();

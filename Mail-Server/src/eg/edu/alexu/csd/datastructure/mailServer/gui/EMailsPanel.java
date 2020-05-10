@@ -30,7 +30,9 @@ public class EMailsPanel extends JPanel {
 	JFrame parentFrame = (JFrame) this.getParent();
 	User user;
 	public boolean[] checkedEmails;
-	public EMailsPanel(Email[] emails, User user) {
+	public boolean[] newCheckedEmails;
+	int currentPage;
+	public EMailsPanel(Email[] emails, User user, boolean[] checkedEmailsBoxes, int page) {
 		/*Email[] emails = new Email[7];
 		for (int i = 0;i < emails.length;i++) {
 			emails[i] = new Email("subject" + i, "body" + i, user.getID(), "hahah@gmail.com", 2, "receiver@gmail.com", new SinglyLinked(), 0);
@@ -43,8 +45,8 @@ public class EMailsPanel extends JPanel {
 		
 		this.user = user;
 		checkedEmails = new boolean[emails.length];
-		
-		
+		newCheckedEmails = checkedEmailsBoxes;
+		currentPage = page;
 		
 		
 		//create a panel for each email
@@ -111,6 +113,7 @@ public class EMailsPanel extends JPanel {
 					AbstractButton abstractButton = (AbstractButton) e.getSource();
 			        boolean selected = abstractButton.getModel().isSelected();
 			        checkedEmails[index] = selected;
+			        newCheckedEmails[10*currentPage + index] = selected;
 				}
 			});
 			
