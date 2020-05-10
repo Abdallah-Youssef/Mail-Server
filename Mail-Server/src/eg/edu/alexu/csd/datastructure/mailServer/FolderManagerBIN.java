@@ -171,7 +171,6 @@ public class FolderManagerBIN {
 	    return directoryToBeDeleted.delete();
 	}
 	
-	
 
 	
 	/*public static void main(String[] args) {
