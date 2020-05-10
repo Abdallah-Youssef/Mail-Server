@@ -44,10 +44,11 @@ public class ComposeGUI extends JFrame {
 	JLabel subjectLabel;
 	
 	JButton SaveDraft ;
+	JButton LoadDraft ;
 	
-	JTextArea textArea;
+	static JTextArea textArea;
 	JTextField addReceiverField;
-	JTextField subjectField;
+	static JTextField subjectField;
 	
 	
 	
@@ -57,7 +58,7 @@ public class ComposeGUI extends JFrame {
 	JButton sendBtn;
 	
 	ElementsBox receiversBox;
-	ElementsBox attachmentsBox;
+	static ElementsBox attachmentsBox;
 	BottomPanel bottomPanel;  //contains boxes
 	
 
@@ -66,7 +67,7 @@ public class ComposeGUI extends JFrame {
 	
 	User user;
 	SinglyLinked receivers; //String
-	SinglyLinked attachments; //String
+	static SinglyLinked attachments; //String
 	
 	
 	public ComposeGUI(User user, SinglyLinked receivers) {
@@ -122,6 +123,7 @@ public class ComposeGUI extends JFrame {
 			receiverError.setForeground(Color.RED);
 			
 			SaveDraft=new JButton("Save as Draft");
+			LoadDraft=new JButton("Load Draft");
 			attachmentsLabel = new JLabel("Attachments");
 			addAttachmentBtn = new JButton("Browse Attachment");
 			attachmentError = new JLabel("");
@@ -197,7 +199,20 @@ public class ComposeGUI extends JFrame {
 			gc.anchor = GridBagConstraints.CENTER;
 			add(SaveDraft, gc);
 			
+			setGC(gc,3,4,2,1);
+			gc.anchor = GridBagConstraints.CENTER;
+			add(LoadDraft, gc);
 			
+			
+			LoadDraft.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					LOadDraftGUI.Run(user);
+				}
+				
+			});
 			
 			SaveDraft.addActionListener(new ActionListener() {
 
@@ -356,7 +371,15 @@ public class ComposeGUI extends JFrame {
 		}
 	}
 	
-	
+	public static void draftLoading(Email mail) {
+		
+		attachments=mail.getAttachments();
+		for(int i=0;i<attachments.size();i++) {
+		attachmentsBox.Add((String)attachments.get(i));
+		}
+		textArea.setText(mail.getBody());
+		subjectField.setText(mail.getSubject());
+	}
 	
 
 	
