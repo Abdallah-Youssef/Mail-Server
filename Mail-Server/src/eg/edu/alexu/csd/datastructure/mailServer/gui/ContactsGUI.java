@@ -45,6 +45,7 @@ public GridBagLayout gridBagLayout = new GridBagLayout();
 public ContactsGUI(App Ap) {
 	
 	setSize(1000,1000);
+	setResizable(false);
 	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	setVisible(true);
 	 
@@ -52,8 +53,8 @@ public ContactsGUI(App Ap) {
 	Border insideBorder = BorderFactory.createTitledBorder("Welcome");
 	getRootPane().setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 	setLayout(new GridBagLayout()); 
-	ValidContacts.setPreferredSize(new Dimension(500,400));
-	ValidContacts.setPreferredSize(new Dimension(500,400));
+	ValidContacts.setPreferredSize(new Dimension(400,600));
+	AddedContacts.setPreferredSize(new Dimension(400,600));
 	setLayout(gridBagLayout);
 	GC=new GridBagConstraints();
 	GC.weightx =1 ;
@@ -75,6 +76,8 @@ private void loadingData(App Ap) {
 	}
 	
 	AddContactsToPanel (AddedContacts,Exist,Ap);
+	AddedContacts.setMinimumSize(new Dimension(200,200));
+	
 	ExistContactsToPanel(ValidContacts,Added);
 	scroll1 = new JScrollPane(AddedContacts);
 	scroll2=new JScrollPane(ValidContacts);
@@ -111,7 +114,7 @@ public static void run(App ap) {
 }
 private void ExistContactsToPanel (JPanel panel,DoublyLinkedList Added){
 	for(int i=0;i<Added.size();i++) {
-		JLabel button=new JLabel(Added.get(i)+"" );
+		JLabel button=new JLabel((String) Added.get(i) );
 		panel.add(button);
 	}
 }

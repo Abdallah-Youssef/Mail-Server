@@ -43,7 +43,7 @@ public class ComposeGUI extends JFrame {
 	
 	JLabel subjectLabel;
 	
-	
+	JButton SaveDraft ;
 	
 	JTextArea textArea;
 	JTextField addReceiverField;
@@ -121,7 +121,7 @@ public class ComposeGUI extends JFrame {
 			receiverError = new JLabel("");
 			receiverError.setForeground(Color.RED);
 			
-			
+			SaveDraft=new JButton("Save as Draft");
 			attachmentsLabel = new JLabel("Attachments");
 			addAttachmentBtn = new JButton("Browse Attachment");
 			attachmentError = new JLabel("");
@@ -189,13 +189,46 @@ public class ComposeGUI extends JFrame {
 			add(subjectField, gc);
 			
 			//FiftthRow
-			setGC(gc,0,4,3,1);
+			setGC(gc,0,4,2,1);
 			gc.anchor = GridBagConstraints.CENTER;
 			add(sendBtn, gc);
 			
+			setGC(gc,2,4,2,1);
+			gc.anchor = GridBagConstraints.CENTER;
+			add(SaveDraft, gc);
 			
 			
 			
+			SaveDraft.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					// TODO Auto-generated method stub
+					String sender = senderButton.getText();
+					if ((senderButton.getText()).equals("Choose Sender")) {
+						senderError.setText("Choose sender");
+						return;
+					}
+					senderError.setText("");
+					
+					QueueLinkedBased q = ListUtils.singleToQueue(receivers);
+					while(!q.isEmpty()) {
+						String receiver = (String) q.dequeue();
+						User receiverUser = FolderManagerBIN.getUser(receiver);
+						Email email = new Email(subjectField.getText(),
+								textArea.getText(),
+								user.getID(),
+								sender,
+								receiverUser.getID(),
+								receiver,
+								attachments,
+								0 //place holder priority
+								);
+						email.saveEmail(user.getID(),(IFolder) new Folder("Draft"));
+					
+				}
+				}
+				});
 			
 			addReceiverBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -319,6 +352,7 @@ public class ComposeGUI extends JFrame {
 	            public void popupMenuCanceled(PopupMenuEvent e) {}
 	        });
 			
+		
 		}
 	}
 	
@@ -350,6 +384,7 @@ public class ComposeGUI extends JFrame {
 			add(scroll2);
 		}
 	}
+
 	
 	
 	/**
