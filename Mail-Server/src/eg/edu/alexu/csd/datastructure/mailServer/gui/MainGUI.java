@@ -1,5 +1,6 @@
 package eg.edu.alexu.csd.datastructure.mailServer.gui;
 
+import java.io.File;
 import java.io.IOException;
 
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.SinglyLinked;
@@ -10,12 +11,17 @@ public class MainGUI {
 	public static void main(String[] args) throws IOException {
 		
 		FolderManagerBIN.clearUsers();
-		User test = new User("haha", "popo", "user1@gmail.com", "passssap");
+		new File("./Users").mkdirs();
+		
+		
+		User test = new User("test1", "popo", "user1@gmail.com", "passssap");
 		FolderManagerBIN.addNewUser(test);
 
-		User test2 = new User("haha", "popo", "koskos@eltany.com", "passssap");
+		User test2 = new User("test2", "popo", "koskos@eltany.com", "passssap");
 		FolderManagerBIN.addNewUser(test2);
 		
+		//TODO fix error : all users have the same id
+		test.addContactID(test2.getID());
 	
 		FolderManagerBIN.printUsers();
 		EMailHomePageGUI.run(test);

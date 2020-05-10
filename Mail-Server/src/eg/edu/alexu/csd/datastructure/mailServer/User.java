@@ -11,7 +11,7 @@ import interfaces.IContact;
 public class User implements IContact, Serializable
 {
 	int id;
-	String firstName;
+	public String firstName;
 	String lastName;
 	
 	
@@ -43,22 +43,18 @@ public class User implements IContact, Serializable
 	
 	private int calculateNewUserID()
 	{
-		int id;
 		try
 		{
 			File file = new File("./Users/lastID.txt");
 			Scanner cin = new Scanner(file);
 			id = cin.nextInt()+1;
+			System.out.println("hello - " + id);
 			cin.close();
-			this.id = id;
 		}catch(Exception e)
 		{
+			System.out.println("hello");
 			id = 1;
-			try {
-				new File("./Users/lastID.txt").createNewFile();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			new File("./Users/lastID.txt");
 		}
 		
 		try {
@@ -79,6 +75,7 @@ public class User implements IContact, Serializable
 		this.emails.add(email);
 		this.password = password;
 		this.contactsIDs = new DoubleLinkedList();
+		int id = calculateNewUserID();
 	}
 	
 	public void saveToFileSystem()
@@ -91,6 +88,10 @@ public class User implements IContact, Serializable
 	
 	public int getID() {
 		return id;
+	}
+	
+	public DoubleLinkedList getContactsIDs() {
+		return contactsIDs;
 	}
 	
 	public DoubleLinkedList getEmails() {
@@ -109,6 +110,11 @@ public class User implements IContact, Serializable
 				return;
 			}
 		}
+	}
+	
+	public void addContactID(int id) {
+		contactsIDs.add(id);
+		FolderManagerBIN.updateUser(this);
 	}
 	public void printEmails() {
 		for (int i = 0;i < emails.size();i++) {

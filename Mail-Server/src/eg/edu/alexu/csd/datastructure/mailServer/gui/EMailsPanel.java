@@ -53,7 +53,7 @@ public class EMailsPanel extends JPanel {
 		
 	}
 	
-	public class EMailsBox extends JPanel{
+	private class EMailsBox extends JPanel{
 		EMailsBox(){
 			setLayout(new GridLayout(10,1,20,2));
 		}
@@ -63,7 +63,7 @@ public class EMailsPanel extends JPanel {
 		}
 	}
 	
-	public class EMailPanel extends JPanel{
+	private class EMailPanel extends JPanel{
 		GridBagConstraints gc;
 		JButton button;
 		JCheckBox checkBox;

@@ -15,6 +15,7 @@ import javax.swing.event.MenuListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+import Listeners.EmailChooserListener;
 import Listeners.PathListener;
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.SinglyLinked;
 import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
@@ -31,8 +32,7 @@ public class ComposeGUI extends JFrame {
 	//TODO choose receivers from contacts
 	
 	//JLabel senderEmailLabel;
-	MenuButton senderEmailMenuButton;
-	JPopupMenu senderEmailMenu;
+	JButton senderEmailButton;
 	
 	JLabel receiverLabel;
 	JLabel receiverError;
@@ -51,18 +51,21 @@ public class ComposeGUI extends JFrame {
 	
 	
 	JButton addReceiverBtn;
+	JButton chooseContactsBtn;
 	JButton addAttachmentBtn;
 	JButton sendBtn;
 	
+	ElementsBox sendersBox;
 	ElementsBox receiversBox;
 	ElementsBox attachmentsBox;
-	BottomPanel bottomPanel;  //contains both boxes
+	BottomPanel bottomPanel;  //contains boxes
 	
 
 	
 	OptionsPanel optionsPanel;
 	
 	User user;
+	SinglyLinked senders;
 	SinglyLinked receivers; //String
 	SinglyLinked attachments; //String
 	
@@ -73,7 +76,7 @@ public class ComposeGUI extends JFrame {
 		
 		this.receivers = receivers;
 		attachments = new SinglyLinked();
-		
+		senders = new SinglyLinked();
 		
 		setSize(600,800);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -107,8 +110,7 @@ public class ComposeGUI extends JFrame {
 			gc.fill = GridBagConstraints.NONE;
 
 			//senderEmailLabel = new JLabel(senderEmail);
-			senderEmailMenu = new JPopupMenu();
-			senderEmailMenuButton = new MenuButton("Choose Sender Email", senderEmailMenu);
+			senderEmailButton = new JButton("Choose EMails");
 			
 			
 			
@@ -116,6 +118,7 @@ public class ComposeGUI extends JFrame {
 			addReceiverField = new JTextField("Type email");
 			addReceiverField.setMinimumSize(new Dimension(200,30));
 			addReceiverBtn = new JButton("Add receiver");
+			chooseContactsBtn = new JButton("Choose From Contacts");
 			receiverError = new JLabel("");
 			receiverError.setForeground(Color.RED);
 			
@@ -140,7 +143,7 @@ public class ComposeGUI extends JFrame {
 			add(new JLabel("Sender : "), gc);
 			setGC(gc,1,0,1,1);
 			gc.anchor = GridBagConstraints.LINE_START;
-			add(senderEmailMenuButton, gc);
+			add(senderEmailButton, gc);
 			
 			
 			//Second Row
@@ -159,6 +162,10 @@ public class ComposeGUI extends JFrame {
 			setGC(gc,3,1,1,1);
 			gc.anchor = GridBagConstraints.CENTER;
 			add(receiverError, gc);
+			
+			setGC(gc,4,1,1,1);
+			gc.anchor = GridBagConstraints.CENTER;
+			add(chooseContactsBtn, gc);
 			
 			//Third Row
 			setGC(gc,0,2,1,1);
@@ -187,37 +194,27 @@ public class ComposeGUI extends JFrame {
 			
 			
 			
-			//I will have to load the user emails every time the menu is clicked because it's possible to open-
-			//The email modification and compose at the same time
-			/*senderEmailMenu.addPopupMenuListener(new PopupMenuListener () {
-				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-					senderEmailMenu.removeAll();
-					DoubleLinkedList emails = user.getEmails();
-					for (int i = 0;i < emails.size();i++) {
-						//Make a menuItem for each email
-						//each menuItem when pressed will change the text of the JMenu to its email
-						
-						JMenuItem email = new JMenuItem((String)emails.get(i));
-						email.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								senderEmailMenu.setLabel(email.getText());
+			senderEmailButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					DoubleLinkedList list = new DoubleLinkedList();
+					list.add(user);
+					EmailChooser.Run(list, new EmailChooserListener() {
+						public void emailsSelected(DoubleLinkedList emails) {
+							sendersBox.DeleteAll();
+							senders = ListUtils.doubleToSingleList(emails);
+							
+							for (int i = 0;i < senders.size();i++) {
+								System.out.print(senders.get(i) + " ");
+								sendersBox.Add((String) senders.get(i));
 							}
-						});
-						
-						senderEmailMenu.add(email);
-					}
+							System.out.println();
+							
+							
+							
+						}
+					});
 				}
-
-				@Override
-				public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-					senderEmailMenu.setLabel("Choose Sender Email");
-				}
-
-				@Override
-				public void popupMenuCanceled(PopupMenuEvent e) {
-					senderEmailMenu.setLabel("Choose Sender Email");
-				}
-			});*/
+			});
 			
 			addReceiverBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -237,12 +234,37 @@ public class ComposeGUI extends JFrame {
 				}
 			});
 			
+			chooseContactsBtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					DoubleLinkedList contacts = new DoubleLinkedList();
+					DoubleLinkedList contactsIDs = user.getContactsIDs();
+					
+					for (int i = 0;i < contactsIDs.size();i++) 
+						contacts.add(FolderManagerBIN.getUser(((int)contactsIDs.get(i))));
+					
+
+					EmailChooser.Run(contacts, new EmailChooserListener() {
+						public void emailsSelected(DoubleLinkedList emails) {
+							receiversBox.DeleteAll();
+							receivers = ListUtils.doubleToSingleList(emails);
+							
+							for (int i = 0;i < receivers.size();i++) {
+								System.out.print(receivers.get(i) + " ");
+								receiversBox.Add((String) receivers.get(i));
+							}
+							System.out.println();
+						}
+					});
+					
+				}
+			});
+			
+			
 			addAttachmentBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					FileChooser.Run(new PathListener() {
 						public void pathChosen(String path) {
 							attachmentsBox.Add(path);
-							
 						}
 					});	
 				}
@@ -251,34 +273,37 @@ public class ComposeGUI extends JFrame {
 			
 			sendBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					QueueLinkedBased q = ListUtils.singleToQueue(receivers);
-					
-					while(!q.isEmpty()) {
-						String receiver = (String) q.dequeue();
-						User receiverUser = FolderManagerBIN.getUser(receiver);
+					for (int i = 0;i < senders.size();i++) {
+						String sender = (String) senders.get(i);
+						QueueLinkedBased q = ListUtils.singleToQueue(receivers);
+						while(!q.isEmpty()) {
+							String receiver = (String) q.dequeue();
+							User receiverUser = FolderManagerBIN.getUser(receiver);
+							Email email = new Email(subjectField.getText(),
+									textArea.getText(),
+									user.getID(),
+									sender,
+									receiverUser.getID(),
+									receiver,
+									attachments,
+									0 //place holder priority
+									);
+							email.saveEmail(receiverUser.getID(),(IFolder) new Folder("inbox"));
+						}
+						
+						
+						//Save it in sent for sender
 						Email email = new Email(subjectField.getText(),
 								textArea.getText(),
 								user.getID(),
-								senderEmailMenu.getLabel(),
-								receiverUser.getID(),
-								receiver,
+								sender,
+								user.getID(),
+								sender,
 								attachments,
 								0 //place holder priority
 								);
-						email.saveEmail(receiverUser.getID(),(IFolder) new Folder("inbox"));
+						email.saveEmail(user.getID(),(IFolder) new Folder("sent"));
 					}
-					
-					//Save it in sent for sender
-					Email email = new Email(subjectField.getText(),
-							textArea.getText(),
-							user.getID(),
-							senderEmailMenu.getLabel(),
-							user.getID(),
-							senderEmailMenu.getLabel(),
-							attachments,
-							0 //place holder priority
-							);
-					email.saveEmail(user.getID(),(IFolder) new Folder("sent"));
 				}
 			});
 			
@@ -294,19 +319,26 @@ public class ComposeGUI extends JFrame {
 	
 	
 	public class BottomPanel extends JPanel{
+		
 		public BottomPanel(){
 			setPreferredSize(new Dimension(200,200));
 			setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-
 			
+			
+
+			sendersBox = new ElementsBox(senders, "Senders", new JLabel());
 			receiversBox = new ElementsBox(receivers, "Receivers", receiverError);
 			attachmentsBox = new ElementsBox(attachments, "Attachments", attachmentError);
 			
-			JScrollPane scroll1 = new JScrollPane(receiversBox);
-			JScrollPane scroll2 = new JScrollPane(attachmentsBox);
 			
-			add(scroll1, BorderLayout.WEST);
-			add(scroll2, BorderLayout.EAST);
+			
+			JScrollPane scroll1 = new JScrollPane(sendersBox);
+			JScrollPane scroll2 = new JScrollPane(receiversBox);
+			JScrollPane scroll3 = new JScrollPane(attachmentsBox);
+			
+			add(scroll1);
+			add(scroll2);
+			add(scroll3);
 		}
 	}
 	
@@ -333,7 +365,7 @@ public class ComposeGUI extends JFrame {
 		gc.gridheight = height;
 	}
 	
-
+/*
 	public class MenuButton extends JToggleButton {
 
         JPopupMenu popup;
@@ -383,5 +415,5 @@ public class ComposeGUI extends JFrame {
         	super.setText(name);
         }
     }
-	
+	*/
 }

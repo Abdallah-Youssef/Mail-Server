@@ -49,6 +49,7 @@ public class ElementsBox extends JPanel{
 	
 	SinglyLinked elements;
 	JLabel errorLabel;
+	JLabel label;
 	RemoveElementListener removeElementListener;
 	
 	/**
@@ -67,7 +68,7 @@ public class ElementsBox extends JPanel{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		
-		JLabel label = new JLabel(Label);
+		label = new JLabel(Label);
 		label.setAlignmentX(CENTER_ALIGNMENT);
 		add(label);
 		
@@ -106,6 +107,14 @@ public class ElementsBox extends JPanel{
 				break;
 			}
 		
+	}
+	
+	public void DeleteAll() {
+		removeAll();
+		add(label);
+		revalidate();
+		
+		elements.clear();
 	}
 	
 	/**
