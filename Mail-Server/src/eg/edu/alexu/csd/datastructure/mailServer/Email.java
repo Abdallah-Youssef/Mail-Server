@@ -164,6 +164,14 @@ public class Email implements IMail, Serializable
 			}
 		}
 		
+		try {
+			FileWriter writer = new FileWriter(path);
+			writer.write(String.valueOf(id));
+			writer.close();
+		} catch (IOException e) {
+			
+		}
+		
 		System.out.println(id);
 		return id;
 	}

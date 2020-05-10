@@ -76,6 +76,7 @@ public class User implements IContact, Serializable
 		this.password = password;
 		this.contactsIDs = new DoubleLinkedList();
 		int id = calculateNewUserID();
+		createUserSubDirectory(id);
 	}
 	
 	public void saveToFileSystem()
