@@ -9,8 +9,12 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.border.Border;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
@@ -27,11 +31,11 @@ public class NavigationPanel extends JPanel {
 	GridBagConstraints GC;
 	private GridBagLayout gridBagLayout = new GridBagLayout();
 	
-	private JButton[] fileButtons;
 	private JButton Contacts;
 	private JButton Compose;
 	private JButton EMailModification;
-	private String[] FileNames;
+	DropDownMenuButton foldersButton;
+	JPopupMenu foldersMenu;
 	
 	
 	FolderChangeListener folderChangeListener;
@@ -42,29 +46,22 @@ public class NavigationPanel extends JPanel {
 		this.app = app;
 		user = app.loggedInUser;
 		
-		FileNames=new String [] {"Inbox","Sent","Trash","Defined"};
-		fileButtons=new JButton[4];
+		foldersMenu = new JPopupMenu();
+		foldersButton = new DropDownMenuButton("Folders", foldersMenu);
 		
 		Contacts=new JButton("Contacts");
 		Contacts.setAlignmentX(CENTER_ALIGNMENT);
 		
 		Compose=new JButton("Compose");
 		
-		EMailModification=new JButton("EMailModification");
+		EMailModification=new JButton("User Settings");
 		EMailModification.setAlignmentX(CENTER_ALIGNMENT);
 		Box ButtonBox=Box.createVerticalBox();
-		Box FileBox=Box.createVerticalBox();
 		
 		ButtonBox.add(Contacts);
 		ButtonBox.add(EMailModification);
 		
-		for(int i=0;i<4;i++) {
-			fileButtons[i]=new JButton(FileNames[i]);
-			fileButtons[i].setAlignmentX(CENTER_ALIGNMENT);
-		}
-		for(int i=0;i<4;i++) {
-			FileBox.add(fileButtons[i]);
-		}
+
 		
 		
 		//Layout and gridding
@@ -81,7 +78,7 @@ public class NavigationPanel extends JPanel {
 		
 		setGridCell(0,0);	
 		GC.anchor = GridBagConstraints.CENTER;
-		add(FileBox,GC);
+		add(foldersButton,GC);
 		
 		
 		
@@ -103,45 +100,38 @@ public class NavigationPanel extends JPanel {
 		
 		
 		
+		foldersButton.setPopupListener(new PopupMenuListener() {
+            @Override
+            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+            	foldersButton.popup.removeAll();
+            	DoubleLinkedList folders = user.getFolders();
+    			for (int i = 0;i < folders.size();i++) {
+    				//Make a menuItem for each email
+    				//each menuItem when pressed will change the text of the JMenu to its email
+    				
+    				JMenuItem folder = new JMenuItem((String)folders.get(i));
+    				folder.addActionListener(new ActionListener() {
+    					public void actionPerformed(ActionEvent e) {
+    						foldersButton.setName(folder.getText());
+    						folderChangeListener.newFolder(new Folder(folder.getText()));
+    					}
+    				});
+    				foldersButton.popup.add(folder);
+    			}
+            }
+            @Override
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+            	foldersButton.setSelected(false);
+            }
+            @Override
+            public void popupMenuCanceled(PopupMenuEvent e) {}
+        });
 		
-		//actions for file buttons start:
-		fileButtons[0].addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				/*
-				 * call the inbox panel to the mails area
-				 */
-				folderChangeListener.newFolder(new Folder("inbox"));
-			}
-		});
-		fileButtons[1].addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				/*
-				 * call the sent panel to the mails area
-				 */
-				folderChangeListener.newFolder(new Folder("sent"));
-			}
-		});
-		fileButtons[2].addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				/*
-				 * call the trash panel to the mails area
-				 */
-				folderChangeListener.newFolder(new Folder("trash"));
-			}
-		});
-		fileButtons[3].addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				/*
-				 * call the defined panel to the mails area
-				 */
-				//TODO
-			}
-		});
 		//actions for file buttons end
 		//action for email modification
 		EMailModification.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				EmailModificationGUI.run(user);
+				UserSettings.run(user);
 			}
 		});
 		//action for CONTACTS 

@@ -17,6 +17,7 @@ public class User implements IContact, Serializable
 	
 	DoubleLinkedList emails;
 	DoubleLinkedList contactsIDs;
+	DoubleLinkedList folders;
 	public String password;
 	
 	public static void createUserSubDirectory(int id)
@@ -32,8 +33,8 @@ public class User implements IContact, Serializable
 		new File(path+"sent/index.txt").createNewFile();
 		new File(path+"trash/").mkdirs();
 		new File(path+"trash/index.txt").createNewFile();
-		new File(path+"user defined folders/").mkdirs();
-		new File(path+"user defined folders/index.txt").createNewFile();
+		new File(path+"Draft/").mkdirs();
+		new File(path+"Draft/index.txt").createNewFile();
 		}catch(IOException e)
 		{
 			e.printStackTrace();
@@ -75,6 +76,12 @@ public class User implements IContact, Serializable
 		this.emails.add(email);
 		this.password = password;
 		this.contactsIDs = new DoubleLinkedList();
+		folders = new DoubleLinkedList();
+		folders.add("inbox");
+		folders.add("sent");
+		folders.add("trash");
+		folders.add("Draft");
+		
 		int id = calculateNewUserID();
 		createUserSubDirectory(id);
 	}
@@ -91,6 +98,7 @@ public class User implements IContact, Serializable
 		return id;
 	}
 	
+	
 	public DoubleLinkedList getContactsIDs() {
 		return contactsIDs;
 	}
@@ -105,6 +113,9 @@ public class User implements IContact, Serializable
 	
 	public DoubleLinkedList getEmails() {
 		return emails;
+	}
+	public DoubleLinkedList getFolders() {
+		return folders;
 	}
 	public void addEmail(String Email) {
 		emails.add(Email);
@@ -125,6 +136,23 @@ public class User implements IContact, Serializable
 		contactsIDs.add(id);
 		FolderManagerBIN.updateUser(this);
 	}
+	
+	public void addFolder(String folderName) {
+		folders.add(folderName);
+		new File("./Users/" + id + "/"+folderName).mkdirs();
+		FolderManagerBIN.updateUser(this);
+	}
+	public void removeFolder(String folderName) {
+		for (int i = 0;i < folders.size();i++) {
+			if (((String)folders.get(i)).equals(folderName)) {
+				folders.remove(i);
+				FolderManagerBIN.deleteDirectory(new File("./Users/" + id + "/"+folderName));
+				FolderManagerBIN.updateUser(this);
+				return;
+			}
+		}
+	}
+	
 	public void printEmails() {
 		for (int i = 0;i < emails.size();i++) {
 			System.out.print((String)emails.get(i) + " ");

@@ -23,8 +23,15 @@ import eg.edu.alexu.csd.datastructure.mailServer.User;
 import eg.edu.alexu.csd.datastructure.mailServer.gui.ElementsBox.Element;
 import listeners.RemoveElementListener;
 
-public class EmailModificationGUI extends JFrame {
+public class UserSettings extends JFrame {
+	JLabel folderLabel;
+	JButton folderBtn;
+	JLabel folderError;
+	JTextField folderField;
+	
+	
 	String newEMail;
+	String newFolder;
 	String newPassAdded;
 	String oldPassCheck;
 	JButton AddNewEmail;
@@ -32,17 +39,18 @@ public class EmailModificationGUI extends JFrame {
 	JLabel EMail;
 	JLabel newPass;
 	JLabel oldpass;
-	JLabel error;
+	JLabel emailError;
 	JTextField nEmail;
 	JPasswordField oldPassF;
 	JPasswordField nPassF;
 	GridBagConstraints GC;
 	public GridBagLayout gridBagLayout = new GridBagLayout();
 	
+	ElementsBox foldersBox;
 	ElementsBox emailsBox;
 	JLabel emailErrorLabel;
 	
-	public EmailModificationGUI(User user) {
+	public UserSettings(User user) {
 		super("Email option");
 		setSize(900,600);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -59,7 +67,12 @@ public class EmailModificationGUI extends JFrame {
 		GC.weighty =1;
 		GC.fill = GridBagConstraints.NONE;		
 		//componenets
-		error=new JLabel("");
+		folderLabel = new JLabel("Add folder : ");
+		folderField = new JTextField(25);
+		folderError = new JLabel("");
+		folderBtn = new JButton("Add");
+		
+		emailError=new JLabel("");
 		AddNewEmail=new JButton("Add EMail");
 		ChangePassword=new JButton("Change Password");
 		EMail=new JLabel("Enter new Email");
@@ -67,7 +80,6 @@ public class EmailModificationGUI extends JFrame {
 		oldpass=new JLabel("Enter current password");
 		
 		nEmail=new JTextField(25);
-		nEmail.setMinimumSize(new Dimension(300,300));
 		
 		oldPassF=new JPasswordField(25);
 		nPassF=new JPasswordField(25);
@@ -77,14 +89,24 @@ public class EmailModificationGUI extends JFrame {
 									"Current EMails",
 									emailErrorLabel
 									);
+		foldersBox = new ElementsBox(ListUtils.doubleToSingleList(user.getFolders()),
+				"Current Folders",
+				folderError
+				);
 		
 		//layout
-		
 		//Boxes
+		Box NewFolder = Box.createHorizontalBox();
 		Box NewEmails=Box.createHorizontalBox();
 		Box NewPass=Box.createHorizontalBox();
 		Box oldPass=Box.createHorizontalBox();
 		 //Boxes adding
+		NewFolder.add(folderLabel);
+		NewFolder.add(folderField);
+		NewFolder.add(folderBtn);
+		NewFolder.add(foldersBox);
+		NewFolder.add(folderError);
+		
 		NewEmails.add(EMail);
 		NewEmails.add(nEmail);
 		NewEmails.add(AddNewEmail);
@@ -100,22 +122,26 @@ public class EmailModificationGUI extends JFrame {
 		//grid adding
 		setGridCell(0,0);
 		GC.anchor = GridBagConstraints.LINE_START;
-		add(NewEmails,GC);
-		 
+		add(NewFolder,GC);
+		
 		setGridCell(0,1);
 		GC.anchor = GridBagConstraints.LINE_START;
-		add(oldPass,GC);
+		add(NewEmails,GC);
 		 
 		setGridCell(0,2);
 		GC.anchor = GridBagConstraints.LINE_START;
-		add(NewPass,GC);
+		add(oldPass,GC);
 		 
 		setGridCell(0,3);
-		GC.anchor = GridBagConstraints.CENTER;
-		add(ChangePassword,GC);
+		GC.anchor = GridBagConstraints.LINE_START;
+		add(NewPass,GC);
+		 
 		setGridCell(0,4);
 		GC.anchor = GridBagConstraints.CENTER;
-		add(error,GC);
+		add(ChangePassword,GC);
+		setGridCell(0,5);
+		GC.anchor = GridBagConstraints.CENTER;
+		add(emailError,GC);
 		 
 		
 		AddNewEmail.addActionListener(new ActionListener() {
@@ -136,12 +162,31 @@ public class EmailModificationGUI extends JFrame {
 			} 
 		 });
 		
+		folderBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				newFolder=folderField.getText();
+				DoubleLinkedList folders = user.getFolders();
+				if (newFolder.equals("")){
+					folderError.setText("Folder name empty");
+					return;
+				}
+					
+				folderError.setText("");
+				
+				if (foldersBox.Add(newFolder)) {
+					user.addFolder(newFolder);
+					revalidate();
+				}
+			}
+			
+		 });
+		
 		 ChangePassword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				newPassAdded=new String(nPassF.getPassword());;
 				 oldPassCheck=new String(oldPassF.getPassword());;
 				 if(newPassAdded.equals("")||!oldPassCheck.equals(user.password)) {
-					 error.setText("wrong inputs");
+					 emailError.setText("wrong inputs");
 				 }
 				 else {
 					 user.password=newPassAdded;
@@ -173,7 +218,25 @@ public class EmailModificationGUI extends JFrame {
 			}
 		 });
 		 
-		 
+		 foldersBox.setRemoveListener(new RemoveElementListener() {
+				public boolean elementRemoved(Element element) {
+					DoubleLinkedList folders =  user.getFolders();
+					String elementFolder = element.label.getText();
+					
+					if (elementFolder.equals("inbox") || elementFolder.equals("sent") || elementFolder.equals("trash") || elementFolder.equals("Draft"))
+						return false;
+					
+					for (int i = 0;i < folders.size();i++) {
+						if (((String)folders.get(i)).equals(elementFolder)) {
+							user.removeFolder(elementFolder);
+							return true;
+						}
+					}
+					
+					return false;
+						
+				}
+			 });
 		 
 		 
 		 
@@ -186,7 +249,7 @@ public class EmailModificationGUI extends JFrame {
 	public static void run(User user) {
 		SwingUtilities.invokeLater(new Runnable () {
 			public void run() {
-				new EmailModificationGUI(user );
+				new UserSettings(user );
 			}
 		});
 	}

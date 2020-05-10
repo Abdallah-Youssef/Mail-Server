@@ -59,12 +59,8 @@ public class EMailHomePageGUI extends JFrame {
 			menuBar = new MenuBar();
 			
 			
-			//TODO get folders from user
-			DoubleLinkedList folders = new DoubleLinkedList();
-			folders.add("inbox");
-			folders.add("sent");
-			folders.add("trash");
-			emailPanelUtil = new EmailPanelUtil(folders);
+			emailPanelUtil = new EmailPanelUtil(app.loggedInUser.getFolders());
+			
 			
 			DoubleLinkedList initialMails = Email.readUserEmails(user.getID(), new Folder("inbox"));
 			emailsPanel = new EMailsPanel(ListUtils.getPage(initialMails, 1),user);
@@ -106,13 +102,13 @@ public class EMailHomePageGUI extends JFrame {
 			emailPanelUtil.setListener(new EmailPanelUtilsListener(){
 				public void moveEmails(Folder folder) {
 					// TODO move emails
-					//		  ------>  emailsPanel.checkedEmails ;
+					//		  ------>  emailsPanel.checkedEmails;
 				}
 
 				@Override
 				public void deleteEmails() {
 					// TODO delete selected emails
-					//        ------>  emailsPanel.checkedEmails ;
+					//        ------>  emailsPanel.checkedEmails;
 				}
 
 				@Override

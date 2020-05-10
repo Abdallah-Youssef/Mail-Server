@@ -97,4 +97,6 @@ public class EmailPanelUtil extends JPanel{
 	public void setListener(EmailPanelUtilsListener listener) {
 		this.listener = listener;
 	}
+	
+	
 }

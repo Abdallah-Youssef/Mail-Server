@@ -189,11 +189,9 @@ public class ComposeGUI extends JFrame {
 			add(subjectField, gc);
 			
 			//FiftthRow
-			setGC(gc,0,4,3,1);
+			setGC(gc,0,4,2,1);
 			gc.anchor = GridBagConstraints.CENTER;
 			add(sendBtn, gc);
-			
-			
 			
 			
 			
