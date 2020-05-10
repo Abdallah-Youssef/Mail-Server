@@ -10,8 +10,8 @@ import eg.edu.alexu.csd.datastructure.mailServer.User;
 public class MainGUI {
 	public static void main(String[] args) throws IOException {
 		
-		FolderManagerBIN.clearUsers();
-		new File("./Users").mkdirs();
+		/*FolderManagerBIN.clearUsers();
+		//new File("./Users").mkdirs();
 		
 		
 		User test = new User("test1", "popo", "user1@gmail.com", "passssap");
@@ -23,8 +23,8 @@ public class MainGUI {
 		//TODO fix error : all users have the same id
 		test.addContactID(test2.getID());
 	
-		FolderManagerBIN.printUsers();
-		EMailHomePageGUI.run(test);
+		FolderManagerBIN.printUsers();*/
+		EMailHomePageGUI.run(FolderManagerBIN.getUser(2));
 	}
 }
  
