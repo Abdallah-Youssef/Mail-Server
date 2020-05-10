@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import Listeners.EmailsPanelListener;
+import Listeners.FolderChangeListener;
+import Listeners.NewEmailListListener;
+import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.Email;
 import eg.edu.alexu.csd.datastructure.mailServer.Folder;
@@ -30,10 +33,15 @@ public class NavigationPanel extends JPanel {
 	private JButton EMailModification;
 	private String[] FileNames;
 	
-	EmailsPanelListener emailsPanelListener;
 	
+	FolderChangeListener folderChangeListener;
+	App app;
+	User user;
 	
-	public NavigationPanel(User user){
+	public NavigationPanel(App app){
+		this.app = app;
+		user = app.loggedInUser;
+		
 		FileNames=new String [] {"Inbox","Sent","Trash","Defined"};
 		fileButtons=new JButton[4];
 		
@@ -102,8 +110,7 @@ public class NavigationPanel extends JPanel {
 				/*
 				 * call the inbox panel to the mails area
 				 */
-				DoubleLinkedList emailsList = Email.readUserEmails(user.getID(), new Folder("inbox"));
-				emailsPanelListener.newEmails(ListUtils.getPage(emailsList, 1));
+				folderChangeListener.newFolder(new Folder("inbox"));
 			}
 		});
 		fileButtons[1].addActionListener(new ActionListener() {
@@ -111,8 +118,7 @@ public class NavigationPanel extends JPanel {
 				/*
 				 * call the sent panel to the mails area
 				 */
-				DoubleLinkedList emailsList = Email.readUserEmails(user.getID(), new Folder("sent"));
-				emailsPanelListener.newEmails(ListUtils.getPage(emailsList, 1));
+				folderChangeListener.newFolder(new Folder("sent"));
 			}
 		});
 		fileButtons[2].addActionListener(new ActionListener() {
@@ -120,8 +126,7 @@ public class NavigationPanel extends JPanel {
 				/*
 				 * call the trash panel to the mails area
 				 */
-				DoubleLinkedList emailsList = Email.readUserEmails(user.getID(), new Folder("trash"));
-				emailsPanelListener.newEmails(ListUtils.getPage(emailsList, 1));
+				folderChangeListener.newFolder(new Folder("trash"));
 			}
 		});
 		fileButtons[3].addActionListener(new ActionListener() {
@@ -173,7 +178,7 @@ public class NavigationPanel extends JPanel {
 		GC.gridy = y;
 	}
 	
-	public void setListener(EmailsPanelListener emailsPanelListener) {
-		this.emailsPanelListener = emailsPanelListener;
+	public void setListener(FolderChangeListener folderChangeListener) {
+		this.folderChangeListener = folderChangeListener;
 	}
 }

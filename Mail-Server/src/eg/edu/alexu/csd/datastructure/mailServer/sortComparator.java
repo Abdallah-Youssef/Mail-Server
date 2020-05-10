@@ -2,7 +2,7 @@ package eg.edu.alexu.csd.datastructure.mailServer;
 
 import interfaces.ISort;
 
-class sortComparator implements ISort
+public class sortComparator implements ISort
 {
 	int type;
 	
@@ -29,14 +29,14 @@ class sortComparator implements ISort
 		case 5:
 			return ((Email)a).date.compareTo(((Email)b).date);
 		default:
-		{
+			{
 			if(((Email)a).priority < ((Email)b).priority)
 				return -1;
 			else if(((Email)a).priority == ((Email)a).priority)
 				return 0;
 			else
 				return 1;
-		}
+			}
 		}	
 	}
 }

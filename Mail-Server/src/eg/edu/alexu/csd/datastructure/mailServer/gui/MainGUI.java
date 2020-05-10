@@ -1,11 +1,9 @@
 package eg.edu.alexu.csd.datastructure.mailServer.gui;
 
-import java.io.File;
 import java.io.IOException;
 
-import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.SinglyLinked;
+import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
-import eg.edu.alexu.csd.datastructure.mailServer.User;
 
 public class MainGUI {
 	public static void main(String[] args) throws IOException {
@@ -24,7 +22,9 @@ public class MainGUI {
 		test.addContactID(test2.getID());
 	
 		FolderManagerBIN.printUsers();*/
-		EMailHomePageGUI.run(FolderManagerBIN.getUser(2));
+		App app = new App();
+		app.loggedInUser = FolderManagerBIN.getUser(2);
+		EMailHomePageGUI.run(app);
 	}
 }
  

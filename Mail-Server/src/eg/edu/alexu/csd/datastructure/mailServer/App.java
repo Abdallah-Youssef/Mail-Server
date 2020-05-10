@@ -21,11 +21,11 @@ public class App implements IApp {
 	SignInErrorListener signInErrorListener;
 	SignUpErrorListener signUpErrorListener;
 	
-	Folder folder;
+	public Folder folder;
 	public User loggedInUser;
-	FilterComp filter;
-	sortComparator sort;
-	DoubleLinkedList currentlyLoadedEmails;
+	public FilterComp filter;
+	public sortComparator sort;
+	public DoubleLinkedList currentlyLoadedEmails;
 	
 	public App() {
 		folder = new Folder("inbox");
@@ -98,6 +98,10 @@ public class App implements IApp {
 		if(filter != null)
 			Filter.filter(currentlyLoadedEmails, (FilterComp)filter);
 		SortingTemp.quickSort(currentlyLoadedEmails,(ISort) sort);
+		
+		this.folder = (Folder) folder;
+		this.filter = (FilterComp) filter;
+		this.sort = (sortComparator) sort;
 	}
 
 	@Override

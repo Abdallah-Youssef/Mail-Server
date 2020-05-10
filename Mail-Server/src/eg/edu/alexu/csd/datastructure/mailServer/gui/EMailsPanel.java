@@ -76,6 +76,9 @@ public class EMailsPanel extends JPanel {
 			this.index = index;
 		
 			button = new JButton(email.getSubject() + " - " + email.getSender());
+			if (button.getText().length() > 30) {
+				button.setText(button.getText().substring(0, 30) + "...");
+			}
 			button.setBackground(Color.WHITE);
 			button.setFont(new Font("Arial", Font.PLAIN, 20));
 			button.setHorizontalAlignment(SwingConstants.LEFT);

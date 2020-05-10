@@ -10,9 +10,16 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 
+import Listeners.FilterSortChangeListener;
+import eg.edu.alexu.csd.datastructure.mailServer.sortComparator;
+import interfaces.IFilter;
+import interfaces.ISort;
+
 
 
 public class MenuBar extends JMenuBar{
+	FilterSortChangeListener filterSortChangeListener;
+	
 	private JMenuItem m1,m2,m3,m4;
 	private JMenuItem F1,F2;
 	private JMenuItem S1,S2,S3,S4;
@@ -78,10 +85,10 @@ public class MenuBar extends JMenuBar{
 		
 		
 		//adding action listeners for sort menu
-		m1.addActionListener(new MenuActionListener());
-		m2.addActionListener(new MenuActionListener());
-		m3.addActionListener(new MenuActionListener());
-		m4.addActionListener(new MenuActionListener());
+		m1.addActionListener(new SortActionListener());
+		m2.addActionListener(new SortActionListener());
+		m3.addActionListener(new SortActionListener());
+		m4.addActionListener(new SortActionListener());
 		S1.addActionListener(new SearchMenuActionListener());
 		S2.addActionListener(new SearchMenuActionListener());
 		S3.addActionListener(new SearchMenuActionListener());
@@ -119,14 +126,27 @@ public class MenuBar extends JMenuBar{
 		});
 	}
 	
-	class MenuActionListener implements ActionListener {
-	  public void actionPerformed(ActionEvent e) {
-	    SortSelected =e.getActionCommand();
-	   /*
-	    * sort fn and then display data 
-	    */
+	class SortActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+		    SortSelected = e.getActionCommand();
 
-	  }
+		    if (e.getSource() == m1) {
+		    	filterSortChangeListener.sortChanged(new sortComparator(5));
+		    }
+		    
+		    if (e.getSource() == m2) {
+		    	filterSortChangeListener.sortChanged(new sortComparator(6));
+		    }
+		    
+		    if (e.getSource() == m3) {
+		    	filterSortChangeListener.sortChanged(new sortComparator(3));
+		    }
+	
+	    	if (e.getSource() == m4) {
+	    		filterSortChangeListener.sortChanged(new sortComparator(2));
+	    	}
+    	
+		}
 	
 	}
 	class SearchMenuActionListener implements ActionListener {
@@ -147,5 +167,9 @@ public class MenuBar extends JMenuBar{
 
 		}
 	}
+
+	public void setListener(FilterSortChangeListener filterSortChangeListener) {
+		this.filterSortChangeListener = filterSortChangeListener;
+	} 
 
 }

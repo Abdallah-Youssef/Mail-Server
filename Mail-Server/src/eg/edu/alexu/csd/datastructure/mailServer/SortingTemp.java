@@ -9,7 +9,8 @@ public class SortingTemp {
 	
 	public static void quickSort(DoubleLinkedList arr, ISort comp)
 	{
-		_quickSort(arr, 0, arr.size(), comp);
+		if (arr.size() != 0)
+			_quickSort(arr, 0, arr.size()-1, comp);
 	}
 	
 	public static void _quickSort(DoubleLinkedList arr, int l, int h, ISort comp) {

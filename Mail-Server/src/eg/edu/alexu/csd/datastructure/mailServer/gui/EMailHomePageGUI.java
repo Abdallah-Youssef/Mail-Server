@@ -10,11 +10,20 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 import Listeners.EmailsPanelListener;
+import Listeners.FilterSortChangeListener;
+import Listeners.FolderChangeListener;
+import Listeners.NewEmailListListener;
+import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.Email;
+import eg.edu.alexu.csd.datastructure.mailServer.Filter;
 import eg.edu.alexu.csd.datastructure.mailServer.Folder;
 import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
+import eg.edu.alexu.csd.datastructure.mailServer.sortComparator;
+import interfaces.IFilter;
+import interfaces.IFolder;
+import interfaces.IMail;
 
 public class EMailHomePageGUI extends JFrame {
 		JFrame frame = this;
@@ -26,20 +35,24 @@ public class EMailHomePageGUI extends JFrame {
 		MenuBar menuBar;
 		EMailsPanel emailsPanel;
 		JScrollPane scroll;
+		App app;
+		User user;
+		FolderChangeListener folderChangeListener;
 		
-		EmailsPanelListener emailsPanelListener;
-		
-		public EMailHomePageGUI(User user){
-			super("Welcome user number : " + user.getID());
+		public EMailHomePageGUI(App app){
+			super("Welcome  " + app.loggedInUser.firstName);
+			user = app.loggedInUser;
+			
+			
 			setResizable(false);
 			setSize(800,500);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
 			setVisible(true);
+			this.app = app;
 			
 			
-			
-			navigationPanel = new NavigationPanel(user);
+			navigationPanel = new NavigationPanel(app);
 			menuBar = new MenuBar();
 			
 			DoubleLinkedList initialMails = Email.readUserEmails(user.getID(), new Folder("inbox"));
@@ -58,22 +71,37 @@ public class EMailHomePageGUI extends JFrame {
 	
 			add(scroll, BorderLayout.CENTER);
 			
-			
-			//Listener for emailsPanel
-			emailsPanelListener = new EmailsPanelListener() {
-				public void newEmails(eg.edu.alexu.csd.datastructure.mailServer.Email[] emails) {
-					frame.remove(scroll);
-					emailsPanel = new EMailsPanel(emails, user);
-					scroll = new JScrollPane(emailsPanel);
-					add(scroll, BorderLayout.CENTER);
-					revalidate();
+			navigationPanel.setListener(new FolderChangeListener() {
+				public void newFolder(IFolder folder) {
+					app.setViewingOptions(folder, app.filter, app.sort);
+					
+					refreshEmailsPanel(app.listEmails(0));
 				}
-			};
+			});
+			
+			menuBar.setListener(new FilterSortChangeListener() {
+				public void filterChanged(Filter filter) {
+					app.setViewingOptions(app.folder,(IFilter) filter, app.sort);
+					refreshEmailsPanel(app.listEmails(0));
+				}
+
+				public void sortChanged(sortComparator sort) {
+					app.setViewingOptions(app.folder, app.filter, sort);
+					refreshEmailsPanel(app.listEmails(0));
+				}
+			});
 			
 			
-			navigationPanel.setListener(emailsPanelListener);
-			//TODO add the listener to the rest of the panels
-			//ex menuBar.setListener(emailsPanelListener);
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			
 			
@@ -82,11 +110,19 @@ public class EMailHomePageGUI extends JFrame {
 
 		}
 		
+		public void refreshEmailsPanel(IMail[] emails) {
+			frame.remove(scroll);
+			emailsPanel = new EMailsPanel((Email[])emails, user);
+			scroll = new JScrollPane(emailsPanel);
+			add(scroll, BorderLayout.CENTER);
+			revalidate();
+		}
 		
-		public static void run(User user) {
+		
+		public static void run(App app) {
 		SwingUtilities.invokeLater(new Runnable () {
 			public void run() {
-				new EMailHomePageGUI(user);
+				new EMailHomePageGUI(app);
 			}
 		});
 	}
