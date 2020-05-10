@@ -132,10 +132,13 @@ public class Email implements IMail, Serializable
 	 * Send Logic: call this function with the sender id and "Sent" folder
 	 * Receive Logic: call this function with the Receiver id and "inbox" folder
 	 */
-	public void saveEmail(int userID, IFolder ifolder)
+	
+	
+	int calculateEmailID(int userID, Folder folder)
 	{
+		int id;
 		//User user = FolderManagerBIN.getUser(userID);
-		DoubleLinkedList emails = readUserEmails(userID, ifolder);
+		DoubleLinkedList emails = readUserEmails(userID, folder);
 		
 		
 		for (int i = 0;i < emails.size();i++)
@@ -143,11 +146,8 @@ public class Email implements IMail, Serializable
 		
 		
 		
-		Folder folder = (Folder)ifolder;
 		String path = "./Users/" + userID + "/" + folder.type + "/lastID.txt";
-		String savePath = "./Users/" + userID + "/" + folder.type + "/index.txt";
-		
-		//ID the email object
+
 		try
 		{
 			File file = new File(path);
@@ -165,7 +165,28 @@ public class Email implements IMail, Serializable
 		}
 		
 		System.out.println(id);
+		return id;
+	}
+	
+	public void saveEmail(int userID, IFolder ifolder)
+	{
+		User user = FolderManagerBIN.getUser(userID);
+		DoubleLinkedList emails = readUserEmails(userID, ifolder);
 		
+		
+		for (int i = 0;i < emails.size();i++)
+			System.out.print(((Email)emails.get(i)).subject);
+		
+		
+		
+		Folder folder = (Folder)ifolder;
+		
+		//ID the email object
+		
+		id = calculateEmailID(userID, folder);
+		String path = "./Users/" + userID + "/" + folder.type + "/lastID.txt";
+		String savePath = "./Users/" + userID + "/" + folder.type + "/index.txt";
+
 		try {
 			FileWriter writer = new FileWriter(path);
 			writer.write(String.valueOf(id));
@@ -175,6 +196,7 @@ public class Email implements IMail, Serializable
 		} catch (IOException e) {
 		
 		}
+
 		
 		String attachmentSavePath = "./Users/" + userID + "/" + folder.type + "/" + id + "/";
 		new File(attachmentSavePath).mkdirs();
@@ -211,6 +233,11 @@ public class Email implements IMail, Serializable
 		return emails;
 	}
 	
+	public static void saveBulkEmails(DoubleLinkedList emails, int userID, Folder folder)
+	{
+		String path = "./Users/" + userID + "/" + folder.type + "/index.txt";
+		FolderManagerBIN.WriteObjectToFile(emails, path);
+	}
 	
 	/*public static void main(String[] args) 
 	{

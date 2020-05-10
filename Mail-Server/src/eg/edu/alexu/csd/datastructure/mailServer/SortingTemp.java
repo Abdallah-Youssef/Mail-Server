@@ -61,7 +61,7 @@ public class SortingTemp {
 	
 	
 }
-
+/*
 class sortComparator implements ISort
 {
 	int type;
@@ -99,64 +99,5 @@ class sortComparator implements ISort
 		}
 		}	
 	}
-}
-/*
-class sortUsersByName implements ISort
-{
-
-	public int compare(User o1, User o2) {
-		return o1.firstName.compareTo(o2.firstName);
-	}
-}
-
-class sortUsersByEmail implements ISort, Comparator<User>
-{
-
-	public int compare(User o1, User o2) {
-		return o1.emails[0].compareTo(o2.emails[0]);
-	}
-}
-
-class sortEmailsbySubject implements ISort, Comparator<Email>
-{
-	public int compare(Email o1, Email o2) {
-		return o1.subject.compareTo(o2.subject);
-	}
-	
-}
-
-class sortEmailsbySender implements ISort, Comparator<Email>
-{
-
-	public int compare(Email o1, Email o2) {
-		return o1.senderEmail.compareTo(o2.senderEmail);
-	}
-	
-}
-
-class sortEmailsbyReceiver implements ISort, Comparator<Email>
-{
-
-	public int compare(Email o1, Email o2) {
-		return o1.receiverEmail.compareTo(o2.receiverEmail);
-	}
-	
-}
-
-class sortEmailsbyDate implements ISort, Comparator<Email>
-{
-
-	public int compare(Email o1, Email o2) {
-		return o1.date.compareTo(o2.date);
-	}
-	
-}
-
-class sortEmailsbyPriority implements ISort, Comparator<Email>
-{
-	public int compare(Email o1, Email o2) {
-		return o1.date.compareTo(o2.date);
-	}
-	
 }
 */

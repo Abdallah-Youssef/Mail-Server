@@ -1,5 +1,11 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+
 import Listeners.SignInErrorListener;
 import Listeners.SignUpErrorListener;
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Interfaces.ILinkedList;
@@ -108,9 +114,33 @@ public class App implements IApp {
 		
 	}
 
+	
+	
+	// this requires updating the index file from outside this function in the source folder
 	@Override
 	public void moveEmails(ILinkedList mails, IFolder des) {
-
+		DoubleLinkedList emails = Email.readUserEmails(loggedInUser.id, (Folder)des);
+		for(int i = 0; i < mails.size();i++)
+		{
+			Email m = ((Email)mails.get(i));
+			int oldID = m.id;
+			m.id = m.calculateEmailID(loggedInUser.id, (Folder)des);
+			emails.add(m);
+			String srcPath = "./Users/" + loggedInUser.id + "/" + folder.type + "/" + oldID + "/";
+			String destPath = "./Users/" + loggedInUser.id + "/" + ((Folder)des).type + "/" + m.id + "/";
+			new File(destPath).mkdirs();
+			String files[] = new File(srcPath).list();
+			for(String file: files)
+			{
+				try {
+					Files.move(new File(srcPath + file).toPath(), new File(destPath+file).toPath(), StandardCopyOption.REPLACE_EXISTING);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			new File(srcPath).delete();
+		}
+		Email.saveBulkEmails(emails, loggedInUser.id, (Folder)des);
 	}
 
 	@Override
