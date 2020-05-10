@@ -36,7 +36,7 @@ public class EmailChooser extends JFrame {
 	 */
 	public EmailChooser(DoubleLinkedList users, EmailChooserListener listener) {
 		super("Select Emails");
-		setSize(100, 300);
+		setSize(200, 300);
 		setVisible(true);
 		this.emailChooserListener = listener;
 		

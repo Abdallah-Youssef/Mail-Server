@@ -23,6 +23,7 @@ import javax.swing.SwingConstants;
 import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.SinglyLinked;
 import eg.edu.alexu.csd.datastructure.mailServer.Email;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
+import listeners.PathListener;
 
 public class EMailsPanel extends JPanel {
 	JFrame parentFrame = (JFrame) this.getParent();
@@ -115,11 +116,12 @@ public class EMailsPanel extends JPanel {
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					JDialog d = new JDialog(parentFrame, "Body"); 
-					JLabel l = new JLabel(email.getBody()); 
-					d.add(l); 
-					d.setSize(100, 100); 
-					d.setVisible(true); 
+					EmailView.run(email, new PathListener() {
+						public void pathChosen(String path) {
+							//TODO for youssef : open the path
+							
+						}
+					});
 				}
 			});
 		}

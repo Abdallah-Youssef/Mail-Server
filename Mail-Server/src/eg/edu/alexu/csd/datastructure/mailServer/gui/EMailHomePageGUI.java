@@ -106,6 +106,7 @@ public class EMailHomePageGUI extends JFrame {
 			emailPanelUtil.setListener(new EmailPanelUtilsListener(){
 				public void moveEmails(Folder folder) {
 					// TODO move emails
+					//		  ------>  emailsPanel.checkedEmails ;
 				}
 
 				@Override
