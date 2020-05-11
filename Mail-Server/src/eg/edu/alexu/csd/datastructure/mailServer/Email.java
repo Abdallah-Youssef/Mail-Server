@@ -81,6 +81,7 @@ public class Email implements IMail, Serializable
 		this.priority = priority;
 	}
 	
+	
 	public String getSubject(){
 		return subject;
 	}
@@ -251,11 +252,6 @@ public class Email implements IMail, Serializable
 		FolderManagerBIN.WriteObjectToFile(emails, path);
 	}
 	
-	/*public static void main(String[] args) 
-	{
-		DoubleLinkedList e = readUserEmails(1, new Folder("inbox"));
-		Email email = new Email("subject", "body", 1, "a@b.c", 2, "x@y.z", 0, 0);
-		email.saveEmail(e, 1, new Folder("inbox"));
-	}*/
+	
 	
 }
