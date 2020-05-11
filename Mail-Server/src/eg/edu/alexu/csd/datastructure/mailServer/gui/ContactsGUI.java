@@ -58,14 +58,13 @@ App app;
 public GridBagLayout gridBagLayout = new GridBagLayout();
 	public ContactsGUI(App app) {
 		this.app = app;
-		setSize(1000,1000);
-		setResizable(false);
+		setSize(500,500);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 		
-		Border outsideBorder = BorderFactory.createEmptyBorder(40, 25, 50, 25);
-		Border insideBorder = BorderFactory.createTitledBorder("Welcome");
+		Border outsideBorder = BorderFactory.createEmptyBorder(25, 25, 25, 25);
+		Border insideBorder = BorderFactory.createTitledBorder("Manage Your Contacts");
 		getRootPane().setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 		
 		
@@ -123,7 +122,12 @@ public GridBagLayout gridBagLayout = new GridBagLayout();
 				});
 				btn.setAlignmentX(CENTER_ALIGNMENT);
 				indexPanel.add(btn);
-				indexPanel.add(Box.createRigidArea(new Dimension(5, 5)));
+				
+				JLabel line = new JLabel("--------------------------------------");
+				line.setAlignmentX(CENTER_ALIGNMENT);
+				indexPanel.add(Box.createRigidArea(new Dimension(5, 10)));
+				indexPanel.add(line);
+				indexPanel.add(Box.createRigidArea(new Dimension(5, 10)));
 			}
 		}
 	}

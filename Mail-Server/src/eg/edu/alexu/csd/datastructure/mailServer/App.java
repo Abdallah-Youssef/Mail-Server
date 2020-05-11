@@ -2,12 +2,10 @@ package eg.edu.alexu.csd.datastructure.mailServer;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
-import eg.edu.alexu.csd.datastructure.linkedList.cs.Interfaces.ILinkedList;
-import interfaces.IApp;
+import interfaces.*;
 import interfaces.IContact;
 import interfaces.IFilter;
 import interfaces.IFolder;

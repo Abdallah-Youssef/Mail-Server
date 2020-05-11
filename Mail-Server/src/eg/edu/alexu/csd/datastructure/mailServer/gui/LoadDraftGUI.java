@@ -2,6 +2,7 @@ package eg.edu.alexu.csd.datastructure.mailServer.gui;
 
 import javax.swing.JScrollPane;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -10,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,11 +27,10 @@ import eg.edu.alexu.csd.datastructure.mailServer.Folder;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 import interfaces.IFolder;
 
-public class LOadDraftGUI extends JFrame {
+public class LoadDraftGUI extends JFrame {
 	public GridBagLayout gridBagLayout = new GridBagLayout();
 	JPanel panel;
-	GridBagConstraints GC;
-	public LOadDraftGUI(User user) {
+	public LoadDraftGUI(User user) {
 	setSize(600,600);
 	setResizable(false);
 	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -37,23 +38,24 @@ public class LOadDraftGUI extends JFrame {
 	Border outsideBorder = BorderFactory.createEmptyBorder(40, 25, 50, 25);
 	Border insideBorder = BorderFactory.createTitledBorder("Welcome");
 	getRootPane().setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
-	setLayout(new GridBagLayout());
-	GC=new GridBagConstraints();
-	GC.weightx =1 ;
-	GC.weighty =1;
-	GC.fill = GridBagConstraints.NONE;	
+	
+	setLayout(new BorderLayout());
+
+	
 	panel=new JPanel();
-	DoubleLinkedList drafts=Email.readUserEmails(user.getID(), (IFolder)new Folder("Draft"));
+	panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+	
+	DoubleLinkedList drafts = Email.readUserEmails(user.getID(), (IFolder)new Folder("Draft"));
 	adding(drafts);
 	JScrollPane scroll1=new JScrollPane(panel);
-	add(scroll1,GC);
+	add(scroll1, BorderLayout.CENTER);
 	
 	
 	
 }
 	public void adding(DoubleLinkedList drafts) {
 		for(int i=0;i<drafts.size();i++) {
-			Email mail=(Email) drafts.get(i);
+			Email mail = (Email) drafts.get(i);
 			JButton button =new JButton(mail.getSubject());
 			button.setBackground(Color.WHITE);
 			button.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -61,21 +63,16 @@ public class LOadDraftGUI extends JFrame {
 			button.setBorder(BorderFactory.createEmptyBorder(7, 20, 7, 250));
 			panel.add(button);
 			button.addActionListener(new ActionListener() {
-
-				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
 					ComposeGUI.draftLoading(mail);
-					
 				}
-				
 			});
 		}
 	}
 	public static void Run(User user) {
 		SwingUtilities.invokeLater(new Runnable () {
 			public void run() {
-				new LOadDraftGUI(user);
+				new LoadDraftGUI(user);
 			}
 		});
 	}

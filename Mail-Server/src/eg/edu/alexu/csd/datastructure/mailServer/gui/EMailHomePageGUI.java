@@ -7,23 +7,10 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
-import eg.edu.alexu.csd.datastructure.linkedList.cs.Interfaces.ILinkedList;
-import eg.edu.alexu.csd.datastructure.mailServer.App;
-import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
-import eg.edu.alexu.csd.datastructure.mailServer.Email;
-import eg.edu.alexu.csd.datastructure.mailServer.Filter;
-import eg.edu.alexu.csd.datastructure.mailServer.Folder;
-import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;
-import eg.edu.alexu.csd.datastructure.mailServer.User;
-import eg.edu.alexu.csd.datastructure.mailServer.sortComparator;
-import interfaces.IFilter;
-import interfaces.IFolder;
-import interfaces.IMail;
-import listeners.EmailPanelUtilsListener;
-import listeners.EmailsPanelListener;
-import listeners.FilterSortChangeListener;
-import listeners.FolderChangeListener;
-import listeners.NewEmailListListener;
+import eg.edu.alexu.csd.datastructure.mailServer.*;
+import interfaces.*;
+import interfaces.ILinkedList;
+import listeners.*;
 
 
 

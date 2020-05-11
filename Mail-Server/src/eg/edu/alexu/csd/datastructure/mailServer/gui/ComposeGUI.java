@@ -10,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
@@ -28,8 +26,6 @@ import listeners.EmailChooserListener;
 import listeners.PathListener;
 
 public class ComposeGUI extends JFrame {
-	//TODO choose sender from emails
-	//TODO choose receivers from contacts
 	
 	DropDownMenuButton senderButton;
 	JPopupMenu sendersMenu;
@@ -40,6 +36,10 @@ public class ComposeGUI extends JFrame {
 	
 	JLabel attachmentsLabel;
 	JLabel attachmentError;
+	
+	JLabel priorityLabel;
+	static DropDownMenuButton priorityButton;
+	JPopupMenu priorityMenu;
 	
 	JLabel subjectLabel;
 	
@@ -80,7 +80,6 @@ public class ComposeGUI extends JFrame {
 		setSize(600,800);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
-		//TODO save draft, we will change the action here when he pree exit so we can save drafts
 		setVisible(true);
 		
 		
@@ -121,6 +120,12 @@ public class ComposeGUI extends JFrame {
 			chooseContactsBtn = new JButton("Choose From Contacts");
 			receiverError = new JLabel("");
 			receiverError.setForeground(Color.RED);
+			
+			priorityLabel = new JLabel("Priority : ");
+			priorityMenu = new JPopupMenu();
+			populatePriority();
+			priorityButton = new DropDownMenuButton("Choose priority", priorityMenu);
+			
 			
 			SaveDraft=new JButton("Save as Draft");
 			LoadDraft=new JButton("Load Draft");
@@ -183,23 +188,32 @@ public class ComposeGUI extends JFrame {
 			gc.anchor = GridBagConstraints.CENTER;
 			add(attachmentError, gc);
 			
+			
+			
 			//Fourth row
 			setGC(gc, 0,3,1,1);
+			add(priorityLabel, gc);
+			setGC(gc, 1,3,1,1);
+			add(priorityButton, gc);	
+			
+			
+			//fifth row
+			setGC(gc, 0,4,1,1);
 			add(subjectLabel, gc);
 			
-			setGC(gc, 1,3,1,1);
+			setGC(gc, 1,4,1,1);
 			add(subjectField, gc);
 			
-			//FiftthRow
-			setGC(gc,0,4,2,1);
+			//sixth row
+			setGC(gc,0,5,1,1);
 			gc.anchor = GridBagConstraints.CENTER;
 			add(sendBtn, gc);
 			
-			setGC(gc,2,4,2,1);
+			setGC(gc,1,5,1,1);
 			gc.anchor = GridBagConstraints.CENTER;
 			add(SaveDraft, gc);
 			
-			setGC(gc,3,4,2,1);
+			setGC(gc,2,5,1,1);
 			gc.anchor = GridBagConstraints.CENTER;
 			add(LoadDraft, gc);
 			
@@ -208,8 +222,7 @@ public class ComposeGUI extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					LOadDraftGUI.Run(user);
+					LoadDraftGUI.Run(user);
 				}
 				
 			});
@@ -219,7 +232,6 @@ public class ComposeGUI extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					// TODO Auto-generated method stub
 					String sender = senderButton.getText();
 					if ((senderButton.getText()).equals("Choose Sender")) {
 						senderError.setText("Choose sender");
@@ -228,6 +240,7 @@ public class ComposeGUI extends JFrame {
 					senderError.setText("");
 					
 					QueueLinkedBased q = ListUtils.singleToQueue(receivers);
+					
 					while(!q.isEmpty()) {
 						String receiver = (String) q.dequeue();
 						User receiverUser = FolderManagerBIN.getUser(receiver);
@@ -238,13 +251,15 @@ public class ComposeGUI extends JFrame {
 								receiverUser.getID(),
 								receiver,
 								attachments,
-								0 //place holder priority
+								getPriority()
 								);
 						email.saveEmail(user.getID(),(IFolder) new Folder("Draft"));
 					
+					}
+					
+					
 				}
-				}
-				});
+			});
 			
 			addReceiverBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -311,34 +326,11 @@ public class ComposeGUI extends JFrame {
 					senderError.setText("");
 					
 					QueueLinkedBased q = ListUtils.singleToQueue(receivers);
-					while(!q.isEmpty()) {
-						String receiver = (String) q.dequeue();
-						User receiverUser = FolderManagerBIN.getUser(receiver);
-						Email email = new Email(subjectField.getText(),
-								textArea.getText(),
-								user.getID(),
-								sender,
-								receiverUser.getID(),
-								receiver,
-								attachments,
-								0 //place holder priority
-								);
-						email.saveEmail(receiverUser.getID(),(IFolder) new Folder("inbox"));
-					}
+					saveQueueToFolder(q, sender, "inbox");
 					
-					
-					//Save it in sent for sender
-					Email email = new Email(subjectField.getText(),
-							textArea.getText(),
-							user.getID(),
-							sender,
-							user.getID(),
-							sender,
-							attachments,
-							0 //place holder priority
-							);
-					email.saveEmail(user.getID(),(IFolder) new Folder("sent"));
-					
+					q = new QueueLinkedBased();
+					q.enqueue(sender);
+					saveQueueToFolder(q, sender, "sent");
 				}
 			});
 			
@@ -368,7 +360,7 @@ public class ComposeGUI extends JFrame {
 	            public void popupMenuCanceled(PopupMenuEvent e) {}
 	        });
 			
-		
+			
 		}
 	}
 	
@@ -380,11 +372,25 @@ public class ComposeGUI extends JFrame {
 		}
 		textArea.setText(mail.getBody());
 		subjectField.setText(mail.getSubject());
+		priorityButton.setText(mail.priority + "");
 	}
 	
 
 	
-	
+	public void populatePriority() {
+		String[] options = new String[] {"1", "2", "3"};
+		
+		for (int i = 0;i < options.length;i++) {
+			JMenuItem option = new JMenuItem(options[i]);
+			option.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					priorityButton.setText(option.getText());
+				}
+			});
+			
+			priorityMenu.add(option);
+		}
+	}
 
 	
 	
@@ -428,6 +434,7 @@ public class ComposeGUI extends JFrame {
 		});
 	}
 	
+	
 	private void setGC(GridBagConstraints gc, int x, int y, int width, int height) {
 		gc.gridx = x;
 		gc.gridy = y;
@@ -435,7 +442,33 @@ public class ComposeGUI extends JFrame {
 		gc.gridheight = height;
 	}
 	
+	/**
+	 * Saves current inputs to the receivers from the sender
+	 */
+	public void saveQueueToFolder(QueueLinkedBased receivers, String sender, String folder) {
+		
+		
+		while(!receivers.isEmpty()) {
+			String receiver = (String) receivers.dequeue();
+			User receiverUser = FolderManagerBIN.getUser(receiver);
+			Email email = new Email(subjectField.getText(),
+					textArea.getText(),
+					user.getID(),
+					sender,
+					receiverUser.getID(),
+					receiver,
+					attachments,
+					getPriority() //place holder priority
+					);
+			email.saveEmail(receiverUser.getID(),(IFolder) new Folder(folder));
+		}
+	}
 	
-	
+	public int getPriority() {
+		int priority = 0;
+		if (!priorityButton.getText().equals("Choose priority"))
+			priority = Integer.parseInt(priorityButton.getText());
+		return priority;
+	}
 	
 }

@@ -2,7 +2,6 @@ package eg.edu.alexu.csd.datastructure.mailServer.gui;
 
 import java.io.IOException;
 
-import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 
@@ -20,7 +19,6 @@ public class MainGUI {
 		FolderManagerBIN.addNewUser(test2);
 		
 		//TODO fix error : all users have the same id
-		test.addContact("koskos@eltany.com");
 
 		FolderManagerBIN.printUsers();
 		MainPageGUI.Run();

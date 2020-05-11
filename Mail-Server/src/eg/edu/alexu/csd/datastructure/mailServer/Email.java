@@ -16,7 +16,7 @@ import interfaces.IMail;
 public class Email implements IMail, Serializable
 {
 	int id;
-	int priority;
+	public int priority;
 	String subject;
 	String body;
 	LocalDateTime date;
