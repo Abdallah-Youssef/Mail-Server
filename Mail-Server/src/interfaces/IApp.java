@@ -4,7 +4,6 @@ import eg.edu.alexu.csd.datastructure.linkedList.cs.Interfaces.ILinkedList;
 
 public interface IApp {
 	/**
-	 * i love dr khaled nagi
 	* Sign in to the application
 	* @param email
 	* @param password

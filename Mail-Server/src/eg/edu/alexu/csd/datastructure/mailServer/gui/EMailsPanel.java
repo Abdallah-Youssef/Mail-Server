@@ -91,7 +91,11 @@ public class EMailsPanel extends JPanel {
 			
 			checkBox = new JCheckBox();
 		    checkBox.setMnemonic(KeyEvent.VK_C); 
-		    checkBox.setSelected(false);
+		    System.out.println("INDEX: "+(10*currentPage + index));
+		    if(newCheckedEmails != null)
+		    	checkBox.setSelected(newCheckedEmails[10*currentPage + index]);
+		    else
+		    	checkBox.setSelected(false);
 			
 			setLayout(new GridBagLayout());
 			gc = new GridBagConstraints();
@@ -112,7 +116,7 @@ public class EMailsPanel extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					AbstractButton abstractButton = (AbstractButton) e.getSource();
 			        boolean selected = abstractButton.getModel().isSelected();
-			        checkedEmails[index] = selected;
+			        //checkedEmails[index] = selected;
 			        newCheckedEmails[10*currentPage + index] = selected;
 				}
 			});

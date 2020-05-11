@@ -107,9 +107,8 @@ public class App implements IApp {
 	@Override
 	public IMail[] listEmails(int page) {
 		Email[] emails = new Email[10];
-		
 		for(int i = 0;i < 10 && 10*page + i < currentlyLoadedEmails.size();i++)
-			emails[i] = (Email)currentlyLoadedEmails.get(10*page+i);
+			emails[i] = (Email)currentlyLoadedEmails.get(10*page + i);
 		return emails;
 	}
 
