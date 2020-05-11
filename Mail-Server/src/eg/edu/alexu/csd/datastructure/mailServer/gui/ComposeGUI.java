@@ -267,10 +267,10 @@ public class ComposeGUI extends JFrame {
 			chooseContactsBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					DoubleLinkedList contacts = new DoubleLinkedList();
-					DoubleLinkedList contactsIDs = user.getContactsIDs();
+					DoubleLinkedList contactEmails = user.getContacts();
 					
-					for (int i = 0;i < contactsIDs.size();i++) 
-						contacts.add(FolderManagerBIN.getUser(((int)contactsIDs.get(i))));
+					for (int i = 0;i < contactEmails.size();i++) 
+						contacts.add(FolderManagerBIN.getUser(((String)contactEmails.get(i))));
 					
 
 					EmailChooser.Run(contacts, new EmailChooserListener() {

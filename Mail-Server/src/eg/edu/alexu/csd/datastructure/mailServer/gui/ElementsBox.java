@@ -89,6 +89,7 @@ public class ElementsBox extends JPanel{
 		}
 		
 		elements.add(string);
+		
 		errorLabel.setText("");
 		add(new Element(string, this));
 		revalidate();

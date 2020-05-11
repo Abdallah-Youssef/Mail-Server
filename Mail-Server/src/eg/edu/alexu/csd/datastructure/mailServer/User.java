@@ -16,7 +16,7 @@ public class User implements IContact, Serializable
 	
 	
 	DoubleLinkedList emails;
-	DoubleLinkedList contactsIDs;
+	DoubleLinkedList contacts; //emails
 	DoubleLinkedList folders;
 	public String password;
 	
@@ -75,7 +75,7 @@ public class User implements IContact, Serializable
 		this.emails = new DoubleLinkedList();
 		this.emails.add(email);
 		this.password = password;
-		this.contactsIDs = new DoubleLinkedList();
+		this.contacts = new DoubleLinkedList();
 		folders = new DoubleLinkedList();
 		folders.add("inbox");
 		folders.add("sent");
@@ -99,17 +99,10 @@ public class User implements IContact, Serializable
 	}
 	
 	
-	public DoubleLinkedList getContactsIDs() {
-		return contactsIDs;
+	public DoubleLinkedList getContacts() {
+		return contacts;
 	}
-	public boolean idExistInContacts(int id) {
-		for(int i=0;i<contactsIDs.size();i++) {
-			if(id==(int)contactsIDs.get(i)) {
-				return true;
-			}
-		}
-		return false;
-	}
+
 	
 	public DoubleLinkedList getEmails() {
 		return emails;
@@ -132,22 +125,23 @@ public class User implements IContact, Serializable
 		}
 	}
 	
-	public void addContactID(int id) {
-		for (int i = 0;i < contactsIDs.size();i++) {
-			if (id == (int)contactsIDs.get(i)) {
-				//id already exists
-				return;
+	public boolean addContact(String email) {
+		for (int i = 0;i < contacts.size();i++) {
+			if (email == (String)contacts.get(i)) {
+				//email already exists
+				return false;
 			}
 		}
 		
-		contactsIDs.add(id);
+		contacts.add(email);
 		FolderManagerBIN.updateUser(this);
+		return true;
 	}
 	
-	public void removeContactID(int id) {
-		for (int i = 0;i < contactsIDs.size();i++) {
-			if (id == (int)contactsIDs.get(i)) {
-				contactsIDs.remove(i);
+	public void removeContact(String email) {
+		for (int i = 0;i < contacts.size();i++) {
+			if (email == (String)contacts.get(i)) {
+				contacts.remove(i);
 				FolderManagerBIN.updateUser(this);
 				return;
 			}

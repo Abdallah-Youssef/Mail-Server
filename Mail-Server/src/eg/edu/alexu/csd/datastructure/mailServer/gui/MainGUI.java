@@ -20,7 +20,7 @@ public class MainGUI {
 		FolderManagerBIN.addNewUser(test2);
 		
 		//TODO fix error : all users have the same id
-		test.addContactID(test2.getID());
+		test.addContact("koskos@eltany.com");
 
 		FolderManagerBIN.printUsers();
 		MainPageGUI.Run();

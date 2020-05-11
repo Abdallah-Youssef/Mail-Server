@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -43,8 +44,10 @@ JPanel indexPanel = new JPanel();
 JPanel contactsPanel = new JPanel();
 ElementsBox contactsBox;
 
-DoubleLinkedList contacts=new DoubleLinkedList();
+DoubleLinkedList contacts = new DoubleLinkedList();
 DoubleLinkedList index = new DoubleLinkedList();
+
+
 GridBagConstraints GC;
 JScrollPane scroll1;
 JScrollPane scroll2;
@@ -66,49 +69,63 @@ public GridBagLayout gridBagLayout = new GridBagLayout();
 		getRootPane().setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 		
 		
-		indexPanel.setPreferredSize(new Dimension(400,600));
+		loadingData();
 		
 		
 		
-		contactsPanel.setPreferredSize(new Dimension(400,600));
-		loadingData(app);
 		
-		DoubleLinkedList contactNames = new DoubleLinkedList();
-		for(int i = 0;i < contacts.size();i++)
-			contactNames.add( ((String) ((User)(contacts.get(i))).getEmails().get(0) ));
+		indexPanel.setLayout(new BoxLayout(indexPanel, BoxLayout.Y_AXIS));
 		
-		contactsBox = new ElementsBox(ListUtils.doubleToSingleList(contactNames), "Contacts", new JLabel());
-		contactsBox.setRemoveListener(new RemoveElementListener() {
-			public boolean elementRemoved(Element element) {
-				String email = element.label.getText();
-				User user = FolderManagerBIN.getUser(email);
-				app.loggedInUser.removeContactID(user.getID());
-				return true;
-			}
-		});
-		
-		contactsPanel.add(contactsBox);
 		scroll1 = new JScrollPane(contactsPanel);
-		
+		scroll2 = new JScrollPane(indexPanel);
 		
 		add(scroll1);
 		add(scroll2);
 		
 	}
-	private void loadingData(App app) {
-		DoubleLinkedList contcatsIDs = app.loggedInUser.getContactsIDs();
-	
-		for(int i=0; contcatsIDs.get(i)!=null ;i++) {
-			User contact = FolderManagerBIN.getUser((int)contcatsIDs.get(i));
-			contacts.add(contact);
-		}
-		
+	private void loadingData() {	
+		contacts = app.loggedInUser.getContacts();
 		index = FolderManagerBIN.getUsers();
-		populateIndexPanel();
-
-
-		scroll1 = new JScrollPane(contactsPanel);
-		scroll2=new JScrollPane(indexPanel);
+		
+		//Left panel
+		contactsBox = new ElementsBox(ListUtils.doubleToSingleList(contacts), "Contacts", new JLabel());
+		contactsBox.setRemoveListener(new RemoveElementListener() {
+			public boolean elementRemoved(Element element) {
+				String email = element.label.getText();
+				app.loggedInUser.removeContact(email);
+				return true;
+			}
+		});
+		contactsPanel.add(contactsBox);
+		
+		//Right Panel
+		for (int i = 0;i < index.size();i++) {
+			User user = (User) index.get(i);
+			DoubleLinkedList emails = user.getEmails();
+			
+			JLabel nameLabel = new JLabel(user.firstName);
+			nameLabel.setAlignmentX(CENTER_ALIGNMENT);
+			indexPanel.add(nameLabel);
+			
+			for (int j = 0;j < emails.size();j++) {
+				String email = (String) emails.get(j);
+				
+				JButton btn = new JButton(email);
+				btn.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (app.loggedInUser.addContact(email)) {
+							contactsBox.Add(email);
+							contactsPanel.revalidate();
+							indexPanel.revalidate();
+							frame.revalidate();
+						}
+					}
+				});
+				btn.setAlignmentX(CENTER_ALIGNMENT);
+				indexPanel.add(btn);
+				indexPanel.add(Box.createRigidArea(new Dimension(5, 5)));
+			}
+		}
 	}
 	
 
@@ -120,39 +137,6 @@ public GridBagLayout gridBagLayout = new GridBagLayout();
 		});
 	}
 	
-	public void populateIndexPanel() {
-		for (int i = 0;i < index.size();i++) {
-			User user = (User) index.get(i);
-			DoubleLinkedList emails = user.getEmails();
-			
-			indexPanel.setLayout(new BoxLayout(indexPanel, BoxLayout.Y_AXIS));
-			
-			JButton btn = new JButton(user.firstName);
-			btn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					System.out.println("hell");
-					app.loggedInUser.addContactID(user.getID());
-					printIDs(app.loggedInUser);
-					contactsBox.Add((String)user.getEmails().get(0));
-				}
-			});
-			
-			indexPanel.add(new JButton(user.firstName));
-			
-			
-			for (int j = 0;j < emails.size();j++) {
-				JLabel email = new JLabel("   --->" + (String)emails.get(j));
-				indexPanel.add(email);
-			}
-			
-		}
-	}
 
 
-	public void printIDs(User user) {
-		DoubleLinkedList ids = user.getContactsIDs();
-		for (int i = 0;i < ids.size();i++)
-			System.out.print((String)ids.get(i) + " ");
-		System.out.println();
-	}
 }
