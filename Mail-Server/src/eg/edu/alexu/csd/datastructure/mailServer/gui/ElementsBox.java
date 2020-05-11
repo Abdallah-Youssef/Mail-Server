@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import eg.edu.alexu.csd.datastructure.mailServer.SinglyLinked;
+import dataStructures.SinglyLinked;
 import listeners.RemoveElementListener;
 
 public class ElementsBox extends JPanel{

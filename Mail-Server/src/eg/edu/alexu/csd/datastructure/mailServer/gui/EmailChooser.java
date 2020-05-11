@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
+import dataStructures.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 import listeners.EmailChooserListener;
 

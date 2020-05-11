@@ -16,8 +16,8 @@ import javax.swing.border.Border;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+import dataStructures.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.App;
-import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.Email;
 import eg.edu.alexu.csd.datastructure.mailServer.Folder;
 import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;

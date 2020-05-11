@@ -7,6 +7,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
+import dataStructures.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.*;
 import interfaces.*;
 import interfaces.ILinkedList;

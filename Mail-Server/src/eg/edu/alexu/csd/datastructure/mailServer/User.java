@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Scanner;
 
+import dataStructures.DoubleLinkedList;
 import interfaces.IContact;
 
 public class User implements IContact, Serializable

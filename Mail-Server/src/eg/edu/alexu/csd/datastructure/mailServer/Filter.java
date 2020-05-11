@@ -1,5 +1,6 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
+import dataStructures.DoubleLinkedList;
 import interfaces.IFilter;
 
 public class Filter

@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import dataStructures.DoubleLinkedList;
+import dataStructures.SinglyLinked;
 import eg.edu.alexu.csd.datastructure.mailServer.App;
-import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.Email;
-import eg.edu.alexu.csd.datastructure.mailServer.SinglyLinked;
 import listeners.PathListener;
 
 public class EmailView extends JFrame {

@@ -1,5 +1,8 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
+import dataStructures.DoubleLinkedList;
+import dataStructures.QueueLinkedBased;
+import dataStructures.SinglyLinked;
 
 public class ListUtils {
 	static public SinglyLinked doubleToSingleList (DoubleLinkedList doubly) {

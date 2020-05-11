@@ -13,13 +13,13 @@ import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
+import dataStructures.DoubleLinkedList;
+import dataStructures.QueueLinkedBased;
+import dataStructures.SinglyLinked;
 import eg.edu.alexu.csd.datastructure.mailServer.Email;
 import eg.edu.alexu.csd.datastructure.mailServer.Folder;
 import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
 import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;
-import eg.edu.alexu.csd.datastructure.mailServer.QueueLinkedBased;
-import eg.edu.alexu.csd.datastructure.mailServer.SinglyLinked;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 import interfaces.IFolder;
 import listeners.EmailChooserListener;

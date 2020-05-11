@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
+import dataStructures.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.Folder;
 import listeners.EmailPanelUtilsListener;
 

@@ -1,6 +1,7 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
-import eg.edu.alexu.csd.datastructure.stack.Classes.Stack;
+import dataStructures.DoubleLinkedList;
+import dataStructures.Stack;
 import interfaces.ISort;
 
 

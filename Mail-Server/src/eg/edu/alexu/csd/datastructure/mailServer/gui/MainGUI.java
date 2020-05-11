@@ -8,15 +8,15 @@ import eg.edu.alexu.csd.datastructure.mailServer.User;
 public class MainGUI {
 	public static void main(String[] args) throws IOException {
 		
-		/*FolderManagerBIN.clearUsers();
+		FolderManagerBIN.clearUsers();
 		//new File("./Users").mkdirs();
 		
 		
 		User test = new User("test1", "popo", "user1@gmail.com", "passssap");
-		FolderManagerBIN.addNewUser(test);*/
+		FolderManagerBIN.addNewUser(test);
 
-		//User test2 = new User("test2", "popo", "koskos@eltany.com", "passssap");
-		//FolderManagerBIN.addNewUser(test2);
+		User test2 = new User("test2", "popo", "koskos@eltany.com", "passssap");
+		FolderManagerBIN.addNewUser(test2);
 		
 		//TODO fix error : all users have the same id
 
