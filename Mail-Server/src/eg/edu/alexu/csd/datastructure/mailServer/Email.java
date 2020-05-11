@@ -9,7 +9,6 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.SinglyLinked;
 import interfaces.IFolder;
 import interfaces.IMail;
 

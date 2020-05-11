@@ -21,7 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.SinglyLinked;
 import eg.edu.alexu.csd.datastructure.mailServer.Email;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 import listeners.PathListener;
@@ -33,10 +32,6 @@ public class EMailsPanel extends JPanel {
 	public boolean[] newCheckedEmails;
 	int currentPage;
 	public EMailsPanel(Email[] emails, User user, boolean[] checkedEmailsBoxes, int page) {
-		/*Email[] emails = new Email[7];
-		for (int i = 0;i < emails.length;i++) {
-			emails[i] = new Email("subject" + i, "body" + i, user.getID(), "hahah@gmail.com", 2, "receiver@gmail.com", new SinglyLinked(), 0);
-		}*/
 		
 		setPreferredSize(new Dimension(500,400));
 		EMailsBox box = new EMailsBox();

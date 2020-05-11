@@ -1,6 +1,5 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
-import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.SinglyLinked;
 
 public class ListUtils {
 	static public SinglyLinked doubleToSingleList (DoubleLinkedList doubly) {
