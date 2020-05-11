@@ -7,7 +7,7 @@ import interfaces.IFolder;
 
 public class Folder implements IFolder 
 {
-	String type;
+	public String type;
 	
 	public Folder(String type) {
 		this.type = type;
@@ -20,7 +20,7 @@ public class Folder implements IFolder
 		return directory.list(new FilenameFilter() {
 			  @Override
 			  public boolean accept(File current, String name) {
-			    return new File(current, name).isDirectory();
+			    return new File(current, name).isDirectory() && !(name.equals("inbox") || name.equals("sent") || name.equals("draft"));
 			  }
 			});
 	}

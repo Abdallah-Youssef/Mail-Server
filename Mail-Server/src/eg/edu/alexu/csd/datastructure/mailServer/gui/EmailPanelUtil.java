@@ -24,7 +24,7 @@ public class EmailPanelUtil extends JPanel{
 	
 	EmailPanelUtilsListener listener;
 	
-	public EmailPanelUtil(DoubleLinkedList folders) {
+	public EmailPanelUtil(int userID) {
 		setLayout(new FlowLayout());
 		
 		nextBtn = new JButton("Next");
@@ -73,8 +73,9 @@ public class EmailPanelUtil extends JPanel{
             @Override
             public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
             	foldersMenu.removeAll();
-    			for (int i = 0;i < folders.size();i++) {
-    				JMenuItem folder = new JMenuItem((String)folders.get(i));
+            	String[] userFolders = Folder.listFolders(userID);
+    			for (int i = 0;i < userFolders.length;i++) {
+    				JMenuItem folder = new JMenuItem(userFolders[i]);
     				folder.addActionListener(new ActionListener() {
     					public void actionPerformed(ActionEvent e) {
     						listener.moveEmails(new Folder(folder.getText()));

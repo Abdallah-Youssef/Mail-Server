@@ -6,7 +6,7 @@ import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
-import eg.edu.alexu.csd.datastructure.linkedList.cs.Interfaces.ILinkedList;
+import interfaces.ILinkedList;
 import interfaces.IApp;
 import interfaces.IContact;
 import interfaces.IFilter;
@@ -114,7 +114,30 @@ public class App implements IApp {
 
 	@Override
 	public void deleteEmails(ILinkedList mails) {
+		if(currentlyLoadedEmails == null)
+			return;
+		int n = 0;
+		DoubleLinkedList trash = Email.readUserEmails(loggedInUser.getID(), new Folder("trash"));
 		
+		for(int i = 0; i < mails.size();i++)
+		{
+			if((Boolean)mails.get(i))
+			{
+				trash.add((Email)currentlyLoadedEmails.get(n));
+				currentlyLoadedEmails.remove(n);
+				continue;
+			}
+			n++;
+		}
+		Email.saveBulkEmails(currentlyLoadedEmails, loggedInUser.getID(), folder);
+
+		if(!folder.type.equals("trash"))
+		{
+			Email.saveBulkEmails(trash, loggedInUser.getID(), new Folder("trash"));
+		}
+		
+		mails.clear();
+		mails.add(currentlyLoadedEmails.size());
 	}
 
 	

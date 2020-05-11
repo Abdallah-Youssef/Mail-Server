@@ -1,6 +1,6 @@
 package interfaces;
 
-import eg.edu.alexu.csd.datastructure.linkedList.cs.Interfaces.ILinkedList;
+import interfaces.ILinkedList;
 
 public interface IApp {
 	/**

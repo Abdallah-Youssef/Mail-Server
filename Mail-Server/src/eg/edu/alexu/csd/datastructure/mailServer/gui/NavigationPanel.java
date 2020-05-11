@@ -9,8 +9,13 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
@@ -29,10 +34,12 @@ public class NavigationPanel extends JPanel {
 	
 	private JButton[] fileButtons;
 	private JButton Contacts;
+	private JButton NewFolderButton;
 	private JButton Compose;
 	private JButton EMailModification;
 	private String[] FileNames;
-	
+	private DropDownMenuButton Defined;
+	private JPopupMenu foldersMenu;
 	
 	FolderChangeListener folderChangeListener;
 	App app;
@@ -42,11 +49,14 @@ public class NavigationPanel extends JPanel {
 		this.app = app;
 		user = app.loggedInUser;
 		
-		FileNames=new String [] {"Inbox","Sent","Trash","Defined"};
+		FileNames=new String [] {"Inbox","Sent","Trash","Drafts"};
 		fileButtons=new JButton[4];
 		
 		Contacts=new JButton("Contacts");
 		Contacts.setAlignmentX(CENTER_ALIGNMENT);
+		
+		NewFolderButton = new JButton("Create Folder");
+		NewFolderButton.setAlignmentX(CENTER_ALIGNMENT);
 		
 		Compose=new JButton("Compose");
 		
@@ -57,15 +67,23 @@ public class NavigationPanel extends JPanel {
 		
 		ButtonBox.add(Contacts);
 		ButtonBox.add(EMailModification);
+		ButtonBox.add(NewFolderButton);
+		
 		
 		for(int i=0;i<4;i++) {
 			fileButtons[i]=new JButton(FileNames[i]);
 			fileButtons[i].setAlignmentX(CENTER_ALIGNMENT);
 		}
+		
+		foldersMenu = new JPopupMenu();
+		Defined = new DropDownMenuButton("Defined", foldersMenu);
+		Defined.setAlignmentX(CENTER_ALIGNMENT);
+		
+		
 		for(int i=0;i<4;i++) {
 			FileBox.add(fileButtons[i]);
 		}
-		
+		FileBox.add(Defined);
 		
 		//Layout and gridding
 		Border outsideBorder = BorderFactory.createEmptyBorder(4, 2, 5, 2);
@@ -97,13 +115,6 @@ public class NavigationPanel extends JPanel {
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
 		//actions for file buttons start:
 		fileButtons[0].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -129,14 +140,48 @@ public class NavigationPanel extends JPanel {
 				folderChangeListener.newFolder(new Folder("trash"));
 			}
 		});
+		
 		fileButtons[3].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				/*
-				 * call the defined panel to the mails area
+				 * call the trash panel to the mails area
 				 */
-				//TODO
+				folderChangeListener.newFolder(new Folder("draft"));
 			}
 		});
+
+		
+		Defined.setPopupListener(new PopupMenuListener() {
+			
+			@Override
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				foldersMenu.removeAll();
+				String[] userFolders = Folder.listFolders(app.loggedInUser.getID());
+    			for (int i = 0;i < userFolders.length;i++) {
+    				JMenuItem folder = new JMenuItem(userFolders[i]);
+    				folder.addActionListener(new ActionListener() {
+    					public void actionPerformed(ActionEvent e) {
+    						folderChangeListener.newFolder(new Folder(folder.getText()));
+    					}
+    				});
+    				foldersMenu.add(folder);
+    			}
+			}
+			
+			@Override
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+				Defined.setSelected(false);
+				
+			}
+			
+			@Override
+			public void popupMenuCanceled(PopupMenuEvent e) {
+				
+			}
+		});
+
+		
+		
 		//actions for file buttons end
 		//action for email modification
 		EMailModification.addActionListener(new ActionListener() {
@@ -153,6 +198,15 @@ public class NavigationPanel extends JPanel {
 				ContactsGUI.run(app);
 			}
 		});
+		
+		NewFolderButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CreateNewFolderGUI.run(app.loggedInUser.getID());
+			}
+		});
+		
 		
 		//action for Compose
 		Compose.addActionListener(new ActionListener() {
