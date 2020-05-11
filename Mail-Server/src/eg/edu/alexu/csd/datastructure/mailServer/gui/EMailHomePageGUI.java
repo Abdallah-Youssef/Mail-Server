@@ -109,6 +109,9 @@ public class EMailHomePageGUI extends JFrame {
 			menuBar.setListener(new FilterSortChangeListener() {
 				public void filterChanged(FilterComp filter) {
 					app.setViewingOptions(app.folder,filter, app.sort);
+					int size = app.filteredIndices.size();
+					if(size != 0)
+						checkedEmails = new boolean[size];
 					refreshEmailsPanel(app.listEmails(0), 0);
 					emailPanelUtil.page = 0;
 					emailPanelUtil.pageLabel.setText("1");
@@ -118,6 +121,10 @@ public class EMailHomePageGUI extends JFrame {
 
 				public void sortChanged(sortComparator sort) {
 					app.setViewingOptions(app.folder, app.filter, sort);
+					int size = app.filteredIndices.size();
+					if(size != 0)
+						checkedEmails = new boolean[size];
+
 					refreshEmailsPanel(app.listEmails(0), 0);
 					emailPanelUtil.page = 0;
 					emailPanelUtil.pageLabel.setText("1");
