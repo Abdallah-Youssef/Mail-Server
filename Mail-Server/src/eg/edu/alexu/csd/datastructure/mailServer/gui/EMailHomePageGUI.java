@@ -12,6 +12,22 @@ import eg.edu.alexu.csd.datastructure.mailServer.*;
 import interfaces.*;
 import interfaces.ILinkedList;
 import listeners.*;
+import eg.edu.alexu.csd.datastructure.mailServer.App;
+import eg.edu.alexu.csd.datastructure.mailServer.Email;
+import eg.edu.alexu.csd.datastructure.mailServer.Filter;
+import eg.edu.alexu.csd.datastructure.mailServer.Folder;
+import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;
+import eg.edu.alexu.csd.datastructure.mailServer.User;
+import eg.edu.alexu.csd.datastructure.mailServer.sortComparator;
+import eg.edu.alexu.csd.datastructure.mailServer.FilterComp;
+import interfaces.IFilter;
+import interfaces.IFolder;
+import interfaces.IMail;
+import listeners.EmailPanelUtilsListener;
+import listeners.EmailsPanelListener;
+import listeners.FilterSortChangeListener;
+import listeners.FolderChangeListener;
+import listeners.NewEmailListListener;
 
 
 
@@ -46,14 +62,16 @@ public class EMailHomePageGUI extends JFrame {
 			menuBar = new MenuBar();
 			
 			
-			emailPanelUtil = new EmailPanelUtil(app.loggedInUser.getFolders());
+
+			//TODO get folders from user
+			emailPanelUtil = new EmailPanelUtil(app.loggedInUser.getID());
 			
-			
-			app.setViewingOptions(new Folder("inbox"), null, new sortComparator(5));
-			
-			if(app.currentlyLoadedEmails.size() > 0)
-				checkedEmails = new boolean[app.currentlyLoadedEmails.size()];
-			emailsPanel = new EMailsPanel((Email[])app.listEmails(0),user, checkedEmails, emailPanelUtil.page);
+
+			app.setViewingOptions(new Folder("inbox"), new FilterComp(0, ""), new sortComparator(5));
+			if(app.filteredIndices.size() > 0)
+				checkedEmails = new boolean[app.filteredIndices.size()];
+			emailsPanel = new EMailsPanel((Email[])app.listEmails(0),user, checkedEmails, 0);
+
 			scroll = new JScrollPane(emailsPanel);
 			
 			
@@ -74,27 +92,48 @@ public class EMailHomePageGUI extends JFrame {
 			navigationPanel.setListener(new FolderChangeListener() {
 				public void newFolder(IFolder folder) {
 					app.setViewingOptions(folder, app.filter, app.sort);
-					
-					int size = app.currentlyLoadedEmails.size();
+					emailPanelUtil.page = 0;
+					emailPanelUtil.pageLabel.setText("1");
+					int size = app.filteredIndices.size();
 					if(size != 0)
 						checkedEmails = new boolean[size];
 
-					emailsPanel = new EMailsPanel((Email[])app.listEmails(0),user, checkedEmails, emailPanelUtil.page);
-					refreshEmailsPanel(app.listEmails(0));
+					//emailsPanel = new EMailsPanel((Email[])app.listEmails(0),user, checkedEmails, 0);
+					//refreshEmailsPanel(app.listEmails(0));
+					
+					frame.remove(scroll);
+					emailsPanel = new EMailsPanel((Email[])app.listEmails(0), user, checkedEmails, 0);
+					scroll = new JScrollPane(emailsPanel);
+					add(scroll, BorderLayout.CENTER);
+					revalidate();
+					
 
 				}
 			});
 			
 			menuBar.setListener(new FilterSortChangeListener() {
-				public void filterChanged(Filter filter) {
-					app.setViewingOptions(app.folder,(IFilter) filter, app.sort);
-					refreshEmailsPanel(app.listEmails(0));
+				public void filterChanged(FilterComp filter) {
+					app.setViewingOptions(app.folder,filter, app.sort);
+					int size = app.filteredIndices.size();
+					if(size != 0)
+						checkedEmails = new boolean[size];
+					refreshEmailsPanel(app.listEmails(0), 0);
+					emailPanelUtil.page = 0;
+					emailPanelUtil.pageLabel.setText("1");
+
 					//emailsPanel = new EMailsPanel((Email[])app.listEmails(0),user, checkedEmails, emailPanelUtil.page);				
 				}
 
 				public void sortChanged(sortComparator sort) {
 					app.setViewingOptions(app.folder, app.filter, sort);
-					refreshEmailsPanel(app.listEmails(0));
+					int size = app.filteredIndices.size();
+					if(size != 0)
+						checkedEmails = new boolean[size];
+
+					refreshEmailsPanel(app.listEmails(0), 0);
+					emailPanelUtil.page = 0;
+					emailPanelUtil.pageLabel.setText("1");
+
 					//emailsPanel = new EMailsPanel((Email[])app.listEmails(0),user, checkedEmails, emailPanelUtil.page);				
 				}
 			});
@@ -109,52 +148,54 @@ public class EMailHomePageGUI extends JFrame {
 					{
 						if(checkedEmails[i])
 						{
-							emailsToBeMoved.add((Email)app.currentlyLoadedEmails.get(n));
-							app.currentlyLoadedEmails.remove(n);
-							continue;
+							emailsToBeMoved.add((Email)app.currentlyLoadedEmails.get((int)app.filteredIndices.get(i)-n));
+							app.currentlyLoadedEmails.remove((int)app.filteredIndices.get(i)-n);
+							n++;
 						}
-						n++;
 					}
+					Email.saveBulkEmails(app.currentlyLoadedEmails, app.loggedInUser.getID(), app.folder);
+
 					if(emailsToBeMoved.size() > 0)
-						app.moveEmails((ILinkedList)emailsToBeMoved, folder);
-					if(app.currentlyLoadedEmails.size() > 0)
-						checkedEmails = new boolean[app.currentlyLoadedEmails.size()];
+						app.moveEmails(emailsToBeMoved, folder);
+					
+					app.setViewingOptions(app.folder, app.filter, app.sort);
+					
+					if(app.filteredIndices.size() > 0)
+						checkedEmails = new boolean[app.filteredIndices.size()];
 					else
 						checkedEmails = null;
-					refreshEmailsPanel(app.listEmails(0));
-					Email.saveBulkEmails(app.currentlyLoadedEmails, app.loggedInUser.getID(), app.folder);
+
+					
+					refreshEmailsPanel(app.listEmails(0), 0);
+					emailPanelUtil.page = 0;
+					emailPanelUtil.pageLabel.setText("1");
+
 				}
 
 				@Override
 				public void deleteEmails() {
-					if(app.currentlyLoadedEmails == null)
-						return;
-					int n = 0;
-					for(int i = 0; i < checkedEmails.length;i++)
-					{
-						if(checkedEmails[i])
-						{
-							app.currentlyLoadedEmails.remove(n);
-							continue;
-						}
-						n++;
-					}
-					Email.saveBulkEmails(app.currentlyLoadedEmails, app.loggedInUser.getID(), new Folder("trash"));
-					if(app.currentlyLoadedEmails.size() > 0)
-						checkedEmails = new boolean[app.currentlyLoadedEmails.size()];
-					else
+				DoubleLinkedList checkBoxes = new DoubleLinkedList();
+					for(boolean x: checkedEmails)
+						checkBoxes.add(x);
+					app.deleteEmails(checkBoxes);
+					if(checkBoxes.size() == 0)
 						checkedEmails = null;
-					refreshEmailsPanel(app.listEmails(0));
+					else
+						checkedEmails = new boolean[(int)checkBoxes.get(0)];
+					refreshEmailsPanel(app.listEmails(0), 0);
+					emailPanelUtil.page = 0;
+					emailPanelUtil.pageLabel.setText("1");
+
 				}
 
 				@Override
 				public boolean newPage(int page) {
 					if(app.currentlyLoadedEmails == null)
 						return false;
-					int size = app.currentlyLoadedEmails.size();
+					int size = app.filteredIndices.size();
 					if(page*10 >= 0 && page*10 < size)
 					{
-						refreshEmailsPanel(app.listEmails(page));
+						refreshEmailsPanel(app.listEmails(page), page);
 						return true;
 					}
 					return false;
@@ -164,9 +205,9 @@ public class EMailHomePageGUI extends JFrame {
 
 		}
 		
-		public void refreshEmailsPanel(IMail[] emails) {
+		public void refreshEmailsPanel(IMail[] emails, int page) {
 			frame.remove(scroll);
-			emailsPanel = new EMailsPanel((Email[])emails, user, checkedEmails, emailPanelUtil.page);
+			emailsPanel = new EMailsPanel((Email[])emails, user, checkedEmails, page);
 			scroll = new JScrollPane(emailsPanel);
 			add(scroll, BorderLayout.CENTER);
 			revalidate();

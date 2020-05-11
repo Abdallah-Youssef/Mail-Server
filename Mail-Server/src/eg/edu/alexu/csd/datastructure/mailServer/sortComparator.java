@@ -30,6 +30,7 @@ public class sortComparator implements ISort
 			return ((Email)a).date.compareTo(((Email)b).date);
 		default:
 			{
+			System.out.println("default case");
 			if(((Email)a).priority < ((Email)b).priority)
 				return -1;
 			else if(((Email)a).priority == ((Email)a).priority)

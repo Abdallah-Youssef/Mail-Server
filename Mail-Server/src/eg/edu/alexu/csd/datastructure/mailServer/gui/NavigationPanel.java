@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
@@ -31,12 +32,14 @@ public class NavigationPanel extends JPanel {
 	GridBagConstraints GC;
 	private GridBagLayout gridBagLayout = new GridBagLayout();
 	
+	private JButton[] fileButtons;
 	private JButton Contacts;
+	private JButton NewFolderButton;
 	private JButton Compose;
 	private JButton EMailModification;
-	DropDownMenuButton foldersButton;
-	JPopupMenu foldersMenu;
-	
+	private String[] FileNames;
+	private DropDownMenuButton Defined;
+	private JPopupMenu foldersMenu;
 	
 	FolderChangeListener folderChangeListener;
 	App app;
@@ -46,23 +49,41 @@ public class NavigationPanel extends JPanel {
 		this.app = app;
 		user = app.loggedInUser;
 		
-		foldersMenu = new JPopupMenu();
-		foldersButton = new DropDownMenuButton("Folders", foldersMenu);
+		FileNames=new String [] {"Inbox","Sent","Trash","Drafts"};
+		fileButtons=new JButton[4];
 		
 		Contacts=new JButton("Contacts");
 		Contacts.setAlignmentX(CENTER_ALIGNMENT);
 		
+		NewFolderButton = new JButton("Create Folder");
+		NewFolderButton.setAlignmentX(CENTER_ALIGNMENT);
+		
 		Compose=new JButton("Compose");
 		
-		EMailModification=new JButton("User Settings");
+		EMailModification=new JButton("EMailModification");
 		EMailModification.setAlignmentX(CENTER_ALIGNMENT);
 		Box ButtonBox=Box.createVerticalBox();
+		Box FileBox=Box.createVerticalBox();
 		
 		ButtonBox.add(Contacts);
 		ButtonBox.add(EMailModification);
+		ButtonBox.add(NewFolderButton);
 		
-
 		
+		for(int i=0;i<4;i++) {
+			fileButtons[i]=new JButton(FileNames[i]);
+			fileButtons[i].setAlignmentX(CENTER_ALIGNMENT);
+		}
+		
+		foldersMenu = new JPopupMenu();
+		Defined = new DropDownMenuButton("Defined", foldersMenu);
+		Defined.setAlignmentX(CENTER_ALIGNMENT);
+		
+		
+		for(int i=0;i<4;i++) {
+			FileBox.add(fileButtons[i]);
+		}
+		FileBox.add(Defined);
 		
 		//Layout and gridding
 		Border outsideBorder = BorderFactory.createEmptyBorder(4, 2, 5, 2);
@@ -78,7 +99,7 @@ public class NavigationPanel extends JPanel {
 		
 		setGridCell(0,0);	
 		GC.anchor = GridBagConstraints.CENTER;
-		add(foldersButton,GC);
+		add(FileBox,GC);
 		
 		
 		
@@ -94,44 +115,78 @@ public class NavigationPanel extends JPanel {
 		
 		
 		
+		//actions for file buttons start:
+		fileButtons[0].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				/*
+				 * call the inbox panel to the mails area
+				 */
+				folderChangeListener.newFolder(new Folder("inbox"));
+			}
+		});
+		fileButtons[1].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				/*
+				 * call the sent panel to the mails area
+				 */
+				folderChangeListener.newFolder(new Folder("sent"));
+			}
+		});
+		fileButtons[2].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				/*
+				 * call the trash panel to the mails area
+				 */
+				folderChangeListener.newFolder(new Folder("trash"));
+			}
+		});
 		
+		fileButtons[3].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				/*
+				 * call the trash panel to the mails area
+				 */
+				folderChangeListener.newFolder(new Folder("draft"));
+			}
+		});
+
 		
-		
-		
-		
-		
-		foldersButton.setPopupListener(new PopupMenuListener() {
-            @Override
-            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-            	foldersButton.popup.removeAll();
-            	DoubleLinkedList folders = user.getFolders();
-    			for (int i = 0;i < folders.size();i++) {
-    				//Make a menuItem for each email
-    				//each menuItem when pressed will change the text of the JMenu to its email
-    				
-    				JMenuItem folder = new JMenuItem((String)folders.get(i));
+		Defined.setPopupListener(new PopupMenuListener() {
+			
+			@Override
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				foldersMenu.removeAll();
+				String[] userFolders = Folder.listFolders(app.loggedInUser.getID());
+    			for (int i = 0;i < userFolders.length;i++) {
+    				JMenuItem folder = new JMenuItem(userFolders[i]);
     				folder.addActionListener(new ActionListener() {
     					public void actionPerformed(ActionEvent e) {
-    						foldersButton.setName(folder.getText());
     						folderChangeListener.newFolder(new Folder(folder.getText()));
     					}
     				});
-    				foldersButton.popup.add(folder);
+    				foldersMenu.add(folder);
     			}
-            }
-            @Override
-            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-            	foldersButton.setSelected(false);
-            }
-            @Override
-            public void popupMenuCanceled(PopupMenuEvent e) {}
-        });
+			}
+			
+			@Override
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+				Defined.setSelected(false);
+				
+			}
+			
+			@Override
+			public void popupMenuCanceled(PopupMenuEvent e) {
+				
+			}
+		});
+
+		
 		
 		//actions for file buttons end
 		//action for email modification
 		EMailModification.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UserSettings.run(user);
+				EmailModificationGUI.run(user);
 			}
 		});
 		//action for CONTACTS 
@@ -143,6 +198,15 @@ public class NavigationPanel extends JPanel {
 				ContactsGUI.run(app);
 			}
 		});
+		
+		NewFolderButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CreateNewFolderGUI.run(app.loggedInUser.getID());
+			}
+		});
+		
 		
 		//action for Compose
 		Compose.addActionListener(new ActionListener() {

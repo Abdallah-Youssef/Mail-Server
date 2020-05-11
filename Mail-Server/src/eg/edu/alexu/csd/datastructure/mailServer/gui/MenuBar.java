@@ -10,6 +10,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 
+import eg.edu.alexu.csd.datastructure.mailServer.FilterComp;
 import eg.edu.alexu.csd.datastructure.mailServer.sortComparator;
 import interfaces.IFilter;
 import interfaces.ISort;
@@ -21,7 +22,7 @@ public class MenuBar extends JMenuBar{
 	FilterSortChangeListener filterSortChangeListener;
 	
 	private JMenuItem m1,m2,m3,m4;
-	private JMenuItem F1,F2;
+	private JMenuItem F0,F1,F2;
 	private JMenuItem S1,S2,S3,S4;
 
 	private JMenu  SortMenu;
@@ -48,6 +49,9 @@ public class MenuBar extends JMenuBar{
 		
 		SearchButton=new JButton("Search :");
 		SearchTextField=new JTextField(25);
+		
+		SearchTextField.setText("");
+		
 		SortLabel=new JLabel("Sort By : ");
 		FilterButton=new JButton("Filter");
 		FilterTextField=new JTextField(15);
@@ -60,6 +64,7 @@ public class MenuBar extends JMenuBar{
 		S2 = new JMenuItem("Importance"); 
 		S3 = new JMenuItem("Sender"); 
 		S4 = new JMenuItem("Subject");
+		F0 = new JMenuItem("No Filter");
 		F1 = new JMenuItem("Subject");   
 		F2 = new JMenuItem("Sender"); 
 		
@@ -72,6 +77,7 @@ public class MenuBar extends JMenuBar{
 	    SearchMenu.add(S2);
 	    SearchMenu.add(S3);
 	    SearchMenu.add(S4);
+	    FilterMenu.add(F0);
 	    FilterMenu.add(F1);
 	    FilterMenu.add(F2);
 	    add(SearchButton);
@@ -93,6 +99,7 @@ public class MenuBar extends JMenuBar{
 		S2.addActionListener(new SearchMenuActionListener());
 		S3.addActionListener(new SearchMenuActionListener());
 		S4.addActionListener(new SearchMenuActionListener());
+		F0.addActionListener(new FilterMenuActionListener());
 		F1.addActionListener(new FilterMenuActionListener());
 		F2.addActionListener(new FilterMenuActionListener());
 		
@@ -116,12 +123,9 @@ public class MenuBar extends JMenuBar{
 			public void actionPerformed(ActionEvent e) {
 				 Filtered=SearchTextField.getText();
 				 String Type=FilterSelected;
-				 if(!Searched.trim().equals("")&&!Type.trim().equals("")) {
+				 if(!Filtered.trim().equals("")&&!Type.trim().equals("")) {
 					 
 				 }
-				/*
-				 * call the searched then display it 
-				 */
 			}
 		});
 	}
@@ -129,22 +133,26 @@ public class MenuBar extends JMenuBar{
 	class SortActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 		    SortSelected = e.getActionCommand();
-
+		    //filterSortChangeListener.sortChanged(new sortComparator(-1));
 		    if (e.getSource() == m1) {
 		    	filterSortChangeListener.sortChanged(new sortComparator(5));
 		    }
 		    
-		    if (e.getSource() == m2) {
+		    //importance
+		    else if (e.getSource() == m2) {
+		    	System.out.println("importance pressed Sort by importance");
 		    	filterSortChangeListener.sortChanged(new sortComparator(6));
 		    }
 		    
-		    if (e.getSource() == m3) {
+		    else if (e.getSource() == m3) {
 		    	filterSortChangeListener.sortChanged(new sortComparator(3));
 		    }
 	
-	    	if (e.getSource() == m4) {
+		    else if (e.getSource() == m4) {
 	    		filterSortChangeListener.sortChanged(new sortComparator(2));
 	    	}
+	    	
+		    
     	
 		}
 	
@@ -161,10 +169,13 @@ public class MenuBar extends JMenuBar{
 	class FilterMenuActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			FilterSelected =e.getActionCommand();
-		   /*
-		    * sort fn and then display data 
-		    */
-
+		   
+			if(e.getSource() == F0)
+				filterSortChangeListener.filterChanged(new FilterComp(0, SearchTextField.getText()));
+			else if(e.getSource() == F1)
+				filterSortChangeListener.filterChanged(new FilterComp(1, SearchTextField.getText()));
+			else
+				filterSortChangeListener.filterChanged(new FilterComp(2, SearchTextField.getText()));
 		}
 	}
 

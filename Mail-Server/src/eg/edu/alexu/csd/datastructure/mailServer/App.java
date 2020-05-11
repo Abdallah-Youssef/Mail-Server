@@ -6,7 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 import dataStructures.DoubleLinkedList;
+import dataStructures.SinglyLinked;
 import interfaces.*;
+import interfaces.ILinkedList;
+import interfaces.IApp;
 import interfaces.IContact;
 import interfaces.IFilter;
 import interfaces.IFolder;
@@ -25,6 +28,8 @@ public class App implements IApp {
 	public FilterComp filter;
 	public sortComparator sort;
 	public DoubleLinkedList currentlyLoadedEmails;
+	
+	public dataStructures.SinglyLinked filteredIndices;
 	
 	public App() {
 		folder = new Folder("inbox");
@@ -93,10 +98,9 @@ public class App implements IApp {
 	@Override
 	public void setViewingOptions(IFolder folder, IFilter filter, ISort sort) {
 		currentlyLoadedEmails = Email.readUserEmails(loggedInUser.getID(), folder);
-
-		if(filter != null)
-			Filter.filter(currentlyLoadedEmails, (FilterComp)filter);
 		SortingTemp.quickSort(currentlyLoadedEmails,(ISort) sort);
+		filteredIndices = new SinglyLinked();
+		Filter.filter(currentlyLoadedEmails, filteredIndices,(FilterComp)filter);
 		
 		this.folder = (Folder) folder;
 		this.filter = (FilterComp) filter;
@@ -106,15 +110,39 @@ public class App implements IApp {
 	@Override
 	public IMail[] listEmails(int page) {
 		Email[] emails = new Email[10];
-		
-		for(int i = 0;i < 10 && 10*page + i < currentlyLoadedEmails.size();i++)
-			emails[i] = (Email)currentlyLoadedEmails.get(10*page + i);
+
+		for(int i = 0;i < 10 && 10*page + i < filteredIndices.size();i++)
+			emails[i] = (Email)currentlyLoadedEmails.get((int)filteredIndices.get(10*page + i));
 		return emails;
 	}
 
+	
+	// mails is a boolean array
 	@Override
 	public void deleteEmails(ILinkedList mails) {
+		if(currentlyLoadedEmails == null)
+			return;
+		int n = 0;
+		DoubleLinkedList trash = Email.readUserEmails(loggedInUser.getID(), new Folder("trash"));
 		
+		for(int i = 0; i < mails.size();i++)
+		{
+			if((Boolean)mails.get(i))
+			{
+				trash.add((Email)currentlyLoadedEmails.get((int)filteredIndices.get(i)-n));
+				currentlyLoadedEmails.remove((int)filteredIndices.get(i)-n);
+				n++;
+			}
+		}
+		Email.saveBulkEmails(currentlyLoadedEmails, loggedInUser.getID(), folder);
+
+		if(!folder.type.equals("trash"))
+		{
+			Email.saveBulkEmails(trash, loggedInUser.getID(), new Folder("trash"));
+		}
+		
+		mails.clear();
+		mails.add(currentlyLoadedEmails.size());
 	}
 
 	

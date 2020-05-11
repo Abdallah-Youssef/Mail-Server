@@ -80,6 +80,7 @@ public class Email implements IMail, Serializable
 		this.senderEmail = senderEmail;
 		this.attachments = attachments;
 		this.priority = priority;
+		System.out.println("Registeres priority " + priority + " for " + subject);
 	}
 	
 	
