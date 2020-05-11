@@ -29,14 +29,10 @@ import listeners.PathListener;
 public class EMailsPanel extends JPanel {
 	JFrame parentFrame = (JFrame) this.getParent();
 	User user;
-	public boolean[] checkedEmails;
+	//public boolean[] checkedEmails;
 	public boolean[] newCheckedEmails;
 	int currentPage;
 	public EMailsPanel(Email[] emails, User user, boolean[] checkedEmailsBoxes, int page) {
-		/*Email[] emails = new Email[7];
-		for (int i = 0;i < emails.length;i++) {
-			emails[i] = new Email("subject" + i, "body" + i, user.getID(), "hahah@gmail.com", 2, "receiver@gmail.com", new SinglyLinked(), 0);
-		}*/
 		
 		setPreferredSize(new Dimension(500,400));
 		EMailsBox box = new EMailsBox();
@@ -44,7 +40,7 @@ public class EMailsPanel extends JPanel {
 		
 		
 		this.user = user;
-		checkedEmails = new boolean[emails.length];
+		//checkedEmails = new boolean[emails.length];
 		newCheckedEmails = checkedEmailsBoxes;
 		currentPage = page;
 		

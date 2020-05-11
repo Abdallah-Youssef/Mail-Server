@@ -6,6 +6,7 @@ import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
+import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.SinglyLinked;
 import interfaces.ILinkedList;
 import interfaces.IApp;
 import interfaces.IContact;
@@ -26,6 +27,8 @@ public class App implements IApp {
 	public FilterComp filter;
 	public sortComparator sort;
 	public DoubleLinkedList currentlyLoadedEmails;
+	
+	public SinglyLinked filteredIndices;
 	
 	public App() {
 		folder = new Folder("inbox");
@@ -94,10 +97,9 @@ public class App implements IApp {
 	@Override
 	public void setViewingOptions(IFolder folder, IFilter filter, ISort sort) {
 		currentlyLoadedEmails = Email.readUserEmails(loggedInUser.getID(), folder);
-
-		if(filter != null)
-			Filter.filter(currentlyLoadedEmails, (FilterComp)filter);
 		SortingTemp.quickSort(currentlyLoadedEmails,(ISort) sort);
+		filteredIndices = new SinglyLinked();
+		Filter.filter(currentlyLoadedEmails, filteredIndices,(FilterComp)filter);
 		
 		this.folder = (Folder) folder;
 		this.filter = (FilterComp) filter;
@@ -107,11 +109,13 @@ public class App implements IApp {
 	@Override
 	public IMail[] listEmails(int page) {
 		Email[] emails = new Email[10];
-		for(int i = 0;i < 10 && 10*page + i < currentlyLoadedEmails.size();i++)
-			emails[i] = (Email)currentlyLoadedEmails.get(10*page + i);
+		for(int i = 0;i < 10 && 10*page + i < filteredIndices.size();i++)
+			emails[i] = (Email)currentlyLoadedEmails.get((int)filteredIndices.get(10*page + i));
 		return emails;
 	}
 
+	
+	// mails is a boolean array
 	@Override
 	public void deleteEmails(ILinkedList mails) {
 		if(currentlyLoadedEmails == null)
@@ -123,11 +127,10 @@ public class App implements IApp {
 		{
 			if((Boolean)mails.get(i))
 			{
-				trash.add((Email)currentlyLoadedEmails.get(n));
-				currentlyLoadedEmails.remove(n);
-				continue;
+				trash.add((Email)currentlyLoadedEmails.get((int)filteredIndices.get(i)-n));
+				currentlyLoadedEmails.remove((int)filteredIndices.get(i)-n);
+				n++;
 			}
-			n++;
 		}
 		Email.saveBulkEmails(currentlyLoadedEmails, loggedInUser.getID(), folder);
 

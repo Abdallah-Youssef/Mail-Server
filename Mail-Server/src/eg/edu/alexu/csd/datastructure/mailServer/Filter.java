@@ -1,32 +1,18 @@
 package eg.edu.alexu.csd.datastructure.mailServer;
 
+import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.SinglyLinked;
 import interfaces.IFilter;
 
 public class Filter
 {
-	public static void filter(DoubleLinkedList emails, FilterComp comp)
+	public static void filter(DoubleLinkedList emails, SinglyLinked filteredIndices, FilterComp comp)
 	{
 		for(int i = 0;i < emails.size();i++)
-			if(!comp.check((Email)emails.get(i)))
-				emails.remove(i);
+			if(comp.check((Email)emails.get(i)))
+			{	
+				filteredIndices.add(i);
+				System.out.println(((Email)emails.get(i)).subject + " == " + comp.predicate);
+			}
 	}
 }
 
-class FilterComp implements IFilter
-{
-	int type;
-	String predicate;
-	public FilterComp(int type, String predicate) {
-		this.type = type;
-	}
-	
-	boolean check(Email email)
-	{
-		if(type == 1 && email.subject.equals(predicate)
-		|| type == 2 && email.senderEmail.equals(predicate))
-			return true;
-		return false;
-			
-			
-	}
-}
