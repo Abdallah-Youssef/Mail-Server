@@ -19,7 +19,6 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
-import eg.edu.alexu.csd.datastructure.linkedList.cs.Classes.SinglyLinked;
 import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.Email;

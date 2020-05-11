@@ -29,7 +29,7 @@ public class EmailPanelUtil extends JPanel{
 		
 		nextBtn = new JButton("Next");
 		previousBtn = new JButton("Previous");
-		pageLabel = new JLabel("0");
+		pageLabel = new JLabel("1");
 		
 		delete = new JButton("Delete");
 		
@@ -44,19 +44,22 @@ public class EmailPanelUtil extends JPanel{
 		
 		nextBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (listener.newPage(page+1)) {
-					page++;
-					pageLabel.setText(page + "");
-				}
+				page++;
+				if (listener.newPage(page)) {
+					pageLabel.setText((page+ 1) + "");
+				}else
+				page--;
 			}
 		});
 		
 		previousBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (listener.newPage(page-1)) {
-					page--;
-					pageLabel.setText(page + "");
-				}
+				System.out.println("CURRENTLY PAGE: " + page);
+				page--;
+				if (listener.newPage(page)) {
+					pageLabel.setText((page+1) + "");
+				}else
+				page++;
 			}
 		});
 		
