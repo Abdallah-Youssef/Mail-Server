@@ -237,8 +237,13 @@ public class ComposeGUI extends JFrame {
 						senderError.setText("Choose sender");
 						return;
 					}
-					senderError.setText("");
+					if (receivers.size() == 0) {
+						receiverError.setText("Add a receiver");
+						return;
+					}
 					
+					senderError.setText("");
+					receiverError.setText("");
 					QueueLinkedBased q = ListUtils.singleToQueue(receivers);
 					
 					while(!q.isEmpty()) {
@@ -323,6 +328,12 @@ public class ComposeGUI extends JFrame {
 						senderError.setText("Choose sender");
 						return;
 					}
+					if (receivers.size() == 0) {
+						receiverError.setText("Add a receiver");
+						return;
+					}
+					
+					receiverError.setText("");
 					senderError.setText("");
 					
 					QueueLinkedBased q = ListUtils.singleToQueue(receivers);
