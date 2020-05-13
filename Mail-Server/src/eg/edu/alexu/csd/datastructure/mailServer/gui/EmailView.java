@@ -57,6 +57,9 @@ public class EmailView extends JFrame {
 		body.setFont(new Font("Comic Sans MS", Font.BOLD, 30));
 		body.setEditable(false);
 		body.setLineWrap(true);
+		JScrollPane bodyScroll = new JScrollPane(body,
+	            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+	            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		details = new Box(BoxLayout.Y_AXIS);
 		main = new Box(BoxLayout.Y_AXIS);
@@ -68,7 +71,7 @@ public class EmailView extends JFrame {
 		details.add(dateLabel);
 		
 		main.add(subjectLabel);
-		main.add(body);
+		main.add(bodyScroll);
 		
 		SinglyLinked attachments = email.getAttachments();
 		for (int i = 0;i < attachments.size();i++) {
