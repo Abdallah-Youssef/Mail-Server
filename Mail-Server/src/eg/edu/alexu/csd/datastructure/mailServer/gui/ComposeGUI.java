@@ -381,11 +381,6 @@ public class ComposeGUI extends JFrame {
 		subjectField.setText(mail.getSubject());
 	}
 	
-
-	
-	
-
-	
 	
 	public class BottomPanel extends JPanel{
 		
@@ -407,9 +402,6 @@ public class ComposeGUI extends JFrame {
 			add(scroll2);
 		}
 	}
-	
-	
-
 	
 	
 	/**

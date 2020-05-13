@@ -25,31 +25,6 @@ public class DropDownMenuButton extends JToggleButton{
         });
         
         
-        /*popup.addPopupMenuListener(new PopupMenuListener() {
-            @Override
-            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-            	menu.removeAll();
-            	DoubleLinkedList emails = user.getEmails();
-    			for (int i = 0;i < emails.size();i++) {
-    				//Make a menuItem for each email
-    				//each menuItem when pressed will change the text of the JMenu to its email
-    				
-    				JMenuItem email = new JMenuItem((String)emails.get(i));
-    				email.addActionListener(new ActionListener() {
-    					public void actionPerformed(ActionEvent e) {
-    						setName(email.getText());
-    					}
-    				});
-    				menu.add(email);
-    			}
-            }
-            @Override
-            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-            	DropDownMenuButton.this.setSelected(false);
-            }
-            @Override
-            public void popupMenuCanceled(PopupMenuEvent e) {}
-        });*/
     }
     
     public void setName(String name) {
