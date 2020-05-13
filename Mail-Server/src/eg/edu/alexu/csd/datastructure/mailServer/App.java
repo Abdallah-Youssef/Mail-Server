@@ -76,7 +76,7 @@ public class App implements IApp {
 			
 			signUpErrorListener.sendError("Invalid Email form");
 			return false;
-		}else if(FolderManagerBIN.getUser(email)!=null)
+		}else if(FolderManagerBIN.getUser(email) != null)
 		{
 			signUpErrorListener.sendError("User already exists");
 			return false;
@@ -86,10 +86,6 @@ public class App implements IApp {
 		{
 			signUpErrorListener.sendError("Password length must be at least 8");
 			return false;
-		}
-		else
-		{
-			user.saveToFileSystem();
 		}
 		return true;
 	}

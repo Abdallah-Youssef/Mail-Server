@@ -17,6 +17,7 @@ import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 import listeners.SignUpErrorListener;
 public class SignUpGUI extends JFrame {
+	JFrame frame = this;
 	GridBagConstraints gc;
 	JLabel firstName, lastName;
 	JLabel email, password;
@@ -129,11 +130,12 @@ public class SignUpGUI extends JFrame {
 				
 				if(app.signup(user))
 				{
+					user.saveToFileSystem();
 					setVisible(false);
-				}else
-				{
-					errorLabel.setText("Invalid Email or Password");
+					//frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 				}
+				
+				
 			}
 		});
 		

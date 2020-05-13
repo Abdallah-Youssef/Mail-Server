@@ -56,40 +56,46 @@ public class User implements IContact, Serializable
 		}catch(Exception e)
 		{
 			id = 1;
-			new File("./Users/lastID.txt");
+			try {
+				File file = new File("./Users/lastID.txt");
+				file.createNewFile();
+			} catch (IOException e1) {
+				System.out.println("Failed to create");
+			}
 		}
+		
 		
 		try {
 			FileWriter writer = new FileWriter("./Users/lastID.txt");
 			writer.write(String.valueOf(id));
 			writer.close();
 		} catch (IOException e) {
-			
+			System.out.println("Failed to write");
 		}
 		return id;
 	}
 	
 	public User(String firstName, String lastName, String email, String password)
 	{		
+		System.out.println("i am a user");
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emails = new DoubleLinkedList();
 		this.emails.add(email);
 		this.password = password;
 		this.contacts = new DoubleLinkedList();
+		
 		folders = new DoubleLinkedList();
 		folders.add("inbox");
 		folders.add("sent");
 		folders.add("trash");
-		folders.add("Draft");
-		
-		int id = calculateNewUserID();
-		createUserSubDirectory(id);
+		folders.add("draft");
 	}
 	
 	public void saveToFileSystem()
 	{
-		this.id = calculateNewUserID();
+		id = calculateNewUserID();
+		System.out.println("new id " + id);
 		createUserSubDirectory(id);
 		FolderManagerBIN.addNewUser(this);
 	}

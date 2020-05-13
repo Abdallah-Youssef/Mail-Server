@@ -37,11 +37,11 @@ public class sortComparator implements ISort
 			{
 			System.out.println("default case");
 			if(((Email)a).priority < ((Email)b).priority)
-				return -1;
+				return 1;
 			else if(((Email)a).priority == ((Email)a).priority)
 				return 0;
 			else
-				return 1;
+				return -1;
 			}
 		}	
 	}

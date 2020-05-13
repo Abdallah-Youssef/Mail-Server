@@ -44,7 +44,7 @@ public class MenuBar extends JMenuBar{
 		FilterMenu.setOpaque(true);
 		
 		SortLabel=new JLabel("Sort By : ");
-		FilterButton=new JButton("Filter");
+		FilterButton=new JButton("Filter/Search");
 		FilterTextField=new JTextField(15);
 		
 
