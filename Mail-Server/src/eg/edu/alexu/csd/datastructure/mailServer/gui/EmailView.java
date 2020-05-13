@@ -56,6 +56,7 @@ public class EmailView extends JFrame {
 		body = new JTextArea(email.getBody());
 		body.setFont(new Font("Comic Sans MS", Font.BOLD, 30));
 		body.setEditable(false);
+		body.setLineWrap(true);
 		
 		details = new Box(BoxLayout.Y_AXIS);
 		main = new Box(BoxLayout.Y_AXIS);

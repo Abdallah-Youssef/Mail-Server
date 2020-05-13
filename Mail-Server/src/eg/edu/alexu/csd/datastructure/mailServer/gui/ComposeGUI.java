@@ -67,8 +67,8 @@ public class ComposeGUI extends JFrame {
 	OptionsPanel optionsPanel;
 	
 	User user;
-	static SinglyLinked receivers; //String
-	static SinglyLinked attachments; //String
+	SinglyLinked receivers; //String
+	SinglyLinked attachments; //String
 	
 	
 	public ComposeGUI(User user, SinglyLinked receivers) {
@@ -89,11 +89,17 @@ public class ComposeGUI extends JFrame {
 		
 		textArea = new JTextArea();
 		textArea.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
+		textArea.setLineWrap(true);
+		
+		JScrollPane scroll = new JScrollPane(textArea,
+	            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+	            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		
 		bottomPanel = new BottomPanel();
 		
 		setLayout(new BorderLayout());
 		add(optionsPanel, BorderLayout.NORTH);
-		add(new JScrollPane(textArea), BorderLayout.CENTER);
+		add(scroll, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.SOUTH);
 
 	}
@@ -384,9 +390,8 @@ public class ComposeGUI extends JFrame {
 		
 		
 		attachmentsBox.DeleteAll();
-		attachments=mail.getAttachments();
-		for(int i=0;i<attachments.size();i++) {
-			attachmentsBox.Add((String)attachments.get(i));
+		for(int i=0;i < mail.getAttachments().size();i++) {
+			attachmentsBox.Add((String)mail.getAttachments().get(i));
 		}
 		textArea.setText(mail.getBody());
 		subjectField.setText(mail.getSubject());
@@ -467,8 +472,7 @@ public class ComposeGUI extends JFrame {
 	
 	public void popUp(String title, String body) {
 		JDialog d = new JDialog(frame, title); 
-        JLabel l = new JLabel(body); 
-        l.setAlignmentX(CENTER_ALIGNMENT);
+        JLabel l = new JLabel(body, SwingConstants.CENTER); 
         d.add(l); 
         d.setSize(100, 100); 
         d.setVisible(true); 
