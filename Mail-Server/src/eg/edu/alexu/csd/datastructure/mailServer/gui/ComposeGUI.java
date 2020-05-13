@@ -84,7 +84,7 @@ public class ComposeGUI extends JFrame {
 		
 		
 		optionsPanel = new OptionsPanel();
-		optionsPanel.setPreferredSize(new Dimension(0, 150));
+		optionsPanel.setPreferredSize(new Dimension(0, 170));
 		
 		textArea = new JTextArea();
 		textArea.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
@@ -92,7 +92,7 @@ public class ComposeGUI extends JFrame {
 		
 		setLayout(new BorderLayout());
 		add(optionsPanel, BorderLayout.NORTH);
-		add(textArea, BorderLayout.CENTER);
+		add(new JScrollPane(textArea), BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.SOUTH);
 
 	}
@@ -254,7 +254,6 @@ public class ComposeGUI extends JFrame {
 								getPriority()
 								);
 						email.saveEmail(user.getID(),(IFolder) new Folder("Draft"));
-					
 					}
 					
 					
@@ -326,11 +325,21 @@ public class ComposeGUI extends JFrame {
 					senderError.setText("");
 					
 					QueueLinkedBased q = ListUtils.singleToQueue(receivers);
-					saveQueueToFolder(q, sender, "inbox");
-					
-					q = new QueueLinkedBased();
-					q.enqueue(sender);
-					saveQueueToFolder(q, sender, "sent");
+					while(!q.isEmpty()) {
+						String receiver = (String) q.dequeue();
+						User receiverUser = FolderManagerBIN.getUser(receiver);
+						Email email = new Email(subjectField.getText(),
+								textArea.getText(),
+								user.getID(),
+								sender,
+								receiverUser.getID(),
+								receiver,
+								attachments,
+								getPriority() //place holder priority
+								);
+						email.saveEmail(receiverUser.getID(),(IFolder) new Folder("inbox"));
+						email.saveEmail(user.getID(), (IFolder) new Folder("sent"));
+					}
 				}
 			});
 			
@@ -439,27 +448,6 @@ public class ComposeGUI extends JFrame {
 		gc.gridheight = height;
 	}
 	
-	/**
-	 * Saves current inputs to the receivers from the sender
-	 */
-	public void saveQueueToFolder(QueueLinkedBased receivers, String sender, String folder) {
-		
-		
-		while(!receivers.isEmpty()) {
-			String receiver = (String) receivers.dequeue();
-			User receiverUser = FolderManagerBIN.getUser(receiver);
-			Email email = new Email(subjectField.getText(),
-					textArea.getText(),
-					user.getID(),
-					sender,
-					receiverUser.getID(),
-					receiver,
-					attachments,
-					getPriority() //place holder priority
-					);
-			email.saveEmail(receiverUser.getID(),(IFolder) new Folder(folder));
-		}
-	}
 	
 	public int getPriority() {
 		int priority = 0;

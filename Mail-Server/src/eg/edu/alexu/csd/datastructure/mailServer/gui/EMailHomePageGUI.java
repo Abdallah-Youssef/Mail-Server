@@ -61,7 +61,7 @@ public class EMailHomePageGUI extends JFrame {
 			super("Welcome  " + app.loggedInUser.firstName);
 			user = app.loggedInUser;
 			setResizable(false);
-			setSize(900,500);
+			setSize(1000,600);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
 			setVisible(true);

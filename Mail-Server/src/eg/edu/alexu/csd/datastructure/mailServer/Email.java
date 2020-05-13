@@ -187,17 +187,9 @@ public class Email implements IMail, Serializable
 	{
 		User user = FolderManagerBIN.getUser(userID);
 		DoubleLinkedList emails = readUserEmails(userID, ifolder);
-		
-		
-		for (int i = 0;i < emails.size();i++)
-			System.out.print(((Email)emails.get(i)).subject);
-		
-		
-		
 		Folder folder = (Folder)ifolder;
 		
 		//ID the email object
-		
 		id = calculateEmailID(userID, folder);
 		String path = "./Users/" + userID + "/" + folder.type + "/lastID.txt";
 		String savePath = "./Users/" + userID + "/" + folder.type + "/index.txt";

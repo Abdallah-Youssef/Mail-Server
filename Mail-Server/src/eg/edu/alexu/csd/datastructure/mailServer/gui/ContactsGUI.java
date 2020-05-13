@@ -121,13 +121,13 @@ public GridBagLayout gridBagLayout = new GridBagLayout();
 				});
 				btn.setAlignmentX(CENTER_ALIGNMENT);
 				indexPanel.add(btn);
-				
-				JLabel line = new JLabel("--------------------------------------");
-				line.setAlignmentX(CENTER_ALIGNMENT);
-				indexPanel.add(Box.createRigidArea(new Dimension(5, 10)));
-				indexPanel.add(line);
-				indexPanel.add(Box.createRigidArea(new Dimension(5, 10)));
 			}
+			
+			JLabel line = new JLabel("--------------------------------------");
+			line.setAlignmentX(CENTER_ALIGNMENT);
+			indexPanel.add(Box.createRigidArea(new Dimension(5, 10)));
+			indexPanel.add(line);
+			indexPanel.add(Box.createRigidArea(new Dimension(5, 10)));
 		}
 	}
 	

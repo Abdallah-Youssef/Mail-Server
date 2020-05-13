@@ -24,14 +24,7 @@ import eg.edu.alexu.csd.datastructure.mailServer.gui.ElementsBox.Element;
 import listeners.RemoveElementListener;
 
 public class UserSettings extends JFrame {
-	JLabel folderLabel;
-	JButton folderBtn;
-	JLabel folderError;
-	JTextField folderField;
-	
-	
 	String newEMail;
-	String newFolder;
 	String newPassAdded;
 	String oldPassCheck;
 	JButton AddNewEmail;
@@ -46,13 +39,12 @@ public class UserSettings extends JFrame {
 	GridBagConstraints GC;
 	public GridBagLayout gridBagLayout = new GridBagLayout();
 	
-	ElementsBox foldersBox;
 	ElementsBox emailsBox;
 	JLabel emailErrorLabel;
 	
 	public UserSettings(User user) {
 		super("Email option");
-		setSize(900,600);
+		setSize(850,400);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
 		 
@@ -67,10 +59,6 @@ public class UserSettings extends JFrame {
 		GC.weighty =1;
 		GC.fill = GridBagConstraints.NONE;		
 		//componenets
-		folderLabel = new JLabel("Add folder : ");
-		folderField = new JTextField(25);
-		folderError = new JLabel("");
-		folderBtn = new JButton("Add");
 		
 		emailError=new JLabel("");
 		AddNewEmail=new JButton("Add EMail");
@@ -79,7 +67,8 @@ public class UserSettings extends JFrame {
 		newPass=new JLabel("Enter New Password");
 		oldpass=new JLabel("Enter current password");
 		
-		nEmail=new JTextField(25);
+		nEmail=new JTextField(20);
+		nEmail.setMaximumSize(new Dimension(20, 30));
 		
 		oldPassF=new JPasswordField(25);
 		nPassF=new JPasswordField(25);
@@ -89,51 +78,42 @@ public class UserSettings extends JFrame {
 									"Current EMails",
 									emailErrorLabel
 									);
-		foldersBox = new ElementsBox(ListUtils.doubleToSingleList(user.getFolders()),
-				"Current Folders",
-				folderError
-				);
+
 		
 		//layout
 		//Boxes
-		Box NewFolder = Box.createHorizontalBox();
 		Box NewEmails=Box.createHorizontalBox();
 		Box NewPass=Box.createHorizontalBox();
 		Box oldPass=Box.createHorizontalBox();
 		 //Boxes adding
-		NewFolder.add(folderLabel);
-		NewFolder.add(folderField);
-		NewFolder.add(folderBtn);
-		NewFolder.add(foldersBox);
-		NewFolder.add(folderError);
-		
 		NewEmails.add(EMail);
+		NewEmails.add(Box.createRigidArea(new Dimension(10, 0)));
 		NewEmails.add(nEmail);
+		NewEmails.add(Box.createRigidArea(new Dimension(15, 0)));
 		NewEmails.add(AddNewEmail);
-		
+		NewEmails.add(Box.createRigidArea(new Dimension(15, 0)));
 		NewEmails.add(emailsBox);
+		NewEmails.add(Box.createRigidArea(new Dimension(10, 0)));
 		NewEmails.add(emailErrorLabel);
 		//
 		NewPass.add(newPass);
+		NewPass.add(Box.createRigidArea(new Dimension(10, 0)));
 		NewPass.add(nPassF);
 		//
 		oldPass.add(oldpass);
+		oldPass.add(Box.createRigidArea(new Dimension(10, 0)));
 		oldPass.add(oldPassF);
 		//grid adding
-		setGridCell(0,0);
-		GC.anchor = GridBagConstraints.LINE_START;
-		add(NewFolder,GC);
-		
 		setGridCell(0,1);
-		GC.anchor = GridBagConstraints.LINE_START;
+		GC.anchor = GridBagConstraints.CENTER;
 		add(NewEmails,GC);
 		 
 		setGridCell(0,2);
-		GC.anchor = GridBagConstraints.LINE_START;
+		GC.anchor = GridBagConstraints.CENTER;
 		add(oldPass,GC);
 		 
 		setGridCell(0,3);
-		GC.anchor = GridBagConstraints.LINE_START;
+		GC.anchor = GridBagConstraints.CENTER;
 		add(NewPass,GC);
 		 
 		setGridCell(0,4);
@@ -162,24 +142,6 @@ public class UserSettings extends JFrame {
 			} 
 		 });
 		
-		folderBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				newFolder=folderField.getText();
-				DoubleLinkedList folders = user.getFolders();
-				if (newFolder.equals("")){
-					folderError.setText("Folder name empty");
-					return;
-				}
-					
-				folderError.setText("");
-				
-				if (foldersBox.Add(newFolder)) {
-					user.addFolder(newFolder);
-					revalidate();
-				}
-			}
-			
-		 });
 		
 		 ChangePassword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -216,30 +178,7 @@ public class UserSettings extends JFrame {
 				return false;
 					
 			}
-		 });
-		 
-		 foldersBox.setRemoveListener(new RemoveElementListener() {
-				public boolean elementRemoved(Element element) {
-					DoubleLinkedList folders =  user.getFolders();
-					String elementFolder = element.label.getText();
-					
-					if (elementFolder.equals("inbox") || elementFolder.equals("sent") || elementFolder.equals("trash") || elementFolder.equals("Draft"))
-						return false;
-					
-					for (int i = 0;i < folders.size();i++) {
-						if (((String)folders.get(i)).equals(elementFolder)) {
-							user.removeFolder(elementFolder);
-							return true;
-						}
-					}
-					
-					return false;
-						
-				}
-			 });
-		 
-		 
-		 
+		 });  
 	}
 
 	private void setGridCell(int x, int y) {

@@ -36,7 +36,7 @@ public class NavigationPanel extends JPanel {
 	private JButton Contacts;
 	private JButton NewFolderButton;
 	private JButton Compose;
-	private JButton EMailModification;
+	private JButton userSettings;
 	private String[] FileNames;
 	private DropDownMenuButton Defined;
 	private JPopupMenu foldersMenu;
@@ -60,13 +60,13 @@ public class NavigationPanel extends JPanel {
 		
 		Compose=new JButton("Compose");
 		
-		EMailModification=new JButton("EMailModification");
-		EMailModification.setAlignmentX(CENTER_ALIGNMENT);
+		userSettings=new JButton("User Settings");
+		userSettings.setAlignmentX(CENTER_ALIGNMENT);
 		Box ButtonBox=Box.createVerticalBox();
 		Box FileBox=Box.createVerticalBox();
 		
 		ButtonBox.add(Contacts);
-		ButtonBox.add(EMailModification);
+		ButtonBox.add(userSettings);
 		ButtonBox.add(NewFolderButton);
 		
 		
@@ -153,9 +153,9 @@ public class NavigationPanel extends JPanel {
 		});
 
 		
-		EMailModification.addActionListener(new ActionListener() {
+		userSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				EmailModificationGUI.run(user);
+				UserSettings.run(user);
 			}
 		});
 		

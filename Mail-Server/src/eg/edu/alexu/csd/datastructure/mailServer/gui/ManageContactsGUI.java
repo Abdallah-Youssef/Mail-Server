@@ -22,9 +22,6 @@ public class ManageContactsGUI extends JFrame {
 		
 		emailLabel = new JLabel("Enter one of their emails : ");
 		emailField = new JTextField(40);
-		
-		
-		
 	}
 	
 	private class ContactLabel extends JLabel{
