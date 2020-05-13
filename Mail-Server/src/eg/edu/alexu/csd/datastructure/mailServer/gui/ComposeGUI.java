@@ -374,7 +374,7 @@ public class ComposeGUI extends JFrame {
 		subjectField.setText(mail.getSubject());
 		priorityButton.setText(mail.priority + "");
 	}
-	
+
 
 	
 	public void populatePriority() {
@@ -414,9 +414,6 @@ public class ComposeGUI extends JFrame {
 			add(scroll2);
 		}
 	}
-	
-	
-
 	
 	
 	/**

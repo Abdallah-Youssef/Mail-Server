@@ -5,9 +5,14 @@ import interfaces.ISort;
 public class sortComparator implements ISort
 {
 	int type;
-	
+	String search;
 	public sortComparator(int type) {
 		this.type = type;
+	}
+	
+	public sortComparator(int type, String search) {
+		this.type = type;
+		this.search = search;
 	}
 	
 	public int mycompare(Object a, Object b)
