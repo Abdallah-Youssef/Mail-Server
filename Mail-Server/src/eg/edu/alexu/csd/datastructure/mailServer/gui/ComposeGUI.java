@@ -26,6 +26,7 @@ import listeners.EmailChooserListener;
 import listeners.PathListener;
 
 public class ComposeGUI extends JFrame {
+	JFrame frame = this;
 	
 	DropDownMenuButton senderButton;
 	JPopupMenu sendersMenu;
@@ -253,9 +254,10 @@ public class ComposeGUI extends JFrame {
 								attachments,
 								getPriority()
 								);
-						email.saveEmail(user.getID(),(IFolder) new Folder("Draft"));
+						email.saveEmail(user.getID(),(IFolder) new Folder("draft"));
 					}
 					
+					popUp("Success", "Draft Saved!");
 					
 				}
 			});
@@ -340,6 +342,9 @@ public class ComposeGUI extends JFrame {
 						email.saveEmail(receiverUser.getID(),(IFolder) new Folder("inbox"));
 						email.saveEmail(user.getID(), (IFolder) new Folder("sent"));
 					}
+					
+					//pop up
+					popUp("Success", "Email Sent!");
 				}
 			});
 			
@@ -374,16 +379,14 @@ public class ComposeGUI extends JFrame {
 	}
 	
 	public static void draftLoading(Email mail) {
-		receiversBox.DeleteAll();
-		receivers.clear();
-		
+		receiversBox.DeleteAll();		
 		receiversBox.Add(mail.getReceiver());
 		
 		
 		attachmentsBox.DeleteAll();
 		attachments=mail.getAttachments();
 		for(int i=0;i<attachments.size();i++) {
-		attachmentsBox.Add((String)attachments.get(i));
+			attachmentsBox.Add((String)attachments.get(i));
 		}
 		textArea.setText(mail.getBody());
 		subjectField.setText(mail.getSubject());
@@ -462,4 +465,12 @@ public class ComposeGUI extends JFrame {
 		return priority;
 	}
 	
+	public void popUp(String title, String body) {
+		JDialog d = new JDialog(frame, title); 
+        JLabel l = new JLabel(body); 
+        l.setAlignmentX(CENTER_ALIGNMENT);
+        d.add(l); 
+        d.setSize(100, 100); 
+        d.setVisible(true); 
+	}
 }
