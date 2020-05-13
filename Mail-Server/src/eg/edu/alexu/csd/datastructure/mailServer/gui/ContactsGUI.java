@@ -81,6 +81,7 @@ public GridBagLayout gridBagLayout = new GridBagLayout();
 		add(scroll2);
 		
 	}
+	
 	private void loadingData() {	
 		contacts = app.loggedInUser.getContacts();
 		index = FolderManagerBIN.getUsers();

@@ -27,7 +27,7 @@ import listeners.PathListener;
 
 public class ComposeGUI extends JFrame {
 	
-	DropDownMenuButton senderButton;
+	static DropDownMenuButton senderButton;
 	JPopupMenu sendersMenu;
 	JLabel senderError;
 	
@@ -57,7 +57,7 @@ public class ComposeGUI extends JFrame {
 	JButton addAttachmentBtn;
 	JButton sendBtn;
 	
-	ElementsBox receiversBox;
+	static ElementsBox receiversBox;
 	static ElementsBox attachmentsBox;
 	BottomPanel bottomPanel;  //contains boxes
 	
@@ -289,8 +289,13 @@ public class ComposeGUI extends JFrame {
 					DoubleLinkedList contacts = new DoubleLinkedList();
 					DoubleLinkedList contactEmails = user.getContacts();
 					
+					for(int i = 0;i < contactEmails.size();i++)
+						System.out.print((String) contactEmails.get(i) + " ");
+					System.out.println();
+					
+					
 					for (int i = 0;i < contactEmails.size();i++) 
-						contacts.add(FolderManagerBIN.getUser(((String)contactEmails.get(i))));
+						contacts.add((String)contactEmails.get(i));
 					
 
 					EmailChooser.Run(contacts, new EmailChooserListener() {
@@ -376,11 +381,20 @@ public class ComposeGUI extends JFrame {
 	}
 	
 	public static void draftLoading(Email mail) {
+		receiversBox.DeleteAll();
+		receiversBox.Add(mail.getReceiver());
+		
+		senderButton.setText(mail.getSender());
+		
 		
 		attachments=mail.getAttachments();
+		
+		attachmentsBox.DeleteAll();
 		for(int i=0;i<attachments.size();i++) {
 		attachmentsBox.Add((String)attachments.get(i));
 		}
+		
+		
 		textArea.setText(mail.getBody());
 		subjectField.setText(mail.getSubject());
 		priorityButton.setText(mail.priority + "");
