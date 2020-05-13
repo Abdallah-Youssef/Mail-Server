@@ -2,12 +2,12 @@ package eg.edu.alexu.csd.datastructure.mailServer;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 import dataStructures.DoubleLinkedList;
 import dataStructures.SinglyLinked;
-import interfaces.*;
 import interfaces.ILinkedList;
 import interfaces.IApp;
 import interfaces.IContact;
@@ -29,7 +29,7 @@ public class App implements IApp {
 	public sortComparator sort;
 	public DoubleLinkedList currentlyLoadedEmails;
 	
-	public dataStructures.SinglyLinked filteredIndices;
+	public SinglyLinked filteredIndices;
 	
 	public App() {
 		folder = new Folder("inbox");
@@ -98,7 +98,7 @@ public class App implements IApp {
 	@Override
 	public void setViewingOptions(IFolder folder, IFilter filter, ISort sort) {
 		currentlyLoadedEmails = Email.readUserEmails(loggedInUser.getID(), folder);
-		SortingTemp.quickSort(currentlyLoadedEmails,(ISort) sort);
+		SortingTemp.sort(currentlyLoadedEmails,(ISort) sort);
 		filteredIndices = new SinglyLinked();
 		Filter.filter(currentlyLoadedEmails, filteredIndices,(FilterComp)filter);
 		
@@ -110,7 +110,6 @@ public class App implements IApp {
 	@Override
 	public IMail[] listEmails(int page) {
 		Email[] emails = new Email[10];
-
 		for(int i = 0;i < 10 && 10*page + i < filteredIndices.size();i++)
 			emails[i] = (Email)currentlyLoadedEmails.get((int)filteredIndices.get(10*page + i));
 		return emails;

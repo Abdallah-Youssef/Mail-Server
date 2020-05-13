@@ -54,14 +54,12 @@ public class FolderManagerBIN {
 	
 	public static void WriteObjectToFile(Object serObj, String path) {
 		
-		//System.out.println(serObj.getClass().toString());
 		
         try {
             FileOutputStream fileOut = new FileOutputStream(path);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(serObj);
             objectOut.close();
-            //System.out.println("The Object  was succesfully written to a file");
  
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -160,7 +158,6 @@ public class FolderManagerBIN {
 		//delete directories
 		deleteDirectory(new File("Users"));
 		new File("./Users").mkdirs();
-		//TODO reset lastID
 	}
 	
 	static boolean deleteDirectory(File directoryToBeDeleted) {

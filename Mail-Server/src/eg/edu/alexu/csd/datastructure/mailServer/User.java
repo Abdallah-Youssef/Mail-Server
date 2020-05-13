@@ -52,11 +52,9 @@ public class User implements IContact, Serializable
 			File file = new File("./Users/lastID.txt");
 			Scanner cin = new Scanner(file);
 			id = cin.nextInt()+1;
-			System.out.println("hello - " + id);
 			cin.close();
 		}catch(Exception e)
 		{
-			System.out.println("hello");
 			id = 1;
 			new File("./Users/lastID.txt");
 		}

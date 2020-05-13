@@ -27,6 +27,7 @@ public class Email implements IMail, Serializable
 	String receiverEmail;
 	SinglyLinked attachments;
 	
+
 	/**
 	 * 
 	 * @param subject
@@ -80,7 +81,6 @@ public class Email implements IMail, Serializable
 		this.senderEmail = senderEmail;
 		this.attachments = attachments;
 		this.priority = priority;
-		System.out.println("Registeres priority " + priority + " for " + subject);
 	}
 	
 	
@@ -147,12 +147,6 @@ public class Email implements IMail, Serializable
 		//User user = FolderManagerBIN.getUser(userID);
 		DoubleLinkedList emails = readUserEmails(userID, folder);
 		
-		
-		for (int i = 0;i < emails.size();i++)
-			System.out.print(((Email)emails.get(i)).subject);
-		
-		
-		
 		String path = "./Users/" + userID + "/" + folder.type + "/lastID.txt";
 
 		try
@@ -179,7 +173,6 @@ public class Email implements IMail, Serializable
 			
 		}
 		
-		System.out.println(id);
 		return id;
 	}
 	
@@ -232,7 +225,6 @@ public class Email implements IMail, Serializable
 	{
 		Folder folder = (Folder)f;
 		String path = "./Users/" + userID + "/" + folder.type + "/index.txt";
-		//System.out.println(path);
 		DoubleLinkedList emails = (DoubleLinkedList) FolderManagerBIN.ReadObjectFromFile(path);
 		if (emails == null)
 			return new DoubleLinkedList();
