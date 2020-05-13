@@ -57,7 +57,7 @@ public class ComposeGUI extends JFrame {
 	JButton addAttachmentBtn;
 	JButton sendBtn;
 	
-	ElementsBox receiversBox;
+	static ElementsBox receiversBox;
 	static ElementsBox attachmentsBox;
 	BottomPanel bottomPanel;  //contains boxes
 	
@@ -66,7 +66,7 @@ public class ComposeGUI extends JFrame {
 	OptionsPanel optionsPanel;
 	
 	User user;
-	SinglyLinked receivers; //String
+	static SinglyLinked receivers; //String
 	static SinglyLinked attachments; //String
 	
 	
@@ -374,7 +374,13 @@ public class ComposeGUI extends JFrame {
 	}
 	
 	public static void draftLoading(Email mail) {
+		receiversBox.DeleteAll();
+		receivers.clear();
 		
+		receiversBox.Add(mail.getReceiver());
+		
+		
+		attachmentsBox.DeleteAll();
 		attachments=mail.getAttachments();
 		for(int i=0;i<attachments.size();i++) {
 		attachmentsBox.Add((String)attachments.get(i));

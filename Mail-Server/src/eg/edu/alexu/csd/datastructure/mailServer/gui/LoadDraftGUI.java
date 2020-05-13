@@ -55,7 +55,7 @@ public class LoadDraftGUI extends JFrame {
 	public void adding(DoubleLinkedList drafts) {
 		for(int i=0;i<drafts.size();i++) {
 			Email mail = (Email) drafts.get(i);
-			JButton button =new JButton(mail.getSubject());
+			JButton button =new JButton(mail.getSubject() + ", From: " + mail.getSender() + ", To: " + mail.getReceiver());
 			button.setBackground(Color.WHITE);
 			button.setFont(new Font("Arial", Font.PLAIN, 20));
 			button.setHorizontalAlignment(SwingConstants.LEFT);

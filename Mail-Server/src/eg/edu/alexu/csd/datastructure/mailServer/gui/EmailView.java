@@ -84,6 +84,7 @@ public class EmailView extends JFrame {
 		add(details);
 		add(main);
 		add(body);
+		add(attachmentsBox);
 
 	}
 

@@ -92,7 +92,6 @@ public class EMailsPanel{
 					 int row = ((JTable)me.getSource()).getSelectedRow();
 					 EmailView.run(emails[row], new PathListener() {
 							public void pathChosen(String path) {
-								//TODO for youssef : open the path
 								try {
 									ViewingAttachment.ViewingAttachment(path);
 								} catch (IOException e) {
