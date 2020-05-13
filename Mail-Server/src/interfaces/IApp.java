@@ -42,11 +42,5 @@ public interface IApp {
 	* @param des the destination folder
 	*/
 	public void moveEmails(ILinkedList mails, IFolder des);
-	/**
-	* Send a new email
-	* @param email should contain all the information needed
-	* sender, list of receivers, list of attachments, email body, ...
-	* @return false if something wrong happened like sending to non-existing user.
-	*/
-	public boolean compose(IMail email);
+
 }

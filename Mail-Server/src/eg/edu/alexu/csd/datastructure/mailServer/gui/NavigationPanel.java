@@ -1,6 +1,5 @@
 package eg.edu.alexu.csd.datastructure.mailServer.gui;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -12,21 +11,16 @@ import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
 import dataStructures.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.App;
-import eg.edu.alexu.csd.datastructure.mailServer.Email;
 import eg.edu.alexu.csd.datastructure.mailServer.Folder;
 import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
-import interfaces.IFolder;
-import listeners.EmailsPanelListener;
 import listeners.FolderChangeListener;
-import listeners.NewEmailListListener;
 
 public class NavigationPanel extends JPanel {
 	GridBagConstraints GC;

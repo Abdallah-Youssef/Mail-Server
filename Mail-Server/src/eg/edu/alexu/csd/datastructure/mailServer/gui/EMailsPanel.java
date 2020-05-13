@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
  
 import javax.swing.JTable;
@@ -93,9 +92,8 @@ public class EMailsPanel{
 					 EmailView.run(emails[row], new PathListener() {
 							public void pathChosen(String path) {
 								try {
-									ViewingAttachment.ViewingAttachment(path);
+									ViewingAttachment.viewAttachment(path);
 								} catch (IOException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 							}
@@ -103,7 +101,6 @@ public class EMailsPanel{
 				 }
 			 }
 		});
-		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		for (int i = 0;i < emails.length && emails[i] != null;i++)
 			dataModel.addRow(new Object[] {newCheckedEmails[10*currentPage + i], emails[i].getSubject(), emails[i].getSender(), emails[i].getReceiver(), emails[i].getDate().format(DateTimeFormatter.ISO_DATE)});
 	}

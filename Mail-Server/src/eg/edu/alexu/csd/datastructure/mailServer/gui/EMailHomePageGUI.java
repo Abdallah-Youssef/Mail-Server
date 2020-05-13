@@ -6,37 +6,21 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableModel;
 
 import dataStructures.DoubleLinkedList;
-import eg.edu.alexu.csd.datastructure.mailServer.*;
-import interfaces.*;
-import interfaces.ILinkedList;
-import listeners.*;
 import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.Email;
-import eg.edu.alexu.csd.datastructure.mailServer.Filter;
+import eg.edu.alexu.csd.datastructure.mailServer.FilterComp;
 import eg.edu.alexu.csd.datastructure.mailServer.Folder;
-import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;
 import eg.edu.alexu.csd.datastructure.mailServer.User;
 import eg.edu.alexu.csd.datastructure.mailServer.sortComparator;
-import eg.edu.alexu.csd.datastructure.mailServer.FilterComp;
-import interfaces.IFilter;
 import interfaces.IFolder;
 import interfaces.IMail;
 import listeners.EmailPanelUtilsListener;
-import listeners.EmailsPanelListener;
 import listeners.FilterSortChangeListener;
 import listeners.FolderChangeListener;
-import listeners.NewEmailListListener;
 
 
 

@@ -2,7 +2,6 @@ package eg.edu.alexu.csd.datastructure.mailServer;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
@@ -172,13 +171,6 @@ public class App implements IApp {
 		}
 		Email.saveBulkEmails(emails, loggedInUser.id, (Folder)des);
 	}
-
-	@Override
-	public boolean compose(IMail email) {
-		
-		return false;
-	}
-	
 	
 	//Listeners Setters
 	public void setSignInListener (SignInErrorListener listener) {

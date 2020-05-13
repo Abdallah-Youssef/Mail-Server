@@ -144,9 +144,6 @@ public class Email implements IMail, Serializable
 	int calculateEmailID(int userID, Folder folder)
 	{
 		int id;
-		//User user = FolderManagerBIN.getUser(userID);
-		DoubleLinkedList emails = readUserEmails(userID, folder);
-		
 		String path = "./Users/" + userID + "/" + folder.type + "/lastID.txt";
 
 		try
@@ -178,7 +175,6 @@ public class Email implements IMail, Serializable
 	
 	public void saveEmail(int userID, IFolder ifolder)
 	{
-		User user = FolderManagerBIN.getUser(userID);
 		DoubleLinkedList emails = readUserEmails(userID, ifolder);
 		Folder folder = (Folder)ifolder;
 		

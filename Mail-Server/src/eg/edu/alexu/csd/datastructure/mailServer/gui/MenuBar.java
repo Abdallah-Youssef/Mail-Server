@@ -1,5 +1,6 @@
 package eg.edu.alexu.csd.datastructure.mailServer.gui;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,8 +13,6 @@ import javax.swing.JTextField;
 
 import eg.edu.alexu.csd.datastructure.mailServer.FilterComp;
 import eg.edu.alexu.csd.datastructure.mailServer.sortComparator;
-import interfaces.IFilter;
-import interfaces.ISort;
 import listeners.FilterSortChangeListener;
 
 
@@ -38,7 +37,11 @@ public class MenuBar extends JMenuBar{
 	public MenuBar() {
 		//menu components
 		SortMenu=new JMenu("Default");
+		SortMenu.setBackground(new Color(186, 228, 248));
+		SortMenu.setOpaque(true);
 		FilterMenu =new JMenu("Choose");
+		FilterMenu.setBackground(new Color(186, 228, 248));
+		FilterMenu.setOpaque(true);
 		
 		SortLabel=new JLabel("Sort By : ");
 		FilterButton=new JButton("Filter");

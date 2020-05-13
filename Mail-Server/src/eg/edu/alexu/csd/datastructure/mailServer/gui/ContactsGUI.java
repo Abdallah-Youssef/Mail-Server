@@ -1,38 +1,14 @@
 package eg.edu.alexu.csd.datastructure.mailServer.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.border.Border;
 
 import dataStructures.DoubleLinkedList;
-import eg.edu.alexu.csd.datastructure.mailServer.App;
-import eg.edu.alexu.csd.datastructure.mailServer.Email;
-import eg.edu.alexu.csd.datastructure.mailServer.FolderManagerBIN;
-import eg.edu.alexu.csd.datastructure.mailServer.ListUtils;
-import eg.edu.alexu.csd.datastructure.mailServer.User;
+import eg.edu.alexu.csd.datastructure.mailServer.*;
 import eg.edu.alexu.csd.datastructure.mailServer.gui.ElementsBox.Element;
 import listeners.RemoveElementListener;
 

@@ -6,9 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import dataStructures.DoubleLinkedList;
 import dataStructures.SinglyLinked;
-import eg.edu.alexu.csd.datastructure.mailServer.App;
 import eg.edu.alexu.csd.datastructure.mailServer.Email;
 import listeners.PathListener;
 

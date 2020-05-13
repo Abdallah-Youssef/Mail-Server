@@ -3,7 +3,6 @@ package eg.edu.alexu.csd.datastructure.mailServer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -105,8 +104,6 @@ public class FolderManagerBIN {
 	
 	public static void addNewUser(User newUser) {
 		DoubleLinkedList users = getUsers();
-		
-		//TODO compare every email in the new user with all the emails of the other users
 		for (int i = 0;i < users.size();i++) {
 			User user = (User) users.get(i);
 			for (int j = 0;j < user.emails.size();j++) {
