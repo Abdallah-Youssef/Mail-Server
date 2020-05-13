@@ -82,9 +82,7 @@ public class EMailHomePageGUI extends JFrame {
 			if(app.filteredIndices.size() > 0)
 				checkedEmails = new boolean[app.filteredIndices.size()];
 			emailsPanel = new EMailsPanel((Email[])app.listEmails(0),user, checkedEmails, 0);
-			
-			
-			scroll = new JScrollPane(emailsPanel);
+			scroll = new JScrollPane(emailsPanel.table);
 			
 			
 			Border outsideBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
@@ -115,7 +113,7 @@ public class EMailHomePageGUI extends JFrame {
 					frame.remove(scroll);
 					emailsPanel = new EMailsPanel((Email[])app.listEmails(0), user, checkedEmails, 0);
 					
-					scroll = new JScrollPane(emailsPanel);
+					scroll = new JScrollPane(emailsPanel.table);
 
 					//scroll = new JScrollPane(emailsPanel);
 					add(scroll, BorderLayout.CENTER);
@@ -222,7 +220,7 @@ public class EMailHomePageGUI extends JFrame {
 		public void refreshEmailsPanel(IMail[] emails, int page) {
 			frame.remove(scroll);
 			emailsPanel = new EMailsPanel((Email[])emails, user, checkedEmails, page);
-			scroll = new JScrollPane(emailsPanel);
+			scroll = new JScrollPane(emailsPanel.table);
 			add(scroll, BorderLayout.CENTER);
 			revalidate();
 		}

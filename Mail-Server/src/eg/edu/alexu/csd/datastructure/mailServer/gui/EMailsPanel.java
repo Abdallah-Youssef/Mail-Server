@@ -13,6 +13,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -74,28 +76,31 @@ class DataModel extends DefaultTableModel{
 
 
 
-public class EMailsPanel extends JPanel {
-	JFrame parentFrame = (JFrame) this.getParent();
-	User user;
-	//public boolean[] checkedEmails;
+public class EMailsPanel{
 	JTable table;
-	
-	
 	public boolean[] newCheckedEmails;
 	int currentPage;
+	
+	
 	public EMailsPanel(Email[] emails, User user, boolean[] checkedEmailsBoxes, int page) {
 		
-		this.user = user;
 		newCheckedEmails = checkedEmailsBoxes;
 		currentPage = page;
 
 		
-		DataModel dataModel = new DataModel(null,new Object[] {"Selected","Subject", "Sender", "Date"}, page, newCheckedEmails);
+		DataModel dataModel = new DataModel(null, new Object[] {"Selected","Subject", "Sender", "Date"}, page, newCheckedEmails);
 		table = new JTable(dataModel);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setSize(1000, 1000);
 		table.setFont(new Font("Arial", Font.PLAIN, 20));
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		table.setRowHeight(30);
+		
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table.getColumnModel().getColumn(1).setPreferredWidth(200);
+		table.getColumnModel().getColumn(2).setPreferredWidth(200);
+		table.getColumnModel().getColumn(3).setPreferredWidth(200);
 		
 		table.addMouseListener(new MouseAdapter() {
 			 public void mouseClicked(MouseEvent me)
@@ -117,11 +122,8 @@ public class EMailsPanel extends JPanel {
 				 }
 			 }
 		});
-		
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		for (int i = 0;i < emails.length && emails[i] != null;i++)
-			dataModel.addRow(new Object[] {newCheckedEmails[10*currentPage + i], emails[i].getSubject(), emails[i].getSender(), emails[i].getDate()});
-		add(table);
+			dataModel.addRow(new Object[] {newCheckedEmails[10*currentPage + i], emails[i].getSubject(), emails[i].getSender(), emails[i].getDate().format(DateTimeFormatter.ISO_DATE)});
 	}
-	
-
 }
