@@ -101,9 +101,6 @@ public class NavigationPanel extends JPanel {
 		GC.anchor = GridBagConstraints.CENTER;
 		add(FileBox,GC);
 		
-		
-		
-		
 		setGridCell(0,1);	
 		GC.anchor = GridBagConstraints.CENTER;
 		add(ButtonBox,GC);
@@ -114,42 +111,17 @@ public class NavigationPanel extends JPanel {
 		
 		
 		
+		String systemFolders[] = new String[] {"inbox", "sent", "trash", "draft"};
 		
-		//actions for file buttons start:
-		fileButtons[0].addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				/*
-				 * call the inbox panel to the mails area
-				 */
-				folderChangeListener.newFolder(new Folder("inbox"));
-			}
-		});
-		fileButtons[1].addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				/*
-				 * call the sent panel to the mails area
-				 */
-				folderChangeListener.newFolder(new Folder("sent"));
-			}
-		});
-		fileButtons[2].addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				/*
-				 * call the trash panel to the mails area
-				 */
-				folderChangeListener.newFolder(new Folder("trash"));
-			}
-		});
-		
-		fileButtons[3].addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				/*
-				 * call the trash panel to the mails area
-				 */
-				folderChangeListener.newFolder(new Folder("draft"));
-			}
-		});
-
+		for(int i = 0; i < 4;i++)
+		{
+			String systemFolder = systemFolders[i];
+			fileButtons[i].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					folderChangeListener.newFolder(new Folder(systemFolder));
+				}
+			});
+		}
 		
 		Defined.setPopupListener(new PopupMenuListener() {
 			
@@ -181,26 +153,19 @@ public class NavigationPanel extends JPanel {
 		});
 
 		
-		
-		//actions for file buttons end
-		//action for email modification
 		EMailModification.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EmailModificationGUI.run(user);
 			}
 		});
-		//action for CONTACTS 
+		
 		Contacts.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*
-				 * call the defined panel to the mails area
-				 */
 				ContactsGUI.run(app);
 			}
 		});
 		
 		NewFolderButton.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CreateNewFolderGUI.run(app.loggedInUser.getID());
@@ -216,16 +181,7 @@ public class NavigationPanel extends JPanel {
 				//TODO add the correct email
 				ComposeGUI.Run(user, ListUtils.doubleToSingleList(recevires));
 			}
-		});
-		
-		
-		
-		/*
-		 Testing stuff
-		 TODO remove
-		 */
-		//EmailModificationGUI.run(user);
-		
+		});		
 	}
 	
 	private void setGridCell(int x, int y) {

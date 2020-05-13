@@ -1,11 +1,25 @@
 package eg.edu.alexu.csd.datastructure.mailServer.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
 
 import dataStructures.DoubleLinkedList;
 import eg.edu.alexu.csd.datastructure.mailServer.*;
@@ -31,6 +45,7 @@ import listeners.NewEmailListListener;
 
 
 
+
 public class EMailHomePageGUI extends JFrame {
 		JFrame frame = this;
 		
@@ -40,18 +55,18 @@ public class EMailHomePageGUI extends JFrame {
 		EmailPanelUtil emailPanelUtil;
 		
 		boolean[] checkedEmails;
-		
+		JTable table;
 		JScrollPane scroll;
 		App app;
 		User user;
 		FolderChangeListener folderChangeListener;
 		
+		
 		public EMailHomePageGUI(App app){
 			super("Welcome  " + app.loggedInUser.firstName);
 			user = app.loggedInUser;
-
 			setResizable(false);
-			setSize(800,500);
+			setSize(900,500);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
 			setVisible(true);
@@ -72,10 +87,9 @@ public class EMailHomePageGUI extends JFrame {
 				checkedEmails = new boolean[app.filteredIndices.size()];
 			emailsPanel = new EMailsPanel((Email[])app.listEmails(0),user, checkedEmails, 0);
 
-			scroll = new JScrollPane(emailsPanel);
+			scroll = new JScrollPane(emailsPanel.table);
 			
 			
-			//Layout
 			Border outsideBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 			Border insideBorder = BorderFactory.createTitledBorder("Main Page : "  );
 			getRootPane().setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
@@ -103,7 +117,10 @@ public class EMailHomePageGUI extends JFrame {
 					
 					frame.remove(scroll);
 					emailsPanel = new EMailsPanel((Email[])app.listEmails(0), user, checkedEmails, 0);
-					scroll = new JScrollPane(emailsPanel);
+					
+					scroll = new JScrollPane(emailsPanel.table);
+
+					//scroll = new JScrollPane(emailsPanel);
 					add(scroll, BorderLayout.CENTER);
 					revalidate();
 					
@@ -208,7 +225,7 @@ public class EMailHomePageGUI extends JFrame {
 		public void refreshEmailsPanel(IMail[] emails, int page) {
 			frame.remove(scroll);
 			emailsPanel = new EMailsPanel((Email[])emails, user, checkedEmails, page);
-			scroll = new JScrollPane(emailsPanel);
+			scroll = new JScrollPane(emailsPanel.table);
 			add(scroll, BorderLayout.CENTER);
 			revalidate();
 		}
